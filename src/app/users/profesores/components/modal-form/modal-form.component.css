@@ -1,0 +1,97 @@
+/* MODAL FORM*/
+.container__modal {
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 200;
+}
+
+
+
+.modal__form {
+    width: 420px;
+    background-color: #FFF;
+    padding: 24px;
+    border-radius: 10px;
+    border: 1px solid #cecece;
+    top: 100px;
+}
+
+.modal__form .title {
+    width: 100%;
+    margin-bottom: 24px;
+    font-family: 'Inter', sans-serif;
+}
+
+.modal__form .title h3 {
+    font-weight: 600;
+}
+
+.modal__form .title span {
+    font-size: 13px;
+    color: #71717A;
+}
+
+.modal__form input,
+select {
+    width: 100%;
+    height: 35px;
+    border-radius: 2px;
+    border: 1px solid #cecece;
+    padding: 0.5rem 0.75rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+}
+
+.modal__form label {
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    padding-bottom: 4px;
+}
+
+.modal__form .row__input div {
+    width: 180px;
+}
+
+.modal__form .row__input {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.container__button__add {
+    width: 100%;
+}
+
+.container__button__add button {
+    width: 100%;
+    border: none;
+    background-color: #012952;
+    color: #FFF;
+    padding: 8px;
+    font-size: 13px;
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    margin: 4px 0;
+}
+
+.container__button__add button:hover {
+    background-color: #003b75;
+}
+
+.container__button__add .btn__cancel {
+    background-color: #5a5a5c;
+}
+
+.container__button__add .btn__cancel:hover {
+    background-color: #71717A;
+}

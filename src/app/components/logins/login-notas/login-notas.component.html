@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="card" id="loginForm">
+      <h2>Iniciar Sesión Academia Dominici</h2>
+      <label for="username">Usuario:</label>
+      <input type="text" [(ngModel)]="username" name="username">
+      <label for="password">Contraseña:</label>
+      <input type="password" [(ngModel)]="password" name="password">
+      <button (click)="checkLogin()">Iniciar sesión</button>
+      <div class="recover-link" (click)="showRecoveryNotasForm()">¿Olvidaste tu contraseña?</div>
+      <p id="message">{{ message }}</p>
+    </div>
+  
+    <div class="card" id="recoveryForm" *ngIf="showRecoveryForm">
+      <div class="back-button" (click)="showNotasForm()">🏠</div>
+      <h2>Recuperar Contraseña</h2>
+      <label for="recoveryEmail">Correo electrónico:</label>
+      <input type="email" [(ngModel)]="recoveryEmail" name="recoveryEmail">
+      <button (click)="requestPasswordRecovery()">Enviar enlace de recuperación</button>
+      <p id="recoveryMessage">{{ recoveryMessage }}</p>
+    </div>
+  </div>
+  

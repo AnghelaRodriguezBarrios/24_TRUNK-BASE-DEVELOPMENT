@@ -1,0 +1,77 @@
+<div class="container__modal">
+
+    <form [formGroup]="updateForm" (ngSubmit)="updateTeacher()">
+        <div class="modal__form">
+            <div class="title">
+                <h3>Actualizar Profesor</h3>
+                <span>Llena el formulario para actualizar al profesor</span>
+            </div>
+
+            <div class="row__input">
+                <div>
+                    <label>Nombre</label>
+                    <input type="text" placeholder="Ingresa el nombre" formControlName="firstName" name="firstName">
+
+                </div>
+                <div>
+                    <label>Apellido</label>
+                    <input type="text" placeholder="Ingresa el apellido" formControlName="lastName">
+
+                </div>
+            </div>
+
+            <div class="row__input">
+                <div>
+                    <label>Tipo de documento</label>
+                    <select formControlName="documentType">
+                        <option value="" disabled selected>Selecciona un tipo</option>
+                        <option value="DNI">DNI</option>
+                        <option value="CNE">CNE</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Numero de documento</label>
+                    <input type="text" placeholder="Ingresa el numero de doc." formControlName="documentNumber">
+                </div>
+            </div>
+
+            <div class="row__input">
+                <div>
+                    <label>Fecha de nacimiento</label>
+                    <input type="date" placeholder="Selecciona una fecha" formControlName="dateBirth">
+                </div>
+                <div>
+                    <label>Correo electronico</label>
+                    <input type="text" placeholder="Ingresa el correo" formControlName="email">
+                </div>
+            </div>
+
+            <div class="row__input">
+                <div>
+                    <label>Telefono</label>
+                    <input type="text" placeholder="Ingresa el telefono" formControlName="cellPhone">
+                </div>
+                <div>
+                    <label>Genero</label>
+                    <select formControlName="gender">
+                        <option value="" disabled selected>Selecciona el genero</option>
+                        <option value="Varon">Masculino</option>
+                        <option value="Male">Femenino</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row__input">
+                <div>
+                    <label>Fecha de contratacion</label> <br>
+                    <input type="date" placeholder="Selecciona una fecha" formControlName="dateHire">
+                </div>
+            </div>
+
+            <div class="container__button__add">
+                <button (click)="updateTeacher()">Actualizar profesor</button>
+                <button (click)="closeModal()" class="btn__cancel">Cancelar</button>
+            </div>
+        </div>
+    </form>
+</div>

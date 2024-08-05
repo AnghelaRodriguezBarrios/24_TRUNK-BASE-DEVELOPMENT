@@ -1,0 +1,58 @@
+<div class="container p-4">
+    <div class="titulo_container">
+        <h3>PROFESORES INACTIVOS</h3>
+    </div>
+
+    <div class="criterios__busqueda">
+        <div class="first__options">
+            <input class="input__search" type="text" placeholder="Search...">
+
+            <select class="select__type__document">
+                <option value="" disabled selected>Seleccionar</option>
+                <option value="DNI">DNI</option>
+                <option value="DNI">CNE</option>
+            </select>
+        </div>
+        <div class="last__options">
+            <button routerLink="/dashboard-padres/profesores" class="btn__inactives">Listar activos</button>
+            <select class="select__type__document">
+                <option value="" disabled selected>Descargar</option>
+                <option value="excel">Excel</option>
+                <option value="pdf">PDF</option>
+                <option value="csv">CSV</option>
+            </select>
+        </div>
+    </div>
+
+    <table class="table table-sm table-hover">
+        <thead>
+            <tr>
+                <th>Nombres y apellidos</th>
+                <!-- <th>Tipo de Documento</th> -->
+                <th>Número de Documento</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Email</th>
+                <th>Celular</th>
+                <!-- <th>Género</th>
+                <th>Fecha de Contratación</th> -->
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let teacher of teachers">
+                <td>{{ teacher.firstName }} {{ teacher.lastName }}</td>
+                <!-- <td>{{ teacher.documentType }}</td> -->
+                <td>{{ teacher.documentNumber }}</td>
+                <td>{{ teacher.dateBirth | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ teacher.email }}</td>
+                <td>{{ teacher.cellPhone }}</td>
+                <!-- <td>{{ teacher.gender }}</td>
+                <td>{{ teacher.dateHire | date: 'dd/MM/yyyy' }}</td> -->
+                <td>
+                    <button (click)="restore(teacher.id!)" title="restore" class="btn__actions">Restore</button>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

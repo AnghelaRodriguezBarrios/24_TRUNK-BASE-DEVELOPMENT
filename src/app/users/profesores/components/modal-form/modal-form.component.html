@@ -1,0 +1,122 @@
+<div class="container__modal">
+    <form [formGroup]="teacherForm">
+        <div class="modal__form">
+            <div class="title">
+                <h3>Agregar Profesor</h3>
+                <span>Llena el formulario para agregar un nuevo profesor</span>
+            </div>
+
+            <div class="row__input">
+                <div>
+                    <label>Nombre</label>
+                    <input type="text" placeholder="Ingresa el nombre" formControlName="firstName">
+                    <div *ngIf="teacherForm.get('firstName')?.invalid && teacherForm.get('firstName')?.touched">
+                        <small *ngIf="teacherForm.get('firstName')?.errors?.['required']">El nombre es
+                            obligatorio.</small>
+                        <small *ngIf="teacherForm.get('firstName')?.errors?.['pattern']">Solo se permiten letras y
+                            espacios.</small>
+                    </div>
+                </div>
+                <div>
+                    <label>Apellido</label>
+                    <input type="text" placeholder="Ingresa el apellido" formControlName="lastName">
+                    <div *ngIf="teacherForm.get('lastName')?.invalid && teacherForm.get('lastName')?.touched">
+                        <small *ngIf="teacherForm.get('lastName')?.errors?.['required']">El apellido es
+                            obligatorio.</small>
+                        <small *ngIf="teacherForm.get('lastName')?.errors?.['pattern']">Solo se permiten letras y
+                            espacios.</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row__input">
+                <div>
+                    <label>Tipo de documento</label>
+                    <select formControlName="documentType">
+                        <option value="" disabled selected>Selecciona un tipo</option>
+                        <option value="DNI">DNI</option>
+                        <option value="CNE">CNE</option>
+                    </select>
+                    <div *ngIf="teacherForm.get('documentType')?.invalid && teacherForm.get('documentType')?.touched">
+                        <small *ngIf="teacherForm.get('documentType')?.errors?.['required']">El tipo de documento es
+                            obligatorio.</small>
+                    </div>
+                </div>
+                <div>
+                    <label>Numero de documento</label>
+                    <input type="text" placeholder="Ingresa el numero de doc." formControlName="documentNumber">
+                    <div
+                        *ngIf="teacherForm.get('documentNumber')?.invalid && teacherForm.get('documentNumber')?.touched">
+                        <small *ngIf="teacherForm.get('documentNumber')?.errors?.['required']">El número de documento es
+                            obligatorio.</small>
+                        <small *ngIf="teacherForm.get('documentNumber')?.errors?.['pattern']">
+                            <span *ngIf="teacherForm.get('documentType')?.value === 'DNI'">Debe tener 8 dígitos.</span>
+                            <span *ngIf="teacherForm.get('documentType')?.value === 'CNE'">Debe tener 12 dígitos.</span>
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row__input">
+                <div>
+                    <label>Fecha de nacimiento</label>
+                    <input type="date" placeholder="Selecciona una fecha" formControlName="dateBirth">
+                    <div *ngIf="teacherForm.get('dateBirth')?.invalid && teacherForm.get('dateBirth')?.touched">
+                        <small *ngIf="teacherForm.get('dateBirth')?.errors?.['required']">La fecha de nacimiento es
+                            obligatoria.</small>
+                        <small *ngIf="teacherForm.get('dateBirth')?.errors?.['minimumAge']">Debe ser mayor de 3
+                            años.</small>
+                    </div>
+                </div>
+                <div>
+                    <label>Correo electronico</label>
+                    <input type="text" placeholder="Ingresa el correo" formControlName="email">
+                    <div *ngIf="teacherForm.get('email')?.invalid && teacherForm.get('email')?.touched">
+                        <small *ngIf="teacherForm.get('email')?.errors?.['email']">Debe ser un correo electrónico
+                            válido.</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row__input">
+                <div>
+                    <label>Telefono</label>
+                    <input type="text" placeholder="Ingresa el telefono" formControlName="cellPhone">
+                    <div *ngIf="teacherForm.get('cellPhone')?.invalid && teacherForm.get('cellPhone')?.touched">
+                        <small *ngIf="teacherForm.get('cellPhone')?.errors?.['required']">El teléfono es
+                            obligatorio.</small>
+                        <small *ngIf="teacherForm.get('cellPhone')?.errors?.['pattern']">Debe tener 9 dígitos.</small>
+                    </div>
+                </div>
+                <div>
+                    <label>Genero</label>
+                    <select formControlName="gender">
+                        <option value="" disabled selected>Selecciona el genero</option>
+                        <option value="Varon">Masculino</option>
+                        <option value="Mujer">Femenino</option>
+                    </select>
+                    <div *ngIf="teacherForm.get('gender')?.invalid && teacherForm.get('gender')?.touched">
+                        <small *ngIf="teacherForm.get('gender')?.errors?.['required']">El género es obligatorio.</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row__input">
+                <div>
+                    <label>Fecha de contratacion</label> <br>
+                    <input type="date" placeholder="Selecciona una fecha" formControlName="dateHire">
+                    <div *ngIf="teacherForm.get('dateHire')?.invalid && teacherForm.get('dateHire')?.touched">
+                        <small *ngIf="teacherForm.get('dateHire')?.errors?.['required']">Fecha de contratación es
+                            obligatorio.</small>
+                        <small *ngIf="teacherForm.get('dateHire')?.errors?.['maxDate']">La fecha no puede ser despúes de la fecha actual.</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container__button__add">
+                <button (click)="addTeacher()">Agregar profesor</button>
+                <button (click)="closeModal()" class="btn__cancel">Cancelar</button>
+            </div>
+        </div>
+    </form>
+</div>

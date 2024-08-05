@@ -1,0 +1,590 @@
+/* Styles from your HTML file */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+}
+
+h2 {
+    font-size: 2.6rem;
+    font-weight: 700;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://th.bing.com/th/id/R.2569ad0245efbd838ec9b089acdd5eba?rik=d3PqH2Vrg5uo7w&riu=http%3a%2f%2fwww.tuproyectodevida.pe%2fwp-content%2fuploads%2f2022%2f11%2fque-es-educacion-primaria.jpg&ehk=mUJtrZu1pGhKgomN08iKF7WK0Eh%2bJc6A%2baKfNp%2bb31s%3d&risl=&pid=ImgRaw&r=0') no-repeat center center/cover;
+}
+
+.navegacion-superior {
+    width: 100%;
+    padding: 1% 10%;
+    background-color: #003b75;
+}
+
+.nav2 {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.nav2 ul {
+    display: flex;
+    list-style: none;
+    gap: 45px;
+}
+
+.nav2-li {
+    text-decoration: none;
+    color: #fff;
+}
+
+.nav2-item {
+    color: #fff;
+    text-decoration: none;
+}
+
+.navegacion {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    padding: 1% 10%;
+}
+
+.nav-img {
+    width: 3%;
+}
+
+.nav {
+    width: 75%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav ul {
+    width: 60%;
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+}
+
+.nav-item {
+    padding: 10px;
+    text-decoration: none;
+    color: #d3d3d3;
+}
+
+.nav-li ul {
+    display: none;
+    width: auto;
+    position: absolute;
+    background-color: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.nav-li ul li {
+    display: block;
+    padding: 10px 0;
+}
+
+.nav-li ul li a {
+    color: #003b75;
+    padding: 10px 20px;
+}
+
+.nav-li ul li:hover,
+.nav-li ul li a:hover {
+    background-color: #003b75;
+    color: #fff;
+}
+
+.nav-li:hover ul {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.nav-subitem {
+    padding: 5px;
+    text-decoration: none;
+    color: #000;
+}
+
+.nav-btn {
+    display: flex;
+    justify-content: space-around;
+    gap: 25px;
+}
+
+.nav-btn .btn-consultar {
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #003b75;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.nav-btn .btn-admin {
+    padding: 10px 20px;
+    background-color: #003b75;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.navegacion-scroll {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #fff;
+    color: #000;
+}
+
+.navegacion-scroll .nav-item {
+    color: #12233f;
+}
+
+.navegacion-scroll .btn-consultar {
+    background-color: #000000;
+    color: #fff;
+}
+
+.header-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 88%;
+    gap: 15px;
+    color: #e6e6e6;
+}
+
+.header-title h1 {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.header-title p {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.header-title a {
+    padding: 10px 20px;
+    background-color: #003b75;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 62px;
+}
+
+.seccion {
+    padding: 0 10%;
+    margin-top: 3rem;
+    margin-bottom: 10rem;
+}
+
+.seccion-1 {
+    width: 100%;
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+    margin: 3rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4.8rem;
+}
+
+.sb-imagen {
+    display: flex;
+    justify-content: center;
+}
+
+.sb-imagen img {
+    width: 28rem;
+    border-radius: 10px;
+}
+
+.sb-contenido {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.sb-contenido h2 span {
+    color: #003b75;
+}
+
+.sb-contenido-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.sb-contenido-texto p {
+    font-size: 1.1rem;
+}
+
+.sb-contenido-texto p span {
+    display: none;
+    margin-top: 1rem;
+}
+
+.sb-btn {
+    margin-top: 2rem;
+}
+
+.sb-btn-informacion {
+    padding: 14px 40px;
+    background-color: #003b75;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.seccion-2 {
+    margin-top: 6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.slider {
+    width: calc(400px * 3 + 10px * 2);
+    text-align: center;
+    position: relative;
+}
+
+.slides {
+    width: 100%;
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    transition: all .5s ease;
+    overflow: hidden;
+}
+
+.slides .slide {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    width: 30%;
+    height: 400px;
+    margin-right: 15px;
+    margin-left: 15px;
+    border-radius: 10px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: transform 0.5s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(0px);
+}
+
+.slide-1 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://th.bing.com/th/id/OIP.HBxvUDATGR_3DpIh2dWrcwHaFj?rs=1&pid=ImgDetMain');
+}
+
+.slide-2 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://th.bing.com/th/id/OIP.vBF9Taxs_hT7DjUI7OuwSwHaFj?rs=1&pid=ImgDetMain');
+}
+
+.slide-3 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://watermark.lovepik.com/photo/20211202/large/lovepik-foreign-teacher-board-teaching-picture_501383554.jpg');
+}
+
+.slide-4 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://th.bing.com/th/id/R.cc3d32eddb7aa3acf8f56241757de180?rik=yYa3g4SQjxZwqA&riu=http%3a%2f%2fwww.usat.edu.pe%2fweb%2fwp-content%2fuploads%2f2022%2f06%2feducacion_inicial-importancia.jpg&ehk=YsJXao98PEopJg%2fa5DTWnMG8%2fXCBQJZEcuu6UWck8gA%3d&risl=&pid=ImgRaw&r=0');
+}
+
+.slide-5 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://media.tag24.de/951x634/n/p/np059mux1eu535ggdmq45y3o3qt6w6bb.jpg');
+}
+
+.slide-6 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://www.unir.net/wp-content/uploads/2023/03/profesormusica2.jpg');
+}
+
+.slide-content {
+    margin: 15px;
+    text-align: left;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: white;
+}
+
+.slider .btn-prev,
+.slider .btn-next {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: white;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(17, 17, 17, .15);
+    cursor: pointer;
+}
+
+.slider .btn-prev {
+    left: -15px;
+}
+
+.slider .btn-next {
+    right: -15px;
+}
+
+.slider .btn-prev:after,
+.slider .btn-next:after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-top: 1px solid #003b75;
+    border-right: 1px solid #003b75;
+}
+
+.slider .btn-prev:after {
+    left: 50%;
+    top: 50%;
+    transform-origin: top right;
+    transform: rotate(-135deg) translate(100%, -100%);
+}
+
+.slider .btn-next:after {
+    left: 50%;
+    top: 50%;
+    transform-origin: top right;
+    transform: rotate(45deg) translate(-25%, 50%);
+}
+
+.seccion-3 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.seccion-3 h2 {
+    color: #003b75;
+    text-align: center;
+}
+
+.seccion-3 h2 span {
+    color: rgb(0, 0, 0);
+}
+
+.pv-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.pv-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.6rem;
+    padding: 1.3rem;
+    border-radius: 10px;
+    box-shadow: 3px 4px 8px 3px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.pv-card img {
+    height: 240px;
+    border-radius: 10px;
+}
+
+.seccion-4 {
+    width: 100%;
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+    margin: 3rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 11rem;
+    background: linear-gradient(to bottom right, rgba(255, 0, 0, 0.14), rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6));
+}
+
+.nd-imagen {
+    display: flex;
+    justify-content: center;
+}
+
+.nd-imagen img {
+    width: 33rem;
+    border-radius: 10px;
+}
+
+.nd-contenido {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.nd-contenido-texto h2 span {
+    color: #003b75;
+}
+
+.nd-contenido-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.nd-contenido-texto p {
+    font-size: 1.1rem;
+}
+
+/* Comienza footer */
+footer {
+    background-color: #003b75;
+    color: #ecf0f1;
+    padding: 1.5rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Arial', sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 1rem;
+    animation: fadeIn 2s ease-in;
+}
+
+.footer-info,
+.footer-social,
+.footer-copy {
+    margin-bottom: 1rem;
+}
+
+.footer-info p,
+.footer-copy p {
+    margin: 0.5rem 0;
+}
+
+.footer-info a,
+.footer-social a {
+    color: #f8f8f8;
+    text-decoration: none;
+    transition: color 0.3s, transform 0.3s;
+    display: inline-block;
+}
+
+.footer-info a:hover,
+.footer-social a:hover {
+    color: #ffffff;
+    transform: translateX(10px);
+}
+
+.footer-copy span {
+    color: #f2f2f2;
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animación de onda */
+.footer-container::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: -100px;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 0.7;
+    border-radius: 50%;
+    animation: move 20s linear infinite;
+    z-index: 0;
+}
+
+.footer-container::after {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 0.7;
+    border-radius: 50%;
+    animation: move 20s linear infinite;
+    animation-delay: 10s;
+    z-index: 0;
+}
+
+@keyframes move {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(50px, 50px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+@media (min-width: 768px) {
+    .footer-container {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+    }
+
+    .footer-info,
+    .footer-social,
+    .footer-copy {
+        margin-bottom: 0;
+    }
+}

@@ -1,0 +1,653 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
+
+* {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --grey: #ebebef;
+    --dark-grey: #8D8D8D;
+    --light: #f9f9f9;
+    --dark: #000;
+    --green: #81D43A;
+    --light-green: #E3FFCB;
+    --blue: #003b75;
+    --light-blue: #D0E4FF;
+    --dark-blue: #003b75;
+    --red: #FC3B56;
+}
+
+html {
+    overflow-x: hidden;
+}
+
+body {
+    background: #ebebef;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+.icon {
+    width: 30px;
+    /* Ajusta el tamaño según sea necesario */
+    height: auto;
+    vertical-align: middle;
+    /* Para alinear verticalmente con el texto */
+}
+
+/* SIDEBAR */
+#sidebar {
+    position: fixed;
+    max-width: 260px;
+    width: 100%;
+    background: #003b75;
+    top: 0;
+    left: 0;
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-width: none;
+    transition: all .3s ease;
+    z-index: 200;
+}
+
+#sidebar.hide {
+    max-width: 60px;
+}
+
+#sidebar.hide:hover {
+    max-width: 260px;
+}
+
+#sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+#sidebar .brand {
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    height: 64px;
+    font-weight: 700;
+    color: #ffffff;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background: #003b75;
+    transition: all .3s ease;
+    padding: 0 6px;
+}
+
+#sidebar .icon {
+    min-width: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 6px;
+}
+
+#sidebar .icon-right {
+    margin-left: auto;
+    transition: all .3s ease;
+}
+
+#sidebar .side-menu {
+    margin: 36px 0;
+    padding: 0 20px;
+    transition: all .3s ease;
+}
+
+#sidebar.hide .side-menu {
+    padding: 0 6px;
+}
+
+#sidebar.hide:hover .side-menu {
+    padding: 0 20px;
+}
+
+#sidebar .side-menu a {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #ffffff;
+    padding: 12px 16px 12px 0;
+    transition: all .3s ease;
+    border-radius: 10px;
+    margin: 4px 0;
+    white-space: nowrap;
+}
+
+#sidebar .side-menu>li>a:hover {
+    background: var(--dark);
+}
+
+#sidebar .side-menu>li>a.active .icon-right {
+    transform: rotateZ(90deg);
+}
+
+#sidebar .side-menu>li>a.active,
+#sidebar .side-menu>li>a.active:hover {
+    background: #ffffff;
+    color: #000000;
+}
+
+#sidebar .divider {
+    margin-top: 24px;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #ffffff;
+    transition: all .3s ease;
+    white-space: nowrap;
+}
+
+#sidebar.hide:hover .divider {
+    text-align: left;
+}
+
+#sidebar.hide .divider {
+    text-align: center;
+}
+
+#sidebar .side-dropdown {
+    padding-left: 54px;
+    max-height: 0;
+    overflow-y: hidden;
+    transition: all .15s ease;
+}
+
+#sidebar .side-dropdown.show {
+    max-height: 1000px;
+}
+
+#sidebar .side-dropdown a:hover {
+    color: #040404;
+}
+
+#sidebar .ads {
+    width: 100%;
+    padding: 20px;
+}
+
+#sidebar.hide .ads {
+    display: none;
+}
+
+#sidebar.hide:hover .ads {
+    display: block;
+}
+
+#sidebar .ads .wrapper {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#sidebar .btn-upgrade {
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 0;
+    color: #cf0000;
+    background: #003b75;
+    transition: all .3s ease;
+    border-radius: 5px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+#sidebar .btn-upgrade:hover {
+    background: #003b75;
+}
+
+#sidebar .ads .wrapper p {
+    font-size: 12px;
+    color: #8D8D8D;
+    text-align: center;
+}
+
+#sidebar .ads .wrapper p span {
+    font-weight: 700;
+}
+
+/* SIDEBAR */
+
+/* CONTENT */
+#content {
+    position: relative;
+    width: calc(100% - 260px);
+    left: 260px;
+    transition: all .3s ease;
+}
+
+#sidebar.hide+#content {
+    width: calc(100% - 60px);
+    left: 60px;
+}
+
+/* NAVBAR */
+nav {
+    background: #ffffff;
+    height: 64px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    grid-gap: 28px;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+nav .toggle-sidebar {
+    font-size: 18px;
+    cursor: pointer;
+}
+
+nav form {
+    max-width: 400px;
+    width: 100%;
+    margin-right: auto;
+}
+
+nav .form-group {
+    position: relative;
+}
+
+nav .form-group input {
+    width: 100%;
+    background: #f6f6f8;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    padding: 10px 36px 10px 16px;
+    transition: all .3s ease;
+}
+
+nav .form-group input:focus {
+    box-shadow: 0 0 0 1px #f6f6f8, 0 0 0 4px #f6f6f8;
+}
+
+nav .form-group .icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 16px;
+    color: #f6f6f8;
+}
+
+nav .nav-link {
+    position: relative;
+}
+
+nav .nav-link .icon {
+    font-size: 18px;
+    color: #f6f6f8;
+}
+
+nav .nav-link .badge {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #f6f6f8;
+    background: #6372F0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #f6f6f8;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+nav .divider {
+    width: 1px;
+    background: #f6f6f8;
+    height: 12px;
+    display: block;
+}
+
+/* Actualiza esto en tu CSS */
+
+/* Perfil */
+nav .profile {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Ajusta el espacio entre los elementos */
+}
+
+nav .profile .user-info {
+    display: flex;
+    align-items: center;
+    gap: 2px; /* Reduce el espacio entre el icono y el nombre */
+    padding: 10px; /* Añade un poco de espacio interno */
+    border: 1px solid black; /* Marco negro */
+    border-radius: 5px; /* Bordes redondeados */
+    transition: transform 0.3s ease; /* Transición para el efecto de movimiento */
+}
+
+nav .profile .user-info:hover {
+    transform: translateY(-3px); /* Efecto de movimiento al pasar el cursor */
+}
+
+nav .profile .username {
+    font-size: 16px; /* Ajusta el tamaño de la fuente según sea necesario */
+    color: #000; /* Color negro para el texto del nombre de usuario */
+}
+
+nav .profile img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+
+nav .profile .profile-link {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: var(--light);
+    padding: 10px 0;
+    box-shadow: 4px 4px 16px rgba(0, 0, 0, .1);
+    border-radius: 10px;
+    width: 160px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .3s ease;
+}
+
+nav .profile .profile-link.show {
+    opacity: 1;
+    pointer-events: visible;
+    top: 100%;
+}
+
+nav .profile .profile-link a {
+    padding: 10px 16px;
+    display: flex;
+    grid-gap: 10px;
+    font-size: 14px;
+    color: var(--dark);
+    align-items: center;
+    transition: all .3s ease;
+}
+
+nav .profile .profile-link a:hover {
+    background: var(--grey);
+}
+
+/* NAVBAR */
+
+
+/* MAIN */
+main {
+    padding: 36px 24px;
+    overflow-x: hidden;
+}
+
+main .title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #003b75;
+}
+
+main .breadcrumbs {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #8D8D8D;
+    margin-bottom: 20px;
+}
+
+main .breadcrumbs li {
+    display: flex;
+    align-items: center;
+}
+
+main .breadcrumbs .divider {
+    margin: 0 8px;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 1450px;
+    /* Ancho máximo */
+    width: 100%;
+    min-height: 300px;
+    /* Alto mínimo */
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+
+.card .content {
+    flex: 1;
+}
+
+.card .content h2 {
+    margin-bottom: 10px;
+    font-size: 50px;
+    color:  #003b75;
+}
+
+.card .content p {
+    font-size: 18px;
+    color: #8D8D8D;
+}
+
+.card img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Media queries para hacer la tarjeta responsiva */
+@media screen and (max-width: 768px) {
+    .card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .card img {
+        margin-top: 20px;
+        /* Separación entre la imagen y el contenido en pantallas pequeñas */
+    }
+}
+
+/* Estilos para las tarjetas adicionales */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.small-card {
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    font-size: 18px;
+    color: #8D8D8D;
+}
+
+.small-card h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #003b75;
+}
+
+.small-card p {
+    font-size: 16px;
+}
+
+/* Media queries para hacer las tarjetas adicionales responsivas */
+@media screen and (max-width: 768px) {
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .small-card {
+        font-size: 16px;
+    }
+}
+
+/* CONTENT */
+
+@media screen and (max-width: 768px) {
+    #content {
+        position: relative;
+        width: calc(100% - 60px);
+        transition: all .3s ease;
+    }
+
+    nav .nav-link,
+    nav .divider {
+        display: none;
+    }
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin: 10px 0;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    margin-right: 10px;
+}
+
+a:hover {
+    color: blue;
+    /* Cambia este color al que prefieras */
+}
+
+a:hover .icon {
+    color: blue;
+    /* Cambia este color al que prefieras */
+}
+
+
+/* Estilos para los botones */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #003b75;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #00274e; /* Un tono más oscuro para hover */
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.btn-warning:hover {
+    background-color: #ffae00; /* Un tono más oscuro para hover */
+}
+
+.btn-danger {
+    background-color: #fc3b56;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #fa1e3e; /* Un tono más oscuro para hover */
+}
+
+/* Estilos para las casillas de filtros */
+.form-control {
+    width: 100%;
+    max-width: 300px; /* Ajusta según necesidad */
+    background-color: #ebebef;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 1px #003b75, 0 0 0 4px #d0e4ff; /* Efecto de foco */
+}
+
+.card-body .btn.btn-success {
+    border-color: #28a745; /* Color del borde del botón success */
+  }
+  
+  .card-body .btn.btn-dark {
+    border-color: #343a40; /* Color del borde del botón dark */
+  }
+
+
+  /* Estilos específicos para el botón rojo */
+.btn-red {
+    background-color: #f10000; /* Color de fondo del botón */
+    color: white; /* Color del texto del botón */
+    border: 1px solid #f10000; /* Color del borde del botón */
+}
+
+/* Efecto hover para el botón rojo */
+.btn-red:hover {
+    background-color: #d00000; /* Color de fondo del botón al pasar el mouse */
+    border-color: #d00000; /* Color del borde del botón al pasar el mouse */
+}
+  
+
+.table-centered th, .table-centered td {
+    text-align: center;
+    vertical-align: middle;
+}

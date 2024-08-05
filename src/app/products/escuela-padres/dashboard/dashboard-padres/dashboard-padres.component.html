@@ -1,0 +1,51 @@
+<div class="container__main">
+    <section id="sidebar">
+        <a routerLink="/" class="brand">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjscRs8AIOCQb5mtRK8Eja_h7ScFClkuTXoN1Vk1rNwOIK8NHZofToDP7y6rrrvmWbCDF0DJ8z_vnD7oxADGeHpfuz6RDfXsuErF2Cm2tRqyCYbzRxAO4Ania-RzAQlC_acEI0yFYeSTCQEQSqxNoX5AzvADWdxhnxKvP-nBeQ37D0vMGrMw6F_vfO6/s1600/Madre-Enrichetta-e1635329657562-300x295%20%281%29.png"
+                alt="ParentAcademy Logo" class="icon">
+            Parent Academy
+        </a>
+
+        <ul class="side-menu">
+            <li>
+                <a routerLink="/dashboard-padres" routerLinkActive="active">
+                    <i class='bx bx-user icon'></i>
+                    MENU PADRES
+                </a>
+            </li>
+            <li class="divider" data-text="main">MAIN</li>
+            <li>
+                <a href="#"><i class='bx bx-user-pin icon'></i> Academico <i
+                        class='bx bx-chevron-right icon-right'></i></a>
+                <ul class="side-dropdown">
+                    <li><a routerLink="/dashboard-padres/profesores">Profesores</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#"><i class='bx bx-home icon'></i> Usuario <i class='bx bx-chevron-right icon-right'></i></a>
+                <ul class="side-dropdown">
+                    <li><a routerLink="/">Usuario</a></li>
+                </ul>
+            </li>
+            <li class="divider" data-text="Log out">Log out</li>
+            <li><a routerLink="/perfil"><i class='bx bx-user icon'></i> Perfil</a></li>
+            <li><a routerLink="/landing-page-padres"><i class='bx bx-home-smile icon'></i> Cerrar Sección</a></li>
+        </ul>
+    </section>
+
+    <section id="content">
+        <nav>
+            <i class='bx bx-menu toggle-sidebar'></i>
+            <form action="#">
+            </form>
+            <span class="divider"></span>
+            <div class="profile">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                    alt="">
+            </div>
+        </nav>
+
+        <router-outlet></router-outlet>
+    </section>
+</div>

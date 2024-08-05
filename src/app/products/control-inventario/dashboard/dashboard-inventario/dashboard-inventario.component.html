@@ -1,0 +1,112 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <title>EduControl</title>
+</head>
+
+<body>
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+        <a routerLink="/" class="brand">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjscRs8AIOCQb5mtRK8Eja_h7ScFClkuTXoN1Vk1rNwOIK8NHZofToDP7y6rrrvmWbCDF0DJ8z_vnD7oxADGeHpfuz6RDfXsuErF2Cm2tRqyCYbzRxAO4Ania-RzAQlC_acEI0yFYeSTCQEQSqxNoX5AzvADWdxhnxKvP-nBeQ37D0vMGrMw6F_vfO6/s1600/Madre-Enrichetta-e1635329657562-300x295%20%281%29.png"
+                alt="Academia Logo" class="icon">
+        EduControl
+        </a>
+
+        <ul class="side-menu">
+            <li><a routerLink="/dashboard-inventario" routerLinkActive="active"><i class='bx bx-user icon'></i>MENU</a>
+            </li>
+            <li class="divider" data-text="main">Main</li>
+            <li>
+                <a href="#"><i class='bx bx-user-pin icon'></i> USUARIOS <i
+                        class='bx bx-chevron-right icon-right'></i></a>
+                <ul class="side-dropdown">
+                    <li><a routerLink="/manager">Managers</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#"><i class='bx bx-home icon'></i> Pago / Pago-Detalle <i class='bx bx-chevron-right icon-right'></i></a>
+                <ul class="side-dropdown">
+                    <li><a routerLink="/payment">Pagos</a></li>
+                    <li><a routerLink="/paymentDetail">Detalles de Pagos</a></li>
+                </ul>
+            </li>
+            <li><a routerLink="/Usuario"><i class='bx bxs-briefcase icon'></i> Usuario</a></li>
+            <li><a routerLink="/Usuario"><i class='bx bxs-group icon'></i> Usuario</a></li>
+            <li class="divider" data-text="Log out">Log out</li>
+            <li><a routerLink="/perfil"><i class='bx bx-user icon'></i> Perfil</a></li>
+            <li><a routerLink="/landing-page-notas"><i class='bx bx-home-smile icon'></i> Cerrar Sección</a></li>
+        </ul>
+    </section>
+    <!-- SIDEBAR -->
+
+    <!-- NAVBAR -->
+    <section id="content">
+        <!-- NAVBAR -->
+        <nav>
+            <i class='bx bx-menu toggle-sidebar'></i>
+            <form action="#">
+                <div class="form-group">
+                    <input type="text" placeholder="Search...">
+                    <i class='bx bx-search icon'></i>
+                </div>
+            </form>
+            <span class="divider"></span>
+            <div class="profile">
+                <div class="user-info">
+                    <i class='bx bx-user icon' style="color: black;"></i>
+                    <span class="username">{{ username }}</span>
+                </div>
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                    alt="">
+            </div>
+        </nav>
+        <!-- NAVBAR -->
+
+        <!-- MAIN -->
+        <main>
+            <div class="card-container">
+                <div class="card">
+                    <div class="content">
+                        <ul class="breadcrumbs">
+                            <li><a routerLink="/">Home</a></li>
+                            <li class="divider">/</li>
+                            <li><a routerLink="/dashboard" class="active">Dashboard</a></li>
+                        </ul>
+                        <h2>BIENVENIDO ENCARGADO DEL INVENTARIO!</h2>
+                        <p>Esta es la sección de administración donde puedes gestionar todas las funcionalidades de la
+                            plataforma. Asegúrate de revisar todas las estadísticas y mantener todo en orden.</p>
+                    </div>
+                    <img src="https://i.ibb.co/PcSD1BT/290791-225917667455113-1371125-o.png"
+                        alt="Imagen de Administrador">
+                </div>
+            </div>
+
+            <!-- Contenedor para las cuatro tarjetas adicionales -->
+            <div class="card-grid">
+                <div class="small-card">
+                    <h3>Título 1</h3>
+                    <p>Descripción de la primera tarjeta.</p>
+                </div>
+                <div class="small-card">
+                    <h3>Título 2</h3>
+                    <p>Descripción de la segunda tarjeta.</p>
+                </div>
+                <div class="small-card">
+                    <h3>Título 3</h3>
+                    <p>Descripción de la tercera tarjeta.</p>
+                </div>
+                <div class="small-card">
+                    <h3>Título 4</h3>
+                    <p>Descripción de la cuarta tarjeta.</p>
+                </div>
+            </div>
+        </main>
+        <!-- MAIN -->
+    </section>
+    <!-- NAVBAR -->
+
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</body>

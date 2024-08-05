@@ -1,0 +1,982 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
+
+* {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --grey: #ebebef;
+    --dark-grey: #8D8D8D;
+    --light: #f9f9f9;
+    --dark: #000;
+    --green: #81D43A;
+    --light-green: #E3FFCB;
+    --blue: #003b75;
+    --light-blue: #D0E4FF;
+    --dark-blue: #003b75;
+    --red: #FC3B56;
+}
+
+html {
+    overflow-x: hidden;
+}
+
+body {
+    background: #ebebef;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+.icon {
+    width: 30px;
+    height: auto;
+    vertical-align: middle;
+}
+
+/* SIDEBAR */
+#sidebar {
+    position: fixed;
+    max-width: 260px;
+    width: 100%;
+    background: #003b75;
+    top: 0;
+    left: 0;
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-width: none;
+    transition: all .3s ease;
+    z-index: 200;
+}
+
+#sidebar.hide {
+    max-width: 60px;
+}
+
+#sidebar.hide:hover {
+    max-width: 260px;
+}
+
+#sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+#sidebar .brand {
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    height: 64px;
+    font-weight: 700;
+    color: #ffffff;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background: #003b75;
+    transition: all .3s ease;
+    padding: 0 6px;
+}
+
+#sidebar .icon {
+    min-width: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 6px;
+}
+
+#sidebar .icon-right {
+    margin-left: auto;
+    transition: all .3s ease;
+}
+
+#sidebar .side-menu {
+    margin: 36px 0;
+    padding: 0 20px;
+    transition: all .3s ease;
+}
+
+#sidebar.hide .side-menu {
+    padding: 0 6px;
+}
+
+#sidebar.hide:hover .side-menu {
+    padding: 0 20px;
+}
+
+#sidebar .side-menu a {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #ffffff;
+    padding: 12px 16px 12px 0;
+    transition: all .3s ease;
+    border-radius: 10px;
+    margin: 4px 0;
+    white-space: nowrap;
+}
+
+#sidebar .side-menu>li>a:hover {
+    background: var(--dark);
+}
+
+#sidebar .side-menu>li>a.active .icon-right {
+    transform: rotateZ(90deg);
+}
+
+#sidebar .side-menu>li>a.active,
+#sidebar .side-menu>li>a.active:hover {
+    background: #ffffff;
+    color: #000000;
+}
+
+#sidebar .divider {
+    margin-top: 24px;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #ffffff;
+    transition: all .3s ease;
+    white-space: nowrap;
+}
+
+#sidebar.hide:hover .divider {
+    text-align: left;
+}
+
+#sidebar.hide .divider {
+    text-align: center;
+}
+
+#sidebar .side-dropdown {
+    padding-left: 54px;
+    max-height: 0;
+    overflow-y: hidden;
+    transition: all .15s ease;
+}
+
+#sidebar .side-dropdown.show {
+    max-height: 1000px;
+}
+
+#sidebar .side-dropdown a:hover {
+    color: #040404;
+}
+
+#sidebar .ads {
+    width: 100%;
+    padding: 20px;
+}
+
+#sidebar.hide .ads {
+    display: none;
+}
+
+#sidebar.hide:hover .ads {
+    display: block;
+}
+
+#sidebar .ads .wrapper {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#sidebar .btn-upgrade {
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 0;
+    color: #cf0000;
+    background: #003b75;
+    transition: all .3s ease;
+    border-radius: 5px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+#sidebar .btn-upgrade:hover {
+    background: #003b75;
+}
+
+#sidebar .ads .wrapper p {
+    font-size: 12px;
+    color: #8D8D8D;
+    text-align: center;
+}
+
+#sidebar .ads .wrapper p span {
+    font-weight: 700;
+}
+
+/* SIDEBAR */
+
+/* CONTENT */
+#content {
+    position: relative;
+    width: calc(100% - 260px);
+    left: 260px;
+    transition: all .3s ease;
+}
+
+#sidebar.hide+#content {
+    width: calc(100% - 60px);
+    left: 60px;
+}
+
+/* NAVBAR */
+nav {
+    background: #ffffff;
+    height: 64px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    grid-gap: 28px;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+nav .toggle-sidebar {
+    font-size: 18px;
+    cursor: pointer;
+}
+
+nav form {
+    max-width: 400px;
+    width: 100%;
+    margin-right: auto;
+}
+
+nav .form-group {
+    position: relative;
+}
+
+nav .form-group input {
+    width: 100%;
+    background: #f6f6f8;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    padding: 10px 36px 10px 16px;
+    transition: all .3s ease;
+}
+
+nav .form-group input:focus {
+    box-shadow: 0 0 0 1px #f6f6f8, 0 0 0 4px #f6f6f8;
+}
+
+nav .form-group .icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 16px;
+    color: #f6f6f8;
+}
+
+nav .nav-link {
+    position: relative;
+}
+
+nav .nav-link .icon {
+    font-size: 18px;
+    color: #f6f6f8;
+}
+
+nav .nav-link .badge {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #f6f6f8;
+    background: #6372F0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #f6f6f8;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+nav .divider {
+    width: 1px;
+    background: #f6f6f8;
+    height: 12px;
+    display: block;
+}
+
+/* Actualiza esto en tu CSS */
+
+/* Perfil */
+nav .profile {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Ajusta el espacio entre los elementos */
+}
+
+nav .profile .user-info {
+    display: flex;
+    align-items: center;
+    gap: 2px; /* Reduce el espacio entre el icono y el nombre */
+    padding: 10px; /* Añade un poco de espacio interno */
+    border: 1px solid black; /* Marco negro */
+    border-radius: 5px; /* Bordes redondeados */
+    transition: transform 0.3s ease; /* Transición para el efecto de movimiento */
+}
+
+nav .profile .user-info:hover {
+    transform: translateY(-3px); /* Efecto de movimiento al pasar el cursor */
+}
+
+nav .profile .username {
+    font-size: 16px; /* Ajusta el tamaño de la fuente según sea necesario */
+    color: #000; /* Color negro para el texto del nombre de usuario */
+}
+
+nav .profile img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+
+nav .profile .profile-link {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background: var(--light);
+    padding: 10px 0;
+    box-shadow: 4px 4px 16px rgba(0, 0, 0, .1);
+    border-radius: 10px;
+    width: 160px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all .3s ease;
+}
+
+nav .profile .profile-link.show {
+    opacity: 1;
+    pointer-events: visible;
+    top: 100%;
+}
+
+nav .profile .profile-link a {
+    padding: 10px 16px;
+    display: flex;
+    grid-gap: 10px;
+    font-size: 14px;
+    color: var(--dark);
+    align-items: center;
+    transition: all .3s ease;
+}
+
+nav .profile .profile-link a:hover {
+    background: var(--grey);
+}
+
+/* NAVBAR */
+
+/* MAIN */
+main {
+    padding: 36px 24px;
+    overflow-x: hidden;
+}
+
+main .title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #003b75;
+}
+
+main .breadcrumbs {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #8D8D8D;
+    margin-bottom: 20px;
+}
+
+main .breadcrumbs li {
+    display: flex;
+    align-items: center;
+}
+
+main .breadcrumbs .divider {
+    margin: 0 8px;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 1300px;
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card .content {
+    flex: 1;
+}
+
+.card .content h2 {
+    margin-bottom: 10px;
+    font-size: 50px;
+    color: #003b75;
+}
+
+.card .content p {
+    font-size: 18px;
+    color: #8D8D8D;
+}
+
+.card img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Media queries para hacer la tarjeta responsiva */
+@media screen and (max-width: 768px) {
+    .card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .card img {
+        margin-top: 20px;
+    }
+}
+
+/* Estilos para las tarjetas adicionales */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.small-card {
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    font-size: 18px;
+    color: #8D8D8D;
+}
+
+.small-card h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #003b75;
+}
+
+.small-card p {
+    font-size: 16px;
+}
+
+/* Media queries para hacer las tarjetas adicionales responsivas */
+@media screen and (max-width: 768px) {
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .small-card {
+        font-size: 16px;
+    }
+}
+
+/* CONTENT */
+
+@media screen and (max-width: 768px) {
+    #content {
+        position: relative;
+        width: calc(100% - 60px);
+        transition: all .3s ease;
+    }
+
+    nav .nav-link,
+    nav .divider {
+        display: none;
+    }
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin: 10px 0;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    margin-right: 10px;
+}
+
+
+
+.modal-lg {
+    max-width: 80%;
+}
+
+.btn-color {
+    background-image: linear-gradient(109.6deg, rgb(0, 59, 117) 11.2%, rgb(0, 59, 117) 91.1%);
+    color: rgb(255, 255, 255);
+    /* Cambia esto si quieres que el texto tenga otro color */
+}
+
+
+body {
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+/* tarjeta de la tabla student */
+.title-card-css {
+    background-color: #003b75;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* cambios de la tabla student */
+/* Estilos para mantener el encabezado fijo */
+.table-container {
+    max-height: 70vh;
+    overflow-y: auto;
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+}
+
+thead {
+    background-color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.table {
+    width: 100%;
+    font-size: 17px;
+    text-align: center;
+    border-collapse: collapse;
+    background-color: #ada1a13e;
+    /*Color del borde de la tabla*/
+    border: 2px solid rgba(149, 149, 153, 0.418);
+    /* Borde oscuro y opaco */
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.table th,
+.table td {
+    padding: 2px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #003b75;
+    color: white;
+}
+
+.table td {
+    background-color: #f9f9f9;
+}
+
+.table th,
+.table td {
+    border-right: none;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estilos personalizados para el scrollbar */
+.table-container::-webkit-scrollbar {
+    width: 12px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #b6b6b6;
+    /* Cambia este color según tu preferencia */
+    border-radius: 10px;
+    border: 3px solid #fff;
+    /* Añade un borde blanco para que se vea más redondeado */
+}
+
+.table-container::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    /* Cambia este color según tu preferencia */
+    border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+    background-color: #a0a0a0;
+    /* Cambia este color según tu preferencia */
+}
+
+/* botones */
+.button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: left;
+    margin-bottom: 10px;
+}
+
+.button-group .btn {
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+.btn-icon {
+    font-size: 20px;
+}
+
+.modal-body .info-row {
+    margin-bottom: 10px;
+}
+
+.modal-body .info-row span {
+    font-weight: bold;
+}
+
+.action-buttons .btn {
+    margin: 0 5px;
+}
+
+.form-buttons .btn {
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+/* Ajustes de los márgenes y rellenos de los campos de filtro */
+.card-body .row .col-sm-2,
+.card-body .row .col-sm-1,
+.card-body .row .col-sm-3 {
+    padding: 10px;
+    /* Ajusta el valor según sea necesario */
+}
+
+.card-body .row .col-sm-2 input,
+.card-body .row .col-sm-2 select,
+.card-body .row .col-sm-1 button,
+.card-body .row .col-sm-3 button {
+    margin-bottom: 10px;
+    /* Ajusta el valor según sea necesario */
+}
+
+/* Ajustes específicos para los botones */
+.card-body .row .col-sm-3 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.pagination-buttons {
+    display: flex;
+    gap: 20px;
+    /* Ajusta este valor para el espacio deseado */
+    justify-content: flex-start;
+    /* Alinea los botones al lado izquierdo */
+    align-items: center;
+    margin-top: 20px;
+    /* Agrega un margen superior si es necesario */
+}
+
+.pagination-btn {
+    background-color: #003b75;
+    border-color: #003b75;
+    color: #ffffff;
+    padding: 10px 20px;
+    /* Ajusta el tamaño del botón */
+    font-size: 16px;
+    /* Ajusta el tamaño de la fuente */
+    border-radius: 5px;
+    /* Bordes redondeados */
+}
+
+.pagination-btn:disabled {
+    background-color: #8D8D8D;
+    border-color: #8D8D8D;
+}
+
+/*botonces editar, eliminar, vista, reactivar*/
+.action-buttons .btn {
+    margin: 0 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    padding: 0;
+    border: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-edit {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.btn-edit:hover {
+    background-color: #e0a800;
+    color: #fff;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+.btn-reactivate {
+    background-color: #17a2b8;
+    color: #fff;
+}
+
+.btn-reactivate:hover {
+    background-color: #138496;
+}
+
+.btn-view {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.btn-view:hover {
+    background-color: #218838;
+}
+
+.bx {
+    font-size: 16px;
+}
+
+/* Modal styles */
+.modal-xl {
+    max-width: 90%;
+}
+
+.modal-header,
+.modal-footer {
+    background: #003b75;
+    color: #fff;
+    padding: 10px;
+}
+
+.modal-title {
+    font-size: 25px;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+.btn-close.custom-close {
+    color: #fff;
+    opacity: 1;
+    filter: invert(1);
+}
+
+.custom-close {
+    position: relative;
+    /* Permite ajustar la posición con respecto a su posición actual */
+    left: -20px;
+    /* Ajusta este valor según sea necesario para mover el botón hacia la izquierda */
+}
+
+.form-label {
+    font-weight: 400;
+}
+
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: #FC3B56;
+}
+
+.form-control.is-valid,
+.form-select.is-valid {
+    border-color: #81D43A;
+}
+
+.invalid-feedback {
+    display: block;
+}
+
+.modal-footer .btn {
+    background: #375bff;
+    border: none;
+    padding: 10px;
+}
+
+/* Modal body padding */
+.modal-body {
+    padding: 3px;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+/* Form fields margin adjustments */
+.form-label,
+.form-control,
+.form-select {
+    margin-bottom: 5px;
+}
+
+/* Ensure modal does not overflow the screen */
+.modal-dialog {
+    max-width: 40%;
+    /* Adjusted to ensure it is more centered */
+    margin: 1rem auto;
+    /* Adjusted for better vertical centering */
+}
+
+.modal-content {
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+    background-color: #ffffff;
+    border: none;
+}
+
+/* Custom margin for input spacing */
+.col-md-6 {
+    padding: 10px;
+}
+
+/* Custom margin for input spacing */
+.col-md-4 {
+    padding: 10px;
+}
+
+
+/* Increase size of input fields */
+input.form-control,
+select.form-select {
+    width: 100%;
+    padding: 4px;
+    font-size: 16px;
+}
+
+.modal-footer-centered {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-wide {
+    width: 200px;
+    /* Ajusta el valor según lo que necesites */
+}
+
+/*MODAL VISTA*/
+.modal-customm {
+    max-width: 60%;
+    max-height: 60vh;
+    /* Altura máxima del 90% de la altura de la ventana */
+}
+
+.img-large {
+    max-width: 100%;
+    width: 300px;
+    /* Ajusta el ancho de la imagen */
+    height: auto;
+    /* Mantiene la proporción de la imagen */
+}
+
+.d-flex {
+    display: flex;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-control-sm {
+    font-size: 0.875rem;
+    /* Ajusta el tamaño de la fuente según tus necesidades */
+    padding: .25rem .5rem;
+    /* Ajusta el relleno según tus necesidades */
+}
+
+/*boton cerrar modal vista*/
+.btn-close.custom-closee {
+    color: #fff;
+    opacity: 1;
+    filter: invert(1);
+}
+
+.custom-closee {
+    position: relative;
+    /* Permite ajustar la posición con respecto a su posición actual */
+    left: -20px;
+    /* Ajusta este valor según sea necesario para mover el botón hacia la izquierda */
+}
+
+.modal-footeer .btn {
+    background: #375bff;
+    border: none;
+    padding: 10px;
+}
+
+.modal-footeer-centered {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    /* Asegúrate de que está posicionado relativamente si quieres moverlo dentro del modal */
+    top: -20px;
+    /* Mueve el footer hacia arriba dentro del modal */
+    padding: 10px 0;
+    /* Añade padding si es necesario */
+}

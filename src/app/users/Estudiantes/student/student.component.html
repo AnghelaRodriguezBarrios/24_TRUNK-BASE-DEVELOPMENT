@@ -1,0 +1,476 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <title>Academia Dominici</title>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+        <a routerLink="/" class="brand">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjscRs8AIOCQb5mtRK8Eja_h7ScFClkuTXoN1Vk1rNwOIK8NHZofToDP7y6rrrvmWbCDF0DJ8z_vnD7oxADGeHpfuz6RDfXsuErF2Cm2tRqyCYbzRxAO4Ania-RzAQlC_acEI0yFYeSTCQEQSqxNoX5AzvADWdxhnxKvP-nBeQ37D0vMGrMw6F_vfO6/s1600/Madre-Enrichetta-e1635329657562-300x295%20%281%29.png"
+                alt="Academia Logo" class="icon">
+        AcademicNotes
+        </a>
+
+        <ul class="side-menu">
+            <li><a routerLink="/dashboard-notas" routerLinkActive="active"><i class='bx bx-user icon'></i>MENU</a>
+            </li>
+            <li class="divider" data-text="main">Main</li>
+            <li>
+                <a href="#"><i class='bx bx-user-pin icon'></i> USUARIOS <i
+                        class='bx bx-chevron-right icon-right'></i></a>
+                <ul class="side-dropdown">
+                    <li><a routerLink="/estudiante">Estudiante</a></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#"><i class='bx bx-home icon'></i> CURSOS <i class='bx bx-chevron-right icon-right'></i></a>
+                <ul class="side-dropdown">
+                    <li><a routerLink="/Curso">Curso</a></li>
+                    <li><a routerLink="/Competencias">Competencias</a></li>
+                </ul>
+            </li>
+            <li><a routerLink="/Usuario"><i class='bx bxs-group icon'></i> Usuario</a></li>
+            <li><a routerLink="/Usuario"><i class='bx bxs-briefcase icon'></i> Usuario</a></li>
+            <li class="divider" data-text="Log out">Log out</li>
+            <li><a routerLink="/perfil"><i class='bx bx-user icon'></i> Perfil</a></li>
+            <li><a routerLink="/landing-page-notas"><i class='bx bx-home-smile icon'></i> Cerrar Sección</a></li>
+        </ul>
+    </section>
+    <!-- SIDEBAR -->
+
+    <!-- NAVBAR -->
+    <section id="content">
+        <!-- NAVBAR -->
+        <nav>
+            <i class='bx bx-menu toggle-sidebar'></i>
+            <form action="#">
+                <div class="form-group">
+                    <input type="text" placeholder="Search...">
+                    <i class='bx bx-search icon'></i>
+                </div>
+            </form>
+            <span class="divider"></span>
+            <div class="profile">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                    alt="">
+            </div>
+        </nav>
+        <!-- NAVBAR -->
+
+        <!-- MAIN -->
+        <main>
+            <div class="title-card-css">
+                <h3>LISTADO ESTUDIANTES</h3>
+            </div>
+            <div class="card border-0">
+                <div class="card-body">
+                    <div [formGroup]="formularioFiltrado" class="mb row justify-content-center">
+                        <div class="col-sm-2">
+                            <input formControlName="nameOrLastNameFilter" type="text" class="form-control text-center" placeholder="Buscador">
+                        </div>
+                        <div class="col-sm-2">
+                            <select formControlName="documentTypeFilter" class="form-select text-center"
+                                aria-label="Default select example">
+                                <option value="">DNI/CE</option>
+                                <option value="DNI">DNI</option>
+                                <option value="CE">CE</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <input formControlName="documentNumberFilter" type="text" class="form-control text-center"
+                                placeholder="# Documento">
+                        </div>
+                        <div class="col-sm-2">
+                            <input formControlName="levelUniversalFilter" type="text" class="form-control text-center" placeholder="Nivel">
+                        </div>
+                        <div class="col-sm-1">
+                            <button (click)="listActives()" type="button" class="btn  btn-color">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                        <div class="col-sm-3 d-flex justify-content-between">
+                            <button (click)="newStudent()" type="button" class="btn btn-color" data-bs-toggle="modal"
+                                data-bs-target="#ModalStudent">
+                                Nuevo <i class="bi bi-person-plus"></i>
+                            </button>
+                            <button (click)="listInactives()" type="button" class="btn btn-color">
+                                Reactivar <i class="bi bi-arrow-up-square"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button (click)="exportToPdf()" class="btn btn-outline-danger btn-sm">
+                        Descargar PDF
+                    </button>
+                    <button (click)="exportToExcel()" class="btn btn-outline-success btn-sm">
+                        Descargar Excel
+                    </button>
+                    <button (click)="exportToCSV()" class="btn btn-outline-primary btn-sm">
+                        Descargar  CSV
+                    </button>
+                </div>
+                <div class="table-container">
+                    <div class="table-responsive">
+                        <table id="student" class="table table-sm text-center">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>N° de Documento</th>
+                                    <th>Bautizo</th>
+                                    <th>Comunión</th>
+                                    <th>Nivel</th>
+                                    <th>Grado</th>
+                                    <th>Sección</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let student of paginatedList">
+                                    <td>{{student.name}}</td>
+                                    <td>{{student.lastName}}</td>
+                                    <td>{{student.documentNumber}}</td>
+                                    <td>{{student.baptism === 'Y' ? 'Sí' : 'No'}}</td>
+                                    <td>{{student.communion === 'Y' ? 'Sí' : 'No'}}</td>
+                                    <td>{{student.level}}</td>
+                                    <td>{{student.grade}}</td>
+                                    <td>{{student.section}}</td>
+                                    <td class="action-buttons">
+                                        <button *ngIf="student.status==='A'" (click)="selectStudent(student)"
+                                            type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#ModalStudent">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button *ngIf="student.status==='A'" (click)="deleteStudent(student.idStudent)"
+                                            type="button" class="btn btn-danger btn-sm">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                        <button *ngIf="student.status==='I'"
+                                            (click)="reactivateStudent(student.idStudent)" type="button"
+                                            class="btn btn-dark btn-sm">
+                                            <i class="bi bi-arrow-90deg-left"></i>
+                                        </button>
+                                        <button (click)="viewStudent(student)" type="button" class="btn btn-info btn-sm"
+                                            data-bs-toggle="modal" data-bs-target="#ViewStudentModal">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination-buttons">
+                        <button (click)="previousPage()" [disabled]="currentPage === 1"
+                            class="btn pagination-btn">Anterior</button>
+                        <button (click)="nextPage()" [disabled]="currentPage === totalPages"
+                            class="btn pagination-btn">Siguiente</button>
+                    </div>
+
+                </div>
+
+
+<!-- Modal Form -->
+<div class="modal fade" id="ModalStudent" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tituloRegistro">{{ isUpdate ? 'Actualizar Registro' : 'Nuevo Registro' }}</h5>
+                <button type="button" class="btn-close custom-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="formulario" class="row gy-3 gx-3 align-items-center">
+                    <div class="col-md-6">
+                        <label for="frmNombre" class="form-label">Nombre</label>
+                        <input formControlName="name" type="text" class="form-control input-spacing" [ngClass]="checkFormControlCss('name')">
+                        <div *ngIf="formulario.get('name')?.invalid && (formulario.get('name')?.dirty || formulario.get('name')?.touched)"
+                             class="invalid-feedback">
+                            <ng-container *ngIf="formulario.get('name')?.errors?.['required']">El nombre es obligatorio.</ng-container>
+                            <ng-container *ngIf="formulario.get('name')?.errors?.['pattern']">Solo se permiten letras.</ng-container>
+                            <ng-container *ngIf="formulario.get('name')?.errors?.['noNumbers']">No se permiten números.</ng-container>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="frmApellido" class="form-label">Apellido</label>
+                        <input formControlName="lastName" type="text" class="form-control input-spacing" [ngClass]="checkFormControlCss('lastName')">
+                        <div *ngIf="formulario.get('lastName')?.invalid && (formulario.get('lastName')?.dirty || formulario.get('lastName')?.touched)"
+                             class="invalid-feedback">
+                            <ng-container *ngIf="formulario.get('lastName')?.errors?.['required']">El apellido es obligatorio.</ng-container>
+                            <ng-container *ngIf="formulario.get('lastName')?.errors?.['pattern']">Solo se permiten letras.</ng-container>
+                            <ng-container *ngIf="formulario.get('lastName')?.errors?.['noNumbers']">No se permiten números.</ng-container>
+                        </div>
+                    </div>
+                    
+                    <!-- Continue with other fields as before -->
+                    <div class="col-md-6">
+                        <label for="frmTipoDocumento" class="form-label">Tipo de documento</label>
+                        <select formControlName="documentType" class="form-select"
+                            [ngClass]="checkFormControlCss('documentType')"
+                            (change)="validateDocumentNumber()">
+                            <option value="DNI">DNI</option>
+                            <option value="CE">CE</option>
+                        </select>
+                        <div *ngIf="formulario.get('documentType')?.invalid && (formulario.get('documentType')?.dirty || formulario.get('documentType')?.touched)"
+                            class="invalid-feedback">
+                            El tipo de documento es requerido
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="frmNumeroDocumento" class="form-label">Número de documento</label>
+                        <input formControlName="documentNumber" type="text" maxlength="15" class="form-control"
+                            inputmode="numeric" pattern="\d*" (keypress)="validateNumberInput($event)"
+                            [ngClass]="checkFormControlCss('documentNumber')">
+                        <div *ngIf="formulario.get('documentNumber')?.invalid && (formulario.get('documentNumber')?.dirty || formulario.get('documentNumber')?.touched)"
+                            class="invalid-feedback">
+                            <ng-container *ngIf="formulario.get('documentNumber')?.errors?.['required']">El número de documento es requerido</ng-container>
+                            <ng-container *ngIf="formulario.get('documentType')?.value === 'DNI' && formulario.get('documentNumber')?.errors?.['minlength']">El DNI solo se permite 8 dígitos</ng-container>
+                            <ng-container *ngIf="formulario.get('documentType')?.value === 'DNI' && formulario.get('documentNumber')?.errors?.['maxlength']">El DNI solo se permite 8 dígitos</ng-container>
+                            <ng-container *ngIf="formulario.get('documentType')?.value === 'CE' && formulario.get('documentNumber')?.errors?.['minlength']">El CE solo se permite 15 dígitos</ng-container>
+                            <ng-container *ngIf="formulario.get('documentType')?.value === 'CE' && formulario.get('documentNumber')?.errors?.['maxlength']">El CE solo se permite 15 dígitos</ng-container>
+                            <ng-container *ngIf="formulario.get('documentNumber')?.errors?.['pattern']">El número de documento solo debe contener números</ng-container>
+                        </div>
+                    </div>                    
+                    <div class="col-md-6">
+                        <label for="frmGenero" class="form-label">Género</label>
+                        <select formControlName="gender" class="form-select" [ngClass]="checkFormControlCss('gender')">
+                            <option value="M">Masculino</option>
+                            <option value="F">Femenino</option>
+                        </select>
+                        <div *ngIf="formulario.get('gender')?.invalid && (formulario.get('gender')?.dirty || formulario.get('gender')?.touched)"
+                            class="invalid-feedback">
+                            El género es obligatorio
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="frmFechaNacimiento" class="form-label">Fecha de nacimiento</label>
+                        <input formControlName="birthDate" type="date" class="form-control"
+                               min="2010-01-01" max="2030-12-31"
+                               [ngClass]="checkFormControlCss('birthDate')">
+                        <div *ngIf="formulario.get('birthDate')?.invalid && (formulario.get('birthDate')?.dirty || formulario.get('birthDate')?.touched)"
+                             class="invalid-feedback">
+                          <ng-container *ngIf="formulario.get('birthDate')?.errors?.['required']">La fecha de nacimiento es obligatoria.</ng-container>
+                          <ng-container *ngIf="formulario.get('birthDate')?.errors?.['invalidYear']">El año de nacimiento deber valida.</ng-container>
+                        </div>
+                      </div>
+                      
+                    <div class="col-md-6">
+                        <label for="frmBautizo" class="form-label">Bautizo</label>
+                        <select formControlName="baptism" class="form-select" [ngClass]="checkFormControlCss('baptism')">
+                            <option value="N">No</option>
+                            <option value="Y">Sí</option>
+                        </select>
+                        <div *ngIf="formulario.get('baptism')?.invalid && (formulario.get('baptism')?.dirty || formulario.get('baptism')?.touched)"
+                            class="invalid-feedback">
+                            El bautizo es obligatorio
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="frmComunion" class="form-label">Comunión</label>
+                        <select formControlName="communion" class="form-select" [ngClass]="checkFormControlCss('communion')">
+                            <option value="N">No</option>
+                            <option value="Y">Sí</option>
+                        </select>
+                        <div *ngIf="formulario.get('communion')?.invalid && (formulario.get('communion')?.dirty || formulario.get('communion')?.touched)"
+                            class="invalid-feedback">
+                            La comunión es obligatorio
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="frmEmail" class="form-label">Email</label>
+                        <input formControlName="email" type="email" class="form-control" [ngClass]="checkFormControlCss('email')">
+                        <div *ngIf="formulario.get('email')?.invalid && (formulario.get('email')?.dirty || formulario.get('email')?.touched)"
+                            class="invalid-feedback">
+                            Ingresar un email valido
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="frmLugarNacimiento" class="form-label">Lugar de nacimiento</label>
+                        <input formControlName="birthPlace" type="text" class="form-control" [ngClass]="checkFormControlCss('birthPlace')">
+                        <div *ngIf="formulario.get('birthPlace')?.invalid && (formulario.get('birthPlace')?.dirty || formulario.get('birthPlace')?.touched)"
+                            class="invalid-feedback">
+                            El lugar de nacimiento es obligatorio
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="frmNivel" class="form-label">Nivel</label>
+                        <select formControlName="level" class="form-select" [ngClass]="checkFormControlCss('level')">
+                            <option value="Inicial">Inicial</option>
+                            <option value="Primaria">Primaria</option>
+                        </select>
+                        <div *ngIf="formulario.get('level')?.invalid && (formulario.get('level')?.dirty || formulario.get('level')?.touched)"
+                            class="invalid-feedback">
+                            El nivel es obligatorio
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="frmGrado" class="form-label">Grado</label>
+                        <select formControlName="grade" class="form-select" [ngClass]="checkFormControlCss('grade')">
+                            <option value="1">1 Grado</option>
+                            <option value="2">2 Grado</option>
+                            <option value="3">3 Grado</option>
+                            <option value="4">4 Grado</option>
+                            <option value="5">5 Grado</option>
+                            <option value="6">6 Grado</option>
+                        </select>
+                        <div *ngIf="formulario.get('grade')?.invalid && (formulario.get('grade')?.dirty || formulario.get('grade')?.touched)"
+                            class="invalid-feedback">
+                            El grado es obligatorio
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="frmSeccion" class="form-label">Sección</label>
+                        <select formControlName="section" class="form-select" [ngClass]="checkFormControlCss('section')">
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                        </select>
+                        <div *ngIf="formulario.get('section')?.invalid && (formulario.get('section')?.dirty || formulario.get('section')?.touched)"
+                            class="invalid-feedback">
+                            La sección es obligatorio
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer modal-footer-centered">
+                <button type="button" class="btn btn-primary btn-wide" 
+                        [disabled]="formulario.invalid" 
+                        (click)="isUpdate ? updateStudent() : insertStudent()">
+                    {{ isUpdate ? 'Actualizar' : 'Guardar' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+                <!-- Modal confirmación eliminación -->
+                <div class="modal fade" id="confirmDelete" tabindex="-1" aria-labelledby="confirmModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content text-center">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">¿Estás seguro de que deseas eliminar este estudiante?</div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary"
+                                    data-bs-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"
+                                    (click)="confirmDelete()">Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal confirmación reactivar -->
+                <div class="modal fade" id="confirmReactive" tabindex="-1" aria-labelledby="confirmModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content text-center">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">¿Estás seguro de que deseas reactivar este estudiante?</div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary"
+                                    data-bs-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"
+                                    (click)="confirmReactive()">Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+<!-- Modal para ver detalles del estudiante -->
+<div class="modal fade" id="ViewStudentModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-customm">
+        <div class="modal-content">
+            <div class="modal-header text-white">
+                <h5 class="modal-title" id="viewModalLabel">Detalles del Estudiante</h5>
+                <button type="button" class="btn-close custom-closee" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row mb-3">
+                        <div class="col-md-3 text-center d-flex flex-column justify-content-center">
+                            <img src="assets/estudiante.png" class="img-fluid img-large rounded mx-auto" alt="Foto del Estudiante">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label"><strong>Nombre:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedStudent?.name}}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label"><strong>Apellido:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedStudent?.lastName}}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label class="form-label"><strong>Tipo de Documento:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedStudent?.documentType}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"><strong>N° de Documento:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedStudent?.documentNumber}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"><strong>Género:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedStudent?.gender === 'M' ? 'Masculino' : 'Femenino'}}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label class="form-label"><strong>Fecha de nacimiento:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedStudent?.birthDate | date: 'dd/MMMM/yyyy'}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"><strong>Bautizo:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedStudent?.baptism === 'Y' ? 'Sí' : 'No'}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"><strong>Comunión:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedStudent?.communion === 'Y' ? 'Sí' : 'No'}}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label"><strong>Email:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedStudent?.email}}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label"><strong>Lugar de nacimiento:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedStudent?.birthPlace}}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label class="form-label"><strong>Nivel:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedStudent?.level}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"><strong>Grado:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedStudent?.grade}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"><strong>Sección:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedStudent?.section}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footeer modal-footeer-centered">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                <!-- NAVBAR -->
+                <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>

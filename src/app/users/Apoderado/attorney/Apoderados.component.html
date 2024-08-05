@@ -1,0 +1,497 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <title>EduSys Integral</title>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+        <a routerLink="/" class="brand">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjscRs8AIOCQb5mtRK8Eja_h7ScFClkuTXoN1Vk1rNwOIK8NHZofToDP7y6rrrvmWbCDF0DJ8z_vnD7oxADGeHpfuz6RDfXsuErF2Cm2tRqyCYbzRxAO4Ania-RzAQlC_acEI0yFYeSTCQEQSqxNoX5AzvADWdxhnxKvP-nBeQ37D0vMGrMw6F_vfO6/s1600/Madre-Enrichetta-e1635329657562-300x295%20%281%29.png"
+                alt="Academia Logo" class="icon">
+        EduSys Integral
+        </a>
+
+        <ul class="side-menu">
+            <li><a routerLink="/dashboard-notas" routerLinkActive="active"><i class='bx bx-user icon'></i>MENU</a>
+            </li>
+            <li class="divider" data-text="main">Main</li>
+            <li>
+                <a href="#"><i class='bx bx-user-pin icon'></i> USUARIOS <i
+                        class='bx bx-chevron-right icon-right'></i></a>
+                        <ul class="side-dropdown">
+                            <li><a routerLink="/Apoderado">Apoderado</a></li>
+                        </ul>
+            </li>
+
+            <li>
+                <a href="#"><i class='bx bx-home icon'></i> Usuario <i class='bx bx-chevron-right icon-right'></i></a>
+                <ul class="side-dropdown">
+                    <li><a routerLink="/Usuario">Usuario</a></li>
+                </ul>
+            </li>
+            <li><a routerLink="/Usuario"><i class='bx bxs-cog icon'></i> Usuario</a></li>
+            <li><a routerLink="/Usuario"><i class='bx bxs-group icon'></i> Usuario</a></li>
+            <li><a routerLink="/Usuario"><i class='bx bxs-briefcase icon'></i> Usuario</a></li>
+            <li class="divider" data-text="Log out">Log out</li>
+            <li><a routerLink="/perfil"><i class='bx bx-user icon'></i> Perfil</a></li>
+            <li><a routerLink="/landing-page-notas"><i class='bx bx-home-smile icon'></i> Cerrar Sección</a></li>
+        </ul>
+    </section>
+    <!-- SIDEBAR -->
+
+    <!-- NAVBAR -->
+    <section id="content">
+        <!-- NAVBAR -->
+        <nav>
+            <i class='bx bx-menu toggle-sidebar'></i>
+            <form action="#">
+                <div class="form-group">
+                    <input type="text" placeholder="Search...">
+                    <i class='bx bx-search icon'></i>
+                </div>
+            </form>
+            <span class="divider"></span>
+            <div class="profile">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                    alt="">
+            </div>
+        </nav>
+        <!-- NAVBAR -->
+
+        <!-- MAIN -->
+        <main>
+            <div class="title-card-css">
+                <h3>LISTADO APODERADOS</h3>
+            </div>
+            <div class="card border-0">
+                <div class="card-body">
+                    <div [formGroup]="formularioFiltrado" class="mb row justify-content-center">
+                        <div class="col-sm-2">
+                            <input formControlName="nameFilter" type="text" class="form-control text-center"
+                                placeholder="Nombre">
+                        </div>
+                        <div class="col-sm-2">
+                            <input formControlName="surnamesFilter" type="text" class="form-control text-center"
+                                placeholder="Apellido">
+                        </div>
+                        <div class="col-sm-2">
+                            <select formControlName="documentTypeFilter" class="form-select text-center"
+                                aria-label="Default select example">
+                                <option value="">DNI/CE</option>
+                                <option value="DNI">DNI</option>
+                                <option value="CE">CE</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <input formControlName="documentNumberFilter" type="text" class="form-control text-center"
+                                placeholder="# Documento">
+                        </div>
+                        <div class="col-sm-1">
+                            <button (click)="listActives()" type="button" class="btn  btn-color">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                        <div class="col-sm-3 d-flex justify-content-between">
+                            <button (click)="newApoderados()" type="button" class="btn btn-color" data-bs-toggle="modal"
+                                data-bs-target="#ModalApoderados">
+                                Nuevo <i class="bi bi-person-plus"></i>
+                            </button>
+                            <button (click)="listInactives()" type="button" class="btn btn-color">
+                                Reactivar <i class="bi bi-arrow-up-square"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button (click)="exportToPdf()" class="btn btn-outline-danger btn-sm">
+                        Descargar PDF
+                    </button>
+                    <button (click)="exportToExcel()" class="btn btn-outline-success btn-sm">
+                        Descargar Excel
+                    </button>
+                    <button (click)="exportToCSV()" class="btn btn-outline-primary btn-sm">
+                        Descargar CSV
+                    </button>
+                </div>
+                <div class="table-container">
+                    <div class="table-responsive">
+                        <table id="k" class="table table-sm text-center">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Sexo</th>
+                                    <th>F. Nacimiento</th>     
+                                    <th>Email</th>
+                                    <th>N.Documento</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let k of paginatedList">
+                                    <td>{{k.names}}</td>
+                                    <td>{{k.surnames}}</td>
+                                    <td>{{k.sex}}</td>
+                                    <td>{{k.birth_date | date: 'dd MMM yyyy'}}</td>
+                                   
+                                    <td>{{k.email}}</td>
+                                    <td>{{k.documentNumber}}</td>
+                                    <td class="action-buttons">
+                                        <button *ngIf="k.status==='A'" (click)="selectApoderados(k)" type="button"
+                                            class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#ModalApoderados">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button *ngIf="k.status==='A'" (click)="deleteApoderado(k.id)" type="button"
+                                            class="btn btn-danger btn-sm">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                        <button *ngIf="k.status==='I'" (click)="reactivateApoderado(k.id)" type="button"
+                                            class="btn btn-dark btn-sm">
+                                            <i class="bi bi-arrow-90deg-left"></i>
+                                        </button>
+                                        <button (click)="viewStudent(k)" type="button" class="btn btn-info btn-sm"
+                                            data-bs-toggle="modal" data-bs-target="#ViewApoderadoModal">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination-buttons">
+                        <button (click)="previousPage()" [disabled]="currentPage === 1"
+                            class="btn pagination-btn">Anterior</button>
+                        <button (click)="nextPage()" [disabled]="currentPage === totalPages"
+                            class="btn pagination-btn">Siguiente</button>
+                    </div>
+                </div>
+
+                <!-- Modal Form -->
+<div class="modal fade" id="ModalApoderados" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tituloRegistro">{{ isUpdate ? 'Actualizar Registro' : 'Nuevo Registro' }}</h5>
+                <button type="button" class="btn-close custom-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="formulario" class="row gy-3 gx-3 align-items-center">
+                   
+                    <div class="col-md-6">
+                        <label for="frmNombre" class="form-label">Nombre</label>
+                        <input formControlName="names" type="text" class="form-control input-spacing" [ngClass]="checkFormControlCss('names')">
+                        <div *ngIf="formulario.get('names')?.errors?.['required'] && (formulario.get('names')?.dirty || formulario.get('names')?.touched)"
+                             class="invalid-feedback">
+                          El nombre es requerido
+                        </div>
+                        <div *ngIf="formulario.get('names')?.errors?.['pattern'] && (formulario.get('names')?.dirty || formulario.get('names')?.touched)"
+                             class="invalid-feedback">
+                          Los números no son válidos
+                        </div>
+                      </div>
+                      
+                      <div class="col-md-6">
+                        <label for="frmApellido" class="form-label">Apellido</label>
+                        <input formControlName="surnames" type="text" class="form-control input-spacing" [ngClass]="checkFormControlCss('surnames')">
+                        <div *ngIf="formulario.get('surnames')?.errors?.['required'] && (formulario.get('surnames')?.dirty || formulario.get('surnames')?.touched)"
+                             class="invalid-feedback">
+                          Los apellidos son requeridos
+                        </div>
+                        <div *ngIf="formulario.get('surnames')?.errors?.['pattern'] && (formulario.get('surnames')?.dirty || formulario.get('surnames')?.touched)"
+                             class="invalid-feedback">
+                          Los números no son válidos en los apellidos
+                        </div>
+                      </div>
+  
+                    <div class="col-md-6">
+                        <label for="frmTipoDocumento" class="form-label">Tipo de documento</label>
+                        <select formControlName="documentType" class="form-select"
+                            [ngClass]="checkFormControlCss('documentType')"
+                            (change)="validateDocumentNumber()">
+                            <option value="DNI">DNI</option>
+                            <option value="CE">CE</option>
+                        </select>
+                        <div *ngIf="formulario.get('documentType')?.invalid && (formulario.get('documentType')?.dirty || formulario.get('documentType')?.touched)"
+                            class="invalid-feedback">
+                            El tipo de documento es requerido
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="frmNumeroDocumento" class="form-label">Número de documento</label>
+                        <input formControlName="documentNumber" type="text" maxlength="15" class="form-control"
+                               [ngClass]="checkFormControlCss('documentNumber')">
+                        <div *ngIf="formulario.get('documentNumber')?.errors?.['required'] && (formulario.get('documentNumber')?.dirty || formulario.get('documentNumber')?.touched)"
+                             class="invalid-feedback">
+                          El número de documento es requerido
+                        </div>
+                        <div *ngIf="formulario.get('documentNumber')?.errors?.['pattern'] && (formulario.get('documentNumber')?.dirty || formulario.get('documentNumber')?.touched)"
+                             class="invalid-feedback">
+                          Las letras no son válidas en el número de documento
+                        </div>
+                      </div>
+                    <div class="col-md-6">
+                        <label for="frmGenero" class="form-label">Género</label>
+                        <select formControlName="sex" class="form-select" [ngClass]="checkFormControlCss('sex')">
+                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino">Femenino</option>
+                        </select>
+                        <div *ngIf="formulario.get('sex')?.invalid && (formulario.get('sex')?.dirty || formulario.get('sex')?.touched)"
+                            class="invalid-feedback">
+                            El género es requerido
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="frmFechaNacimiento" class="form-label">Fecha de nacimiento</label>
+                        <input formControlName="birth_date" type="date" class="form-control"
+                            [ngClass]="checkFormControlCss('birth_date')">
+                        <div *ngIf="formulario.get('birth_date')?.invalid && (formulario.get('birth_date')?.dirty || formulario.get('birth_date')?.touched)"
+                            class="invalid-feedback">
+                            La fecha de nacimiento es requerida
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="frmBautizo" class="form-label">Bautizo</label>
+                        <select formControlName="baptism" class="form-select" [ngClass]="checkFormControlCss('baptism')">
+                            <option value="No">No</option>
+                            <option value="Sí">Sí</option>
+                        </select>
+                        <div *ngIf="formulario.get('baptism')?.invalid && (formulario.get('baptism')?.dirty || formulario.get('baptism')?.touched)"
+                            class="invalid-feedback">
+                            El bautizo es requerido
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="frmComunion" class="form-label">P.Comunión</label>
+                        <select formControlName="first_Communion" class="form-select" [ngClass]="checkFormControlCss('first_Communion')">
+                            <option value="No">No</option>
+                            <option value="Sí">Sí</option>
+                        </select>
+                        <div *ngIf="formulario.get('first_Communion')?.invalid && (formulario.get('first_Communion')?.dirty || formulario.get('first_Communion')?.touched)"
+                            class="invalid-feedback">
+                            La comunión es requerida
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="frmComunion" class="form-label">Confirmacion</label>
+                        <select formControlName="confirmation" class="form-select" [ngClass]="checkFormControlCss('confirmation')">
+                            <option value="No">No</option>
+                            <option value="Sí">Sí</option>
+                        </select>
+                        <div *ngIf="formulario.get('confirmation')?.invalid && (formulario.get('confirmation')?.dirty || formulario.get('confirmation')?.touched)"
+                            class="invalid-feedback">
+                            La Confirmacion es requerida
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="frmComunion" class="form-label">Casamiento</label>
+                        <select formControlName="marriage" class="form-select" [ngClass]="checkFormControlCss('marriage')">
+                            <option value="No">No</option>
+                            <option value="Sí">Sí</option>
+                        </select>
+                        <div *ngIf="formulario.get('marriage')?.invalid && (formulario.get('marriage')?.dirty || formulario.get('marriage')?.touched)"
+                            class="invalid-feedback">
+                           EL Casamiento es requerida
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="frmComunion" class="form-label">Relacion</label>
+                        <select formControlName="relationship" class="form-select" [ngClass]="checkFormControlCss('relationship')">
+                            <option value="No">No</option>
+                            <option value="Sí">Sí</option>
+                        </select>
+                        <div *ngIf="formulario.get('relationship')?.invalid && (formulario.get('relationship')?.dirty || formulario.get('relationship')?.touched)"
+                            class="invalid-feedback">
+                            La Relacion es requerida
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="frmEmail" class="form-label">Email</label>
+                        <input formControlName="email" type="email" class="form-control" (input)="validateEmail($event)"
+                               [ngClass]="{ 'is-invalid': formulario.controls['email'].invalid && formulario.controls['email'].touched, 'is-valid': formulario.controls['email'].valid && formulario.controls['email'].touched }">
+                        <div *ngIf="formulario.controls['email'].invalid && formulario.controls['email'].touched"
+                             class="invalid-feedback">
+                          El email es requerido y debe tener un formato válido.
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <label for="frmCelular" class="form-label">Celular</label>
+                        <input formControlName="cellphone" maxlength="9" type="tel" pattern="[0-9]*" class="form-control" [ngClass]="checkFormControlCss('cellphone')">
+                        <div *ngIf="formulario.get('cellphone')?.errors?.['required'] && (formulario.get('cellphone')?.dirty || formulario.get('cellphone')?.touched)"
+                             class="invalid-feedback">
+                          El número de celular es requerido
+                        </div>
+                        <div *ngIf="formulario.get('cellphone')?.errors?.['pattern'] && (formulario.get('cellphone')?.dirty || formulario.get('cellphone')?.touched)"
+                             class="invalid-feedback">
+                          Solo se permiten números no letras 
+                        </div>
+                      </div>
+
+                    <div class="col-md-6">
+                        <label for="frmDireccion" class="form-label">Dirección</label>
+                        <input formControlName="address" type="text" class="form-control" [ngClass]="checkFormControlCss('address')">
+                        <div *ngIf="formulario.get('address')?.invalid && (formulario.get('address')?.dirty || formulario.get('address')?.touched)"
+                            class="invalid-feedback">
+                            La dirección es requerida
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+            <div class="modal-footer modal-footer-centered">
+                <button *ngIf="!isUpdate" type="button" class="btn btn-primary btn-wide" (click)="insertApoderados()" data-bs-dismiss="modal">Guardar</button>
+                <button *ngIf="isUpdate" type="button" class="btn btn-primary btn-wide" (click)="updateApoderados()" data-bs-dismiss="modal">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+               
+                <div class="modal fade" id="confirmDelete" tabindex="-1" aria-labelledby="confirmModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content text-center">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">¿Estás seguro de que deseas eliminar este Apoderado?</div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary"
+                                    data-bs-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"
+                                    (click)="confirmDelete()">Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             
+
+                <div class="modal fade" id="confirmReactive" tabindex="-1" aria-labelledby="confirmModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content text-center">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Cerrar"></button>
+                            </div>
+                            <div class="modal-body">¿Estás seguro de que deseas reactivar este Apoderado?</div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary"
+                                    data-bs-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"
+                                    (click)="confirmReactive()">Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                
+<div class="modal fade" id="ViewApoderadoModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-customm">
+        <div class="modal-content">
+            <div class="modal-header text-white">
+                <h5 class="modal-title" id="viewModalLabel">Detalles del Apoderado</h5>
+                <button type="button" class="btn-close custom-closee" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row mb-3">
+                        <div class="col-md-3 text-center d-flex flex-column justify-content-center">
+                            <img src="assets/apoderados.png" class="img-fluid img-large rounded mx-auto" alt="Foto del Estudiante">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label"><strong>Nombre:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedApoderados?.names}}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label"><strong>Apellido:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedApoderados?.surnames}}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label class="form-label"><strong>Tipo de Documento:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedApoderados?.documentType}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"><strong>N° de Documento:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedApoderados?.documentNumber}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"><strong>Género:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedApoderados?.sex === 'M' ? 'Masculino' : 'Femenino'}}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <label class="form-label"><strong>Fecha de nacimiento:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedApoderados?.birth_date | date: 'dd MMM yyyy'}}</p>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label"><strong>Comfirmacion:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedApoderados?.confirmation}}</p>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label"><strong>Casamiento:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedApoderados?.marriage}}</p>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label"><strong>Relacion:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedApoderados?.relationship}}</p>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label"><strong>Celular:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedApoderados?.cellphone}}</p>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label"><strong>Direccion:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedApoderados?.address}}</p>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label"><strong>Bautizo:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedApoderados?.baptism === 'Y' ? 'Sí' : 'No'}}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"><strong>Comunión:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedApoderados?.first_Communion === 'Y' ? 'Sí' : 'No'}}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label"><strong>Email:</strong></label>
+                                    <p class="form-control form-control-sm">{{selectedApoderados?.email}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footeer modal-footeer-centered">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                 
+                <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>

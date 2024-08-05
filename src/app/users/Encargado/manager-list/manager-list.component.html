@@ -1,0 +1,183 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+  <title>Dominici EduControl</title>
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+  <section id="sidebar">
+    <a routerLink="/" class="brand">
+      <img
+        src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjscRs8AIOCQb5mtRK8Eja_h7ScFClkuTXoN1Vk1rNwOIK8NHZofToDP7y6rrrvmWbCDF0DJ8z_vnD7oxADGeHpfuz6RDfXsuErF2Cm2tRqyCYbzRxAO4Ania-RzAQlC_acEI0yFYeSTCQEQSqxNoX5AzvADWdxhnxKvP-nBeQ37D0vMGrMw6F_vfO6/s1600/Madre-Enrichetta-e1635329657562-300x295%20%281%29.png"
+        alt="EduControl Logo" class="icon">
+      EduControl
+    </a>
+
+    <ul class="side-menu">
+      <li><a routerLink="/dashboard-inventario" routerLinkActive="active"><i class='bx bx-user icon'></i>MENU</a>
+      </li>
+      <li class="divider" data-text="main">Main</li>
+      <li>
+        <a href="#"><i class='bx bx-user-pin icon'></i> USUARIOS <i class='bx bx-chevron-right icon-right'></i></a>
+        <ul class="side-dropdown">
+          <li><a routerLink="/manager">Managers</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="#"><i class='bx bx-home icon'></i> Pago / Pago-Detalle <i
+            class='bx bx-chevron-right icon-right'></i></a>
+        <ul class="side-dropdown">
+          <li><a routerLink="/payment">Pagos</a></li>
+          <li><a routerLink="/paymentDetail">Detalles de Pagos</a></li>
+        </ul>
+      </li>
+      <li><a routerLink="/Usuario"><i class='bx bxs-cog icon'></i> Usuario</a></li>
+      <li><a routerLink="/Usuario"><i class='bx bxs-group icon'></i> Usuario</a></li>
+      <li><a routerLink="/Usuario"><i class='bx bxs-briefcase icon'></i> Usuario</a></li>
+      <li class="divider" data-text="Log out">Log out</li>
+      <li><a routerLink="/perfil"><i class='bx bx-user icon'></i> Perfil</a></li>
+      <li><a routerLink="/landing-page-inventarios"><i class='bx bx-home-smile icon'></i> Cerrar Sesión</a></li>
+    </ul>
+  </section>
+  <!-- SIDEBAR -->
+
+  <!-- NAVBAR -->
+  <section id="content">
+    <!-- NAVBAR -->
+    <nav>
+      <i class='bx bx-menu toggle-sidebar'></i>
+      <form action="#">
+        <div class="form-group">
+          <input type="text" placeholder="Search...">
+          <i class='bx bx-search icon'></i>
+        </div>
+      </form>
+      <span class="divider"></span>
+      <div class="profile">
+        <img
+          src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+          alt="">
+      </div>
+    </nav>
+    <!-- NAVBAR -->
+
+    <!-- MAIN -->
+    <main>
+      <div class="card-container">
+        <div class="card">
+          <div class="content">
+            <h2>Listado de Managers</h2>
+            <!-- Filtros y botones -->
+            <form (ngSubmit)="getAllManagers()">
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <input type="text" class="form-control" placeholder="Nombres" [(ngModel)]="searchFirstName"
+                    name="searchFirstName" />
+                </div>
+                <div class="col-md-4 mb-3">
+                  <input type="text" class="form-control" placeholder="Apellidos" [(ngModel)]="searchLastName"
+                    name="searchLastName" />
+                </div>
+                <div class="col-md-4 mb-3">
+                  <button type="submit" class="btn btn-primary">Buscar</button>
+                  &nbsp;
+                  <button type="button" class="btn btn-primary" routerLink="/manager/registro">Nuevo <i
+                      class="bi bi-plus-lg"></i></button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <select class="form-control" id="documenttype" name="documenttype" [(ngModel)]="searchDocumentType">
+                    <option value="">Tipo de Documento</option>
+                    <option value="DNI">DNI</option>
+                    <option value="Carné de Extranjería">Carné de Extranjería</option>
+                    <option value="Pasaporte">Pasaporte</option>
+                  </select>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <input type="text" class="form-control" placeholder="Correo" [(ngModel)]="searchEmail"
+                    name="searchEmail" />
+                </div>
+              </div>
+            </form>
+            <!-- Tabla de resultados -->
+            <table class="table table-sm table-centered">
+              <caption>
+                <div class="card-body" style="margin-top: 20px;">
+                  &nbsp;
+                  <button type="button" class="btn btn-red" (click)="exportToPDF()">Exportar a PDF</button>
+                  &nbsp;
+                  <button type="button" class="btn btn-success" (click)="exportToExcelActive()">Exportar a XLSX</button>
+                  &nbsp;
+                  <button type="button" class="btn btn-dark" (click)="exportToCSV()">Exportar a CSV</button>
+                </div>
+              </caption>
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Tipo de Documento</th>
+                  <th>Número de documento</th>
+                  <th>Dirección</th>
+                  <th>Ubigeo</th>
+                  <th>Email</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let manager of (showActiveManagers ? activeManagers : inactiveManagers).slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)">
+                  <td>{{ manager.firstName }}</td>
+                  <td>{{ manager.lastName }}</td>
+                  <td>{{ manager.documentType }}</td>
+                  <td>{{ manager.documentNumber }}</td>
+                  <td>{{ manager.address }}</td>
+                  <td>{{ getDistrictName(manager.ubigeoId) }}</td>
+                  <td>{{ manager.email || 'Sin correo' }}</td>
+                  <td>
+                    <button *ngIf="manager.status === 'A'" (click)="deleteManager(manager.id!.toString())" type="button"
+                      class="btn btn-danger btn-sm">
+                      <i class="bi bi-trash-fill"></i>
+                    </button>
+                    <button *ngIf="manager.status === 'A'" [routerLink]="['/manager/editar', manager.id]" type="button"
+                      class="btn btn-warning btn-sm">
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button *ngIf="manager.status === 'I'" (click)="reactivateManager(manager.id!)" type="button"
+                      class="btn-update btn btn-success">
+                      <i class="bi bi-bootstrap-reboot"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- Paginación -->
+            &nbsp;
+            <div class="pagination-container">
+              <a href="javascript:void(0);" class="pagination-button btn btn-primary" (click)="previousPage()"
+                id="previousPage"><i class="bi bi-caret-left-fill"></i></a>
+              &nbsp;
+              <span id="currentPage" class="pagination-button current">{{ currentPage }}</span>
+              &nbsp;
+              <a href="javascript:void(0);" class="pagination-button btn btn-primary" (click)="nextPage()"
+                id="nextPage"><i class="bi bi-caret-right-fill"></i></a>
+              &nbsp;
+              <button class="pagination-button btn btn-warning" (click)="toggleShowInactive()">
+                {{ showActiveManagers ? 'Mostrar Inactivos' : 'Mostrar Activos' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- MAIN -->
+  </section>
+  <!-- NAVBAR -->
+
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</body>
