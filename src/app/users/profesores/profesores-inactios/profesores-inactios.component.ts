@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Teacher } from 'src/app/models/clases/teacher';
+import { Teacher } from 'src/app/model/clases/teacher';
 import { TeacherService } from 'src/app/service/teacher.service';
 import Swal from 'sweetalert2';
 
@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 export class ProfesoresInactiosComponent implements OnInit{
   
   teachers: Teacher[] = [];
+  searchTerm: string = '';
 
   constructor(private _teacherService: TeacherService) { }
 

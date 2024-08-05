@@ -4,13 +4,10 @@ table td {
     font-weight: 400;
 }
 
-table thead th {
+table thead tr th {
     background-color: #003b75;
     color: #FFF;
 }
-
-
-/* ESTILOS PARA EL FORMULARIO DE REGISTRO */
 
 .container__modal {
     width: 100%;

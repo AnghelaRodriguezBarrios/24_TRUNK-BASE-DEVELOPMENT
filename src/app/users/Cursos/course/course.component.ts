@@ -1,213 +1,55 @@
-// src/app/components/course/course.component.ts
-import { Component, OnInit, AfterViewInit, Renderer2 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CourseService } from 'src/app/service/course.service';
 import { CourseModel } from 'src/app/model/course-model';
 import Swal from 'sweetalert2';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-declare var bootstrap: any;
 
 @Component({
   selector: 'app-course',
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.css']
 })
-export class CourseComponent implements OnInit, AfterViewInit {
-  courseList: CourseModel[] = [];
+export class CourseComponent implements OnInit {
+  courses: CourseModel[] = [];
   paginatedList: CourseModel[] = [];
   filteredList: CourseModel[] = [];
-  formulario: FormGroup;
-  formularioFiltrado: FormGroup;
+  courseForm: FormGroup;
+  searchTerm: string = '';
   isUpdate: boolean = false;
   selectedCourse: CourseModel | null = null;
+  modalAdd: boolean = false;
+  modalUpdate: boolean = false;
+  modalViewCourse: boolean = false;
 
   // Paginación
   currentPage: number = 1;
-  itemsPerPage: number = 5;
+  itemsPerPage: number = 8; // Cambiado a 7 registros por página
   totalPages: number = 1;
 
   constructor(
     private courseService: CourseService,
-    private toastr: ToastrService,
-    private exportAsService: ExportAsService,
     private fb: FormBuilder,
-    private renderer: Renderer2
+    private toastr: ToastrService,
+    private exportAsService: ExportAsService
   ) {
-    this.formulario = this.fb.group({
-      idCourse: [''],
-      nameCourse: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚ0-9 ]+$'), // Permite letras y números, pero no símbolos
-      this.noSymbolsValidator
-      ]],
-      description: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚ0-9 ]+$'), // Permite letras y números, pero no símbolos
-        this.noSymbolsValidator
-      ]],
-    });
-
-    this.formularioFiltrado = this.fb.group({
-      nameCourseFilter: [''],
-      descriptionFilter: ['']
-    });
+    this.courseForm = this.fb.group({
+      nameCourse: ['', [Validators.required, Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/)]],
+      description: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]*$/)]]
+    });    
   }
 
   ngOnInit(): void {
     this.listCourses();
-    this.formularioFiltrado.valueChanges
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.filterCourses();
-      });
-  }
-
-  ngAfterViewInit(): void {
-    this.initializeSidebar();
-    this.initializeMenu();
-    this.initializeProgressBar();
-  }
-
-  private initializeSidebar(): void {
-    const allDropdown = document.querySelectorAll<HTMLElement>('#sidebar .side-dropdown');
-    const sidebar = document.getElementById('sidebar');
-    const toggleSidebar = document.querySelector<HTMLElement>('nav .toggle-sidebar');
-    const allSideDivider = document.querySelectorAll<HTMLElement>('#sidebar .divider');
-
-    if (!allDropdown || !sidebar || !toggleSidebar || !allSideDivider) {
-      console.error('Elementos no encontrados');
-      return;
-    }
-
-    allDropdown.forEach(item => {
-      const a = item.parentElement?.querySelector<HTMLElement>('a:first-child');
-      if (!a) return;
-      this.renderer.listen(a, 'click', (e) => {
-        e.preventDefault();
-
-        if (!a.classList.contains('active')) {
-          allDropdown.forEach(i => {
-            const aLink = i.parentElement?.querySelector<HTMLElement>('a:first-child');
-            if (aLink) {
-              aLink.classList.remove('active');
-              i.classList.remove('show');
-            }
-          });
-        }
-
-        a.classList.toggle('active');
-        item.classList.toggle('show');
-      });
-    });
-
-    if (sidebar.classList.contains('hide')) {
-      allSideDivider.forEach(item => {
-        item.textContent = '-';
-      });
-      allDropdown.forEach(item => {
-        const a = item.parentElement?.querySelector<HTMLElement>('a:first-child');
-        if (a) {
-          a.classList.remove('active');
-          item.classList.remove('show');
-        }
-      });
-    } else {
-      allSideDivider.forEach(item => {
-        item.textContent = item.getAttribute('data-text');
-      });
-    }
-
-    this.renderer.listen(toggleSidebar, 'click', () => {
-      sidebar.classList.toggle('hide');
-
-      if (sidebar.classList.contains('hide')) {
-        allSideDivider.forEach(item => {
-          item.textContent = '-';
-        });
-
-        allDropdown.forEach(item => {
-          const a = item.parentElement?.querySelector<HTMLElement>('a:first-child');
-          if (a) {
-            a.classList.remove('active');
-            item.classList.remove('show');
-          }
-        });
-      } else {
-        allSideDivider.forEach(item => {
-          item.textContent = item.getAttribute('data-text');
-        });
-      }
-    });
-
-    this.renderer.listen(sidebar, 'mouseleave', () => {
-      if (sidebar.classList.contains('hide')) {
-        allDropdown.forEach(item => {
-          const a = item.parentElement?.querySelector<HTMLElement>('a:first-child');
-          if (a) {
-            a.classList.remove('active');
-            item.classList.remove('show');
-          }
-        });
-        allSideDivider.forEach(item => {
-          item.textContent = '-';
-        });
-      }
-    });
-
-    this.renderer.listen(sidebar, 'mouseenter', () => {
-      if (sidebar.classList.contains('hide')) {
-        allDropdown.forEach(item => {
-          const a = item.parentElement?.querySelector<HTMLElement>('a:first-child');
-          if (a) {
-            a.classList.remove('active');
-            item.classList.remove('show');
-          }
-        });
-        allSideDivider.forEach(item => {
-          item.textContent = item.getAttribute('data-text');
-        });
-      }
-    });
-  }
-
-  private initializeMenu(): void {
-    const allMenu = document.querySelectorAll<HTMLElement>('main .content-data .head .menu');
-
-    allMenu.forEach(item => {
-      const icon = item.querySelector<HTMLElement>('.icon');
-      const menuLink = item.querySelector<HTMLElement>('.menu-link');
-      if (!icon || !menuLink) return;
-
-      this.renderer.listen(icon, 'click', () => {
-        menuLink.classList.toggle('show');
-      });
-
-      this.renderer.listen(window, 'click', (e: Event) => {
-        if (e.target !== icon && e.target !== menuLink && menuLink.classList.contains('show')) {
-          menuLink.classList.remove('show');
-        }
-      });
-    });
-  }
-
-  private initializeProgressBar(): void {
-    const allProgress = document.querySelectorAll<HTMLElement>('main .card .progress');
-
-    allProgress.forEach(item => {
-      const value = item.getAttribute('data-value');
-      if (value) {
-        (item as HTMLElement).style.setProperty('--value', value);
-      }
-    });
   }
 
   listCourses(): void {
     this.courseService.getAllCourses().subscribe(
       (data: CourseModel[]) => {
-        this.courseList = data;
+        this.courses = data;
         this.filterCourses();
       },
       error => {
@@ -217,33 +59,20 @@ export class CourseComponent implements OnInit, AfterViewInit {
   }
 
   filterCourses(): void {
-    const { nameCourseFilter, descriptionFilter } = this.formularioFiltrado.value;
-
-    const nameKeywords: string[] = nameCourseFilter ? nameCourseFilter.toLowerCase().split(' ') : [];
-    const descriptionKeywords: string[] = descriptionFilter ? descriptionFilter.toLowerCase().split(' ') : [];
-
-    this.filteredList = this.courseList.filter(course => {
-      const courseName = course.nameCourse ? course.nameCourse.toLowerCase() : '';
-      const courseDescription = course.description ? course.description.toLowerCase() : '';
-
-      const nameMatches = nameKeywords.every((keyword: string) => courseName.includes(keyword));
-      const descriptionMatches = descriptionKeywords.every((keyword: string) => courseDescription.includes(keyword));
-
-      return ((!nameCourseFilter || nameMatches) &&
-        (!descriptionFilter || descriptionMatches)
-      );
-    });
-
-    this.currentPage = 1;
+    const searchTermLower = this.searchTerm.toLowerCase();
+    this.filteredList = this.courses.filter(course =>
+      course.nameCourse.toLowerCase().includes(searchTermLower) ||
+      course.description.toLowerCase().includes(searchTermLower)
+    );
     this.updatePaginatedList();
-  }
+  }  
 
   updatePaginatedList(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.paginatedList = this.filteredList.slice(startIndex, endIndex);
     this.totalPages = Math.ceil(this.filteredList.length / this.itemsPerPage);
-  }
+  }  
 
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
@@ -262,28 +91,30 @@ export class CourseComponent implements OnInit, AfterViewInit {
   newCourse(): void {
     this.isUpdate = false;
     this.selectedCourse = null;
-    this.formulario.reset(); // Reset form to default values
+    this.courseForm.reset();
+    this.modalAdd = true;
   }
 
   selectCourse(course: CourseModel): void {
     this.isUpdate = true;
     this.selectedCourse = course;
-    this.formulario.patchValue(course);
+    this.courseForm.patchValue(course);
+    this.modalUpdate = true;
   }
 
   insertCourse(): void {
-    if (this.formulario.invalid) {
+    if (this.courseForm.invalid) {
       this.toastr.error('Por favor, rellene todos los campos requeridos correctamente.', 'Error');
       return;
     }
 
-    const courseData: CourseModel = this.formulario.value;
+    const courseData: CourseModel = this.courseForm.value;
     this.courseService.createCourse(courseData).subscribe(
       res => {
         this.listCourses();
         this.toastr.success('Curso agregado con éxito', 'Éxito');
-        this.formulario.reset(); // Reset the form after successful insertion
-        this.closeModal(); // Close the modal programmatically
+        this.courseForm.reset();
+        this.closeModal();
       },
       error => {
         console.error('Error adding course', error);
@@ -293,18 +124,18 @@ export class CourseComponent implements OnInit, AfterViewInit {
   }
 
   updateCourse(): void {
-    if (this.formulario.invalid || !this.selectedCourse) {
+    if (this.courseForm.invalid || !this.selectedCourse) {
       this.toastr.error('Por favor, rellene todos los campos requeridos correctamente.', 'Error');
       return;
     }
 
-    const courseData: CourseModel = this.formulario.value;
+    const courseData: CourseModel = this.courseForm.value;
     this.courseService.updateCourse(this.selectedCourse.idCourse, courseData).subscribe(
       res => {
         this.listCourses();
         this.toastr.success('Curso actualizado con éxito', 'Éxito');
-        this.formulario.reset(); // Reset the form after successful update
-        this.closeModal(); // Close the modal programmatically
+        this.courseForm.reset();
+        this.closeModal();
       },
       error => {
         console.error('Error updating course', error);
@@ -314,17 +145,17 @@ export class CourseComponent implements OnInit, AfterViewInit {
   }
 
   closeModal(): void {
-    const modalElement = document.getElementById('ModalCourse');
-    if (modalElement) {
-      const modalInstance = bootstrap.Modal.getInstance(modalElement);
-      if (modalInstance) {
-        modalInstance.hide();
-      }
-    }
+    this.modalAdd = false;
+    this.modalUpdate = false;
   }
 
   viewCourse(course: CourseModel): void {
     this.selectedCourse = course;
+    this.modalViewCourse = true;
+  }
+
+  closeModalView(): void {
+    this.modalViewCourse = false;
   }
 
   exportToPdf(): void {
@@ -483,16 +314,5 @@ export class CourseComponent implements OnInit, AfterViewInit {
         });
       }
     });
-  }
-
-  checkFormControlCss(controlName: string): { [key: string]: boolean } {
-    const control = this.formulario.get(controlName);
-    return {
-      'is-invalid': !!control?.invalid && (control?.dirty || control?.touched),
-      'is-valid': !!control?.valid
-    };
-  }
-  noSymbolsValidator(control: AbstractControl) {
-    return /[^a-zA-ZáéíóúÁÉÍÓÚ0-9 ]/.test(control.value) ? { 'noSymbols': true } : null;
   }
 }

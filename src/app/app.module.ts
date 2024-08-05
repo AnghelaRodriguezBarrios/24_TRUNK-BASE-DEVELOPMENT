@@ -31,7 +31,6 @@ import { LoginAdminComponent } from './components/logins/login-admin/login-admin
 import { LoginNotasComponent } from './components/logins/login-notas/login-notas.component';
 import { LoginInventarioComponent } from './components/logins/login-inventario/login-inventario.component';
 import { LoginPadresComponent } from './components/logins/login-padres/login-padres.component';
-import { LoginMatrpensComponent } from './components/logins/login-matrpens/login-matrpens.component';
 import { StudentComponent } from './users/Estudiantes/student/student.component';
 import { ManagerListComponent } from './users/Encargado/manager-list/manager-list.component';
 import { ManagerFormComponent } from './users/Encargado/manager-form/manager-form.component';
@@ -45,11 +44,12 @@ import { ApoderadoComponent } from './users/Apoderado/attorney/Apoderados.compon
 import { TeacherFilterPipe } from './utils/teacher-filter.pipe';
 import { ProfesoresInactiosComponent } from './users/profesores/profesores-inactios/profesores-inactios.component';
 import { ProfesoresComponent } from './users/profesores/profesores.component';
-import { ModalFormComponent } from './users/profesores/components/modal-form/modal-form.component';
-import { ModalFormUpdateComponent } from './users/profesores/components/modal-form-update/modal-form-update.component';
 import { InventoryComponent } from './users/Inventario/inventory/inventory.component';
 import { AddInventoryComponent } from './users/Inventario/inventory/add-inventory/add-inventory.component';
 import { EditInventoryComponent } from './users/Inventario/inventory/edit-inventory/edit-inventory.component';
+import { EnrollmentComponent } from './users/Enrollments/enrollment/enrollment.component';
+import { GenderfilterPipe } from './utils/genderfilter.pipe';
+import { CourseFilterPipe } from './utils/course-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -70,7 +70,6 @@ import { EditInventoryComponent } from './users/Inventario/inventory/edit-invent
     LoginNotasComponent,
     LoginInventarioComponent,
     LoginPadresComponent,
-    LoginMatrpensComponent,
     StudentComponent,
     ManagerListComponent,
     ManagerFormComponent,
@@ -82,13 +81,14 @@ import { EditInventoryComponent } from './users/Inventario/inventory/edit-invent
     CourseCompetencesComponent,
     ApoderadoComponent,
     ProfesoresComponent,
-    ModalFormComponent,
-    ModalFormUpdateComponent,
     TeacherFilterPipe,
     ProfesoresInactiosComponent,
     InventoryComponent,
     AddInventoryComponent,
     EditInventoryComponent,
+    EnrollmentComponent,
+    GenderfilterPipe,
+    CourseFilterPipe,
 
   ],
   imports: [
@@ -109,6 +109,7 @@ import { EditInventoryComponent } from './users/Inventario/inventory/edit-invent
     SweetAlert2Module.forRoot(),
     NgSelectModule,
     NgxPaginationModule,
+    NgSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -9,7 +9,7 @@ import { CourseCompetencesModel } from '../model/courseCompetences-model';
   providedIn: 'root'
 })
 export class CourseCompetencesService {
-  private baseUrl: string = 'https://vg-ms-competency-production.up.railway.app/competency'; // URL base de tu API
+  private baseUrl: string = 'https://crispy-robot-qjxq4r6xp7w346xw-8090.app.github.dev/competency'; // URL base de tu API
   private errorMessage: string = '';
 
   constructor(private http: HttpClient) {}

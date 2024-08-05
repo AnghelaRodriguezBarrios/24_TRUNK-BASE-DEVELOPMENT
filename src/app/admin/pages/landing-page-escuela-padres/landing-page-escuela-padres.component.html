@@ -1,50 +1,68 @@
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon"
-        href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjscRs8AIOCQb5mtRK8Eja_h7ScFClkuTXoN1Vk1rNwOIK8NHZofToDP7y6rrrvmWbCDF0DJ8z_vnD7oxADGeHpfuz6RDfXsuErF2Cm2tRqyCYbzRxAO4Ania-RzAQlC_acEI0yFYeSTCQEQSqxNoX5AzvADWdxhnxKvP-nBeQ37D0vMGrMw6F_vfO6/s1600/Madre-Enrichetta-e1635329657562-300x295%20%281%29.png">
-    <title>IEP MARIA ENRIQUETA DOMINICI</title>
-</head>
-
-<body>
-    <nav>
-        <div class="nav__logo"><a href="#">PARENT ACADEMY</a></div>
+<body class="min-h-screen flex flex-col">
+    <nav class="container flex items-center justify-between p-4">
+        <div class="nav__logo"><a href="#">ESCUELA PARA PADRES</a></div>
         <ul class="nav__links">
             <li class="link"><a href="#">Inicio</a></li>
             <li class="link"><a href="#">Sobre Nosotros</a></li>
             <li class="link"><a href="#">Servicios</a></li>
-            <!-- <li class="link"><a href="#">Cursos</a></li> -->
             <li class="link"><a href="#">Integrantes</a></li>
-            <li class="link"><a href="#" class="nav__btn" routerLink="/login-padres">LOGIN</a></li>
         </ul>
     </nav>
-    <div>
-        <section class="container">
-            <div class="content__container">
+
+    <main>
+        <div class="container py-2 flex justify-between flex-grow p-4">
+            <div class="w-[600px] pt-6">
                 <h1>
-                    Hi BIENVENIDO👋🏻!<br />
-                    <span class="heading__1">ESCUELA PARA PADRES</span><br />
-                    <span class="heading__2 small">Una Plataforma para ti 😎</span>
+                    <span class="text-blue-900 text-3xl">Hi BIENVENIDO👋🏻!</span><br />
+                    <span class="font-bold text-blue-900">ESCUELA PARA PADRES</span><br />
+                    <span class="font-bold text-blue-800 text-3xl">Una Plataforma para ti 😎</span>
                 </h1>
-                <p class="justificado">
+                <p class="text-left pt-2">
                     Desbloquea todo tu potencial de aprendizaje con nuestra plataforma educativa
                     intuitiva. Mezclando tecnología y educación de manera fluida, ofrecemos un
                     entorno de aprendizaje inmersivo que combina lecciones interactivas,
                     aulas virtuales y retroalimentación inteligente. ¡Explora nuestra plataforma hoy
                     y comienza tu camino hacia el éxito!
                 </p>
-
             </div>
-            <div class="image__container">
-                <img src="https://www.lucaedu.com/wp-content/uploads/2022/01/Escuela-para-Padres.jpg" alt="header" />
-                <img src="https://cpal.edu.pe/uploads/eventos-antares/conversatorio.jpg" alt="header" />
-            </div>
-        </section>
-    </div>
 
-    <footer>
+            <div class="w-[400px]">
+                <form class="bg-white p-6 rounded-lg shadow-lg">
+                    <p class="text-lg font-medium">Iniciar Sesión</p>
+                    <div class="mb-5">
+                        <label for="email"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Usuario</label>
+                        <input type="text" id="usuario" [(ngModel)]="username" name="username"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Angel" required />
+                    </div>
+                    <div class="mb-5">
+                        <label for="password"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
+                        <input type="password" id="password" [(ngModel)]="password" name="password"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required />
+                    </div>
+                    <div class="flex items-start mb-5">
+                        <div class="flex items-center h-5">
+                            <input id="remember" type="checkbox" value=""
+                                class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
+                                required />
+                        </div>
+                        <label for="remember" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember
+                            me</label>
+                    </div>
+                    <button (click)="checkLogin()"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="w-full bg-blue-950 text-white absolute bottom-0 py-4 text-center">
         <p>Sobre nosotros | Servicios | Cursos | Integrantes</p>
         <p>Dirección: 123 Calle Principal, Ciudad, País | Teléfono: +123456789 | Correo Electrónico:
             info@academiadominci.com</p>
     </footer>
+
+</body>

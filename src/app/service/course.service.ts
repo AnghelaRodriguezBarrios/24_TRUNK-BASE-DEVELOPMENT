@@ -9,7 +9,7 @@ import { CourseModel } from '../model/course-model';
   providedIn: 'root'
 })
 export class CourseService {
-  private baseUrl: string = 'https://vg-ms-course-production.up.railway.app/course'; // URL base de tu API
+  private baseUrl: string = 'https://studious-computing-machine-rqxg69wxrj53qvp-8080.app.github.dev/course'; // URL base de tu API
   private errorMessage: string = '';
 
   constructor(private http: HttpClient) {}

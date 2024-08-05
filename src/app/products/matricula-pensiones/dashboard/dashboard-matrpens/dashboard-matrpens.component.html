@@ -1,111 +1,184 @@
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    <title>EduSys Integral</title>
-</head>
+<nav class="fixed top-0 z-50 w-full bg-[#003B75] dark:bg-[#003B75]">
+    <div class="px-3 py-3 lg:px-5 lg:pl-3">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center justify-start space-x-4">
+                <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar"
+                    type="button"
+                    class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+                    <span class="sr-only">Open sidebar</span>
+                    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path clip-rule="evenodd" fill-rule="evenodd"
+                            d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
+                        </path>
+                    </svg>
+                </button>
+                <a href="https://flowbite.com" class="flex no-underline">
+                    <img src="assets/logo.png" class="h-8 me-3" alt="FlowBite Logo" />
+                    <span
+                        class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-white no-underline">EduSys</span>
+                </a>
+            </div>
+            <div class="flex items-center">
+                <div class="flex items-center ms-3">
+                    <div>
+                        <button type="button"
+                            class="flex text-sm bg-gray-800 rounded-full focus:outline-none focus:ring-0"
+                            aria-expanded="false" data-dropdown-toggle="dropdown-user">
+                            <span class="sr-only">Open user menu</span>
+                            <img class="w-8 h-8 rounded-full"
+                                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+                        </button>
+                    </div>
+                    <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
+                        id="dropdown-user">
+                        <div class="px-4 py-3" role="none">
+                            <p class="text-sm text-gray-900 dark:text-white" role="none">
+                                Neil Sims
+                            </p>
+                            <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
+                                neil.sims@flowbite.com
+                            </p>
+                        </div>
+                        <ul class="py-1" role="none">
+                            <li>
+                                <a href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                    role="menuitem">Dashboard</a>
+                            </li>
+                            <li>
+                                <a href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                    role="menuitem">Settings</a>
+                            </li>
+                            <li>
+                                <a href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                    role="menuitem">Earnings</a>
+                            </li>
+                            <li>
+                                <a href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                    role="menuitem">Sign out</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
 
-<body>
-
-    <!-- SIDEBAR -->
-    <section id="sidebar">
-        <a routerLink="/" class="brand">
-            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjscRs8AIOCQb5mtRK8Eja_h7ScFClkuTXoN1Vk1rNwOIK8NHZofToDP7y6rrrvmWbCDF0DJ8z_vnD7oxADGeHpfuz6RDfXsuErF2Cm2tRqyCYbzRxAO4Ania-RzAQlC_acEI0yFYeSTCQEQSqxNoX5AzvADWdxhnxKvP-nBeQ37D0vMGrMw6F_vfO6/s1600/Madre-Enrichetta-e1635329657562-300x295%20%281%29.png"
-                alt="EduSys Logo" class="icon"> EduSys Integral
-        </a>
-
-        <ul class="side-menu">
-            <li><a routerLink="/dashboard-matricula-pensiones" routerLinkActive="active"><i
-                        class='bx bx-user icon'></i>MENU</a>
-            </li>
-            <li class="divider" data-text="main">Main</li>
+<aside id="logo-sidebar"
+    class="fixed top-0 left-0 z-40 w-60 max-w-60 h-screen pt-20 transition-transform -translate-x-full bg-[#003B75] border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+    aria-label="Sidebar">
+    <div class="h-full px-3 pb-4 overflow-y-auto bg-[#003B75] dark:bg-gray-800">
+        <ul class="space-y-2 font-medium ms-[-30px]">
             <li>
-                <a href="#"><i class='bx bx-user-pin icon'></i> USUARIOS <i
-                        class='bx bx-chevron-right icon-right'></i></a>
-                <ul class="side-dropdown">
-                    <li><a routerLink="/Apoderado">Apoderado</a></li>
-                </ul>
+                <a href="/dashboard-matricula/Panel"
+                    class="flex items-center p-2 text-gray-100 rounded-lg dark:text-black hover:bg-gray-100 dark:hover:bg-gray-700 group no-underline">
+                    <svg class="w-6 h-6 text-gray-100 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-black"
+                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
+                        <path
+                            d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
+                        <path
+                            d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
+                    </svg>
+                    <span class="ms-3 group-hover:text-black">Dashboard</span>
+                </a>
             </li>
 
             <li>
-                <a href="#"><i class='bx bx-home icon'></i> Inventario <i class='bx bx-chevron-right icon-right'></i></a>
-                <ul class="side-dropdown">
-                    <li><a routerLink="/Inventario">Inventario</a></li>
+                <button type="button"
+                    class="flex items-center w-full p-2 text-base text-gray-100 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    (click)="toggleDropdown()">
+                    <svg class="flex-shrink-0 w-6 h-6 text-gray-100 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                        xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M17 17q.625 0 1.063-.437T18.5 15.5t-.437-1.062T17 14t-1.062.438T15.5 15.5t.438 1.063T17 17m0 3q.775 0 1.425-.363t1.05-.962q-.55-.325-1.175-.5T17 18t-1.3.175t-1.175.5q.4.6 1.05.963T17 20m0 2q-2.075 0-3.537-1.463T12 17t1.463-3.537T17 12t3.538 1.463T22 17t-1.463 3.538T17 22m-5 0q-3.475-.875-5.738-3.988T4 11.1V5l8-3l8 3v5.675q-.65-.325-1.463-.5T17 10q-2.9 0-4.95 2.05T10 17q0 1.55.588 2.8t1.487 2.175q-.025 0-.037.013T12 22" />
+                    </svg>
+                    <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap group-hover:text-black">Administración</span>
+                    <svg class="w-3 h-3 group-hover:text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 4 4 4-4" />
+                    </svg>
+                </button>
+                <ul *ngIf="isDropdownOpen" class="py-2 space-y-2">
+                    <li>
+                        <a routerLink="/dashboard-matricula/matriculas"
+                            class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 no-underline">
+                            <svg class="w-6 h-6 text-gray-100 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-black"
+                                xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 2048 2048">
+                                <path fill="currentColor"
+                                    d="M1848 896q42 0 78 15t64 42t42 63t16 78q0 39-15 76t-43 65l-717 719l-377 94l94-377l717-718q28-28 65-42t76-15m51 249q21-21 21-51q0-31-20-50t-52-20q-14 0-27 4t-23 15l-692 694l-34 135l135-34zM640 896H512V768h128zm896 0H768V768h768zM512 1152h128v128H512zm128-640H512V384h128zm896 0H768V384h768zM384 1664h443l-32 128H256V0h1536v743q-67 10-128 44V128H384zm384-512h514l-128 128H768z" />
+                            </svg>
+                            <span class="group-hover:text-black ps-2">
+                                Matriculas
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="/dashboard-matricula/apoderado"
+                            class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 no-underline">
+                            <svg class="w-6 h-6 text-gray-100 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-black"
+                                xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M7 9a2.5 2.5 0 1 0 0-5a2.5 2.5 0 0 0 0 5m0 2a4.5 4.5 0 1 1 0-9a4.5 4.5 0 0 1 0 9m10.5 2a2 2 0 1 0 0-4a2 2 0 0 0 0 4m0 2a4 4 0 1 1 0-8a4 4 0 0 1 0 8m2.5 6v-.5a2.5 2.5 0 0 0-5 0v.5h-2v-.5a4.5 4.5 0 1 1 9 0v.5zm-10 0v-4a3 3 0 1 0-6 0v4H2v-4a5 5 0 0 1 10 0v4z" />
+                            </svg>
+                            <span class="group-hover:text-black ps-2">
+                                Apoderados
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="/dashboard-matricula/estudiantes"
+                            class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 no-underline">
+                            <svg class="w-6 h-6 text-gray-100 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-black"
+                                xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 256 256">
+                                <path fill="currentColor"
+                                    d="m227.79 52.62l-96-32a11.85 11.85 0 0 0-7.58 0l-96 32A12 12 0 0 0 20 63.37a6 6 0 0 0 0 .63v80a12 12 0 0 0 24 0V80.65l23.71 7.9a67.92 67.92 0 0 0 18.42 85A100.36 100.36 0 0 0 46 209.44a12 12 0 1 0 20.1 13.11C80.37 200.59 103 188 128 188s47.63 12.59 61.95 34.55a12 12 0 1 0 20.1-13.11a100.36 100.36 0 0 0-40.18-35.92a67.92 67.92 0 0 0 18.42-85l39.5-13.17a12 12 0 0 0 0-22.76Zm-99.79-8L186.05 64L128 83.35L70 64ZM172 120a44 44 0 1 1-81.06-23.71l33.27 11.09a11.9 11.9 0 0 0 7.58 0l33.27-11.09A43.85 43.85 0 0 1 172 120" />
+                            </svg>
+                            <span class="group-hover:text-black ps-2">
+                                Estudiantes
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="/dashboard-matricula/profesores"
+                            class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 no-underline">
+                            <svg class="w-6 h-6 text-gray-100 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-black"
+                                xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M20 17a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H9.46c.35.61.54 1.3.54 2h10v11h-9v2m4-10v2H9v13H7v-6H5v6H3v-8H1.5V9a2 2 0 0 1 2-2zM8 4a2 2 0 0 1-2 2a2 2 0 0 1-2-2a2 2 0 0 1 2-2a2 2 0 0 1 2 2" />
+                            </svg>
+                            <span class="group-hover:text-black ps-2">
+                                Profesores
+                            </span>
+                        </a>
+                    </li>
                 </ul>
-            </li>
-            <li><a routerLink="/Usuario"><i class='bx bxs-cog icon'></i> Usuario</a></li>
-            <li><a routerLink="/Usuario"><i class='bx bxs-group icon'></i> Usuario</a></li>
-            <li><a routerLink="/Usuario"><i class='bx bxs-briefcase icon'></i> Usuario</a></li>
-            <li class="divider" data-text="Log out">Log out</li>
-            <li><a routerLink="/perfil"><i class='bx bx-user icon'></i> Perfil</a></li>
-            <li><a routerLink="/landing-page-matricu-pensio"><i class='bx bx-home-smile icon'></i> Cerrar Sección</a>
             </li>
         </ul>
-    </section>
-    <!-- SIDEBAR -->
+        <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700 ms-[-30px]">
+            <li>
+                <a routerLink="/matriculas-pensiones"
+                    class="flex items-center p-2 text-gray-100 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group no-underline">
+                    <svg class="flex-shrink-0 w-6 h-6 text-gray-100 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                        xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <path fill="currentColor" fill-rule="evenodd"
+                            d="m8.379 2.669l3.69-.58c3.22-.506 4.83-.76 5.88.139C19 3.126 19 4.756 19 8.016V11h-5.92l2.7-3.376l-1.56-1.25l-4 5l-.5.626l.5.624l4 5l1.56-1.25L13.08 13H19v2.983c0 3.26 0 4.89-1.05 5.788c-1.05.898-2.66.645-5.881.14l-3.69-.58c-1.613-.254-2.419-.38-2.899-.942C5 19.828 5 19.012 5 17.38V6.62c0-1.632 0-2.449.48-3.01c.48-.561 1.286-.688 2.899-.941"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <span class="flex-1 ms-3 whitespace-nowrap group-hover:text-black">Cerrar Sesion</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</aside>
 
-    <!-- NAVBAR -->
-    <section id="content">
-        <!-- NAVBAR -->
-        <nav>
-            <i class='bx bx-menu toggle-sidebar'></i>
-            <form action="#">
-                <div class="form-group">
-                    <input type="text" placeholder="Search...">
-                    <i class='bx bx-search icon'></i>
-                </div>
-            </form>
-            <span class="divider"></span>
-            <div class="profile">
-                <div class="user-info">
-                    <i class='bx bx-user icon' style="color: black;"></i>
-                    <span class="username">{{ username }}</span>
-                </div>
-                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="">
-            </div>
-        </nav>
-        <!-- NAVBAR -->
 
-        <!-- MAIN -->
-        <main>
-            <div class="card-container">
-                <div class="card">
-                    <div class="content">
-                        <ul class="breadcrumbs">
-                            <li><a routerLink="/">Home</a></li>
-                            <li class="divider">/</li>
-                            <li><a routerLink="/dashboard" class="active">Dashboard</a></li>
-                        </ul>
-                        <h2>BIENVENIDO A MATRICULA - PENSIONES !</h2>
-                        <p>Esta es la sección de administración donde puedes gestionar todas las funcionalidades de la plataforma. Asegúrate de revisar todas las estadísticas y mantener todo en orden.</p>
-                    </div>
-                    <img src="https://i.ibb.co/PcSD1BT/290791-225917667455113-1371125-o.png" alt="Imagen de Administrador">
-                </div>
-            </div>
+<div class="p-4 sm:ml-64">
+    <router-outlet></router-outlet>
+</div>
 
-            <!-- Contenedor para las cuatro tarjetas adicionales -->
-            <div class="card-grid">
-                <div class="small-card">
-                    <h3>Título 1</h3>
-                    <p>Descripción de la primera tarjeta.</p>
-                </div>
-                <div class="small-card">
-                    <h3>Título 2</h3>
-                    <p>Descripción de la segunda tarjeta.</p>
-                </div>
-                <div class="small-card">
-                    <h3>Título 3</h3>
-                    <p>Descripción de la tercera tarjeta.</p>
-                </div>
-                <div class="small-card">
-                    <h3>Título 4</h3>
-                    <p>Descripción de la cuarta tarjeta.</p>
-                </div>
-            </div>
-        </main>
-        <!-- MAIN -->
-    </section>
-    <!-- NAVBAR -->
-
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-</body>

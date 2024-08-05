@@ -7,6 +7,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./landing-page-admin-system.component.css']
 })
 export class LandingPageAdminSystemComponent {
+  username: string = ''
+  password: string = ''
+  message: string = ''
+
   constructor(private router: Router) {}
 
+  checkLogin() { 
+     if (this.username === 'Admin' && this.password === 'admin') {
+      this.router.navigate(['/dashboard-notas']);
+    } else {
+      this.message = 'Invalid username or password';
+    }
+  }
 }

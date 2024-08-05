@@ -1,10 +1,10 @@
 
 import { HttpClient } from '@angular/common/http';
-import { EventEmitter, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import { TeacherI } from '../models/interfaces/teacher-i';
-import { Teacher } from '../models/clases/teacher';
+import { TeacherI } from '../model/interfaces/teacher-i';
+import { Teacher } from '../model/clases/teacher';
 import { environment } from '../environments/environments';
 
 
@@ -13,21 +13,9 @@ import { environment } from '../environments/environments';
 })
 export class TeacherService {
 
-  private url = environment.apiInventario + '/v1';
-  private teachersSubject = new BehaviorSubject<Teacher[]>([]);
-  teachers$: Observable<Teacher[]> = this.teachersSubject.asObservable();
+  private url = environment.apiTeachers + '/v1';
 
   constructor(private http: HttpClient) { 
-    this.loadInitialData();
-  }
-
-  $modal = new EventEmitter<any>();
-  $modal2 = new EventEmitter<any>();
-
-  private loadInitialData() {
-    this.http.get<TeacherI[]>(`${this.url}/teachers/active`).subscribe(data => {
-      this.teachersSubject.next(data);
-    });
   }
 
   getTeachers(): Observable<TeacherI[]> {
@@ -39,12 +27,7 @@ export class TeacherService {
   }
   
   addTeacher(teacher: Teacher): Observable<Teacher> { 
-    return this.http.post<Teacher>(`${this.url}/teacher`, teacher).pipe(
-      tap((newTeacher) => { 
-        const currentTeachers = this.teachersSubject.value;
-        this.teachersSubject.next([...currentTeachers, newTeacher]);
-      })
-    )
+    return this.http.post<Teacher>(`${this.url}/teacher`, teacher)
   }
 
   updateTeacher(id: string, teacher: Teacher): Observable<Teacher> { 

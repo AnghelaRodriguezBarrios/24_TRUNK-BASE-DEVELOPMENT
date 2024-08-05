@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Renderer2 } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { StudentService } from 'src/app/service/student.service';
 import { StudentModel } from 'src/app/model/student-model';
@@ -16,27 +16,34 @@ declare var bootstrap: any;
   styleUrls: ['./student.component.css']
 })
 
-export class StudentComponent implements OnInit, AfterViewInit {
+export class StudentComponent implements OnInit {
   studentList: StudentModel[] = [];
   paginatedList: StudentModel[] = [];
   filteredList: StudentModel[] = [];
   formulario: FormGroup;
-  formularioFiltrado: FormGroup;
-  isUpdate: boolean = false;
   selectedStudent: StudentModel | null = null;
+  modalAdd: boolean = false;
+  modalUpdate: boolean = false;
+  searchTerm: string = '';
+  modalViewStudent: boolean = false;
+  filterDocument: boolean = false;
+  isUpdate = false;
+  documentFilter: string = '';
+  levelFilter: string = '';
+  filterlevel: boolean = false;
 
   // Paginación
   currentPage: number = 1;
-  itemsPerPage: number = 5;
+  itemsPerPage: number = 7;
   totalPages: number = 1;
   
+  currentStep: number = 1;
 
   constructor(
     private studentService: StudentService,
     private toastr: ToastrService,
     private exportAsService: ExportAsService,
-    private fb: FormBuilder,
-    private renderer: Renderer2
+    private fb: FormBuilder
   ) {
     this.formulario = this.fb.group({
       idStudent: [''],
@@ -54,14 +61,13 @@ export class StudentComponent implements OnInit, AfterViewInit {
           return /\d/.test(control.value) ? { 'noNumbers': true } : null;
         }
       ]],
-      documentType: ['', [
+      documentType: ['', Validators.required],
+      documentNumber: ['', [
         Validators.required,
-        Validators.pattern('^(DNI|CE)$'),
+        Validators.minLength(8),
+        Validators.maxLength(15),
+        Validators.pattern('^[0-9]+$')
       ]],
-      documentNumber: ['', [Validators.required,
-      Validators.minLength(8),
-      Validators.maxLength(15),
-      Validators.pattern('^[0-9]+$'),]],
       gender: ['', Validators.required],
       birthDate: ['', [
         Validators.required,
@@ -79,170 +85,16 @@ export class StudentComponent implements OnInit, AfterViewInit {
       baptism: ['', Validators.required],
       communion: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      birthPlace: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
+      birthPlace: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
       level: ['', Validators.required],
       grade: ['', Validators.required],
       section: ['', Validators.required],
       status: ['A', Validators.required] // Default status to 'A' (Active)
     });
-
-    this.formularioFiltrado = this.fb.group({
-      nameOrLastNameFilter: [''],
-      levelFilter: [''],
-      documentTypeFilter: [''],
-      documentNumberFilter: ['']
-    });
   }
-
+  
   ngOnInit(): void {
     this.listActives();
-    this.formularioFiltrado.valueChanges
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged()
-      )
-      .subscribe(() => {
-        this.filterStudents();
-      });
-  }
-
-  ngAfterViewInit(): void {
-    this.initializeSidebar();
-    this.initializeMenu();
-    this.initializeProgressBar();
-  }
-
-  private initializeSidebar(): void {
-    const allDropdown = document.querySelectorAll<HTMLElement>('#sidebar .side-dropdown');
-    const sidebar = document.getElementById('sidebar');
-    const toggleSidebar = document.querySelector<HTMLElement>('nav .toggle-sidebar');
-    const allSideDivider = document.querySelectorAll<HTMLElement>('#sidebar .divider');
-
-    if (!allDropdown || !sidebar || !toggleSidebar || !allSideDivider) {
-      console.error('Elementos no encontrados');
-      return;
-    }
-
-    allDropdown.forEach(item => {
-      const a = item.parentElement?.querySelector<HTMLElement>('a:first-child');
-      if (!a) return;
-      this.renderer.listen(a, 'click', (e) => {
-        e.preventDefault();
-
-        if (!a.classList.contains('active')) {
-          allDropdown.forEach(i => {
-            const aLink = i.parentElement?.querySelector<HTMLElement>('a:first-child');
-            if (aLink) {
-              aLink.classList.remove('active');
-              i.classList.remove('show');
-            }
-          });
-        }
-
-        a.classList.toggle('active');
-        item.classList.toggle('show');
-      });
-    });
-
-    if (sidebar.classList.contains('hide')) {
-      allSideDivider.forEach(item => {
-        item.textContent = '-';
-      });
-      allDropdown.forEach(item => {
-        const a = item.parentElement?.querySelector<HTMLElement>('a:first-child');
-        if (a) {
-          a.classList.remove('active');
-          item.classList.remove('show');
-        }
-      });
-    } else {
-      allSideDivider.forEach(item => {
-        item.textContent = item.getAttribute('data-text');
-      });
-    }
-
-    this.renderer.listen(toggleSidebar, 'click', () => {
-      sidebar.classList.toggle('hide');
-
-      if (sidebar.classList.contains('hide')) {
-        allSideDivider.forEach(item => {
-          item.textContent = '-';
-        });
-
-        allDropdown.forEach(item => {
-          const a = item.parentElement?.querySelector<HTMLElement>('a:first-child');
-          if (a) {
-            a.classList.remove('active');
-            item.classList.remove('show');
-          }
-        });
-      } else {
-        allSideDivider.forEach(item => {
-          item.textContent = item.getAttribute('data-text');
-        });
-      }
-    });
-
-    this.renderer.listen(sidebar, 'mouseleave', () => {
-      if (sidebar.classList.contains('hide')) {
-        allDropdown.forEach(item => {
-          const a = item.parentElement?.querySelector<HTMLElement>('a:first-child');
-          if (a) {
-            a.classList.remove('active');
-            item.classList.remove('show');
-          }
-        });
-        allSideDivider.forEach(item => {
-          item.textContent = '-';
-        });
-      }
-    });
-
-    this.renderer.listen(sidebar, 'mouseenter', () => {
-      if (sidebar.classList.contains('hide')) {
-        allDropdown.forEach(item => {
-          const a = item.parentElement?.querySelector<HTMLElement>('a:first-child');
-          if (a) {
-            a.classList.remove('active');
-            item.classList.remove('show');
-          }
-        });
-        allSideDivider.forEach(item => {
-          item.textContent = item.getAttribute('data-text');
-        });
-      }
-    });
-  }
-
-  private initializeMenu(): void {
-    const allMenu = document.querySelectorAll<HTMLElement>('main .content-data .head .menu');
-
-    allMenu.forEach(item => {
-      const icon = item.querySelector<HTMLElement>('.icon');
-      const menuLink = item.querySelector<HTMLElement>('.menu-link');
-      if (!icon || !menuLink) return;
-
-      this.renderer.listen(icon, 'click', () => {
-        menuLink.classList.toggle('show');
-      });
-
-      this.renderer.listen(window, 'click', (e: Event) => {
-        if (e.target !== icon && e.target !== menuLink && menuLink.classList.contains('show')) {
-          menuLink.classList.remove('show');
-        }
-      });
-    });
-  }
-
-  private initializeProgressBar(): void {
-    const allProgress = document.querySelectorAll<HTMLElement>('main .card .progress');
-
-    allProgress.forEach(item => {
-      const value = item.getAttribute('data-value');
-      if (value) {
-        (item as HTMLElement).style.setProperty('--value', value);
-      }
-    });
   }
 
   listActives(): void {
@@ -269,55 +121,6 @@ export class StudentComponent implements OnInit, AfterViewInit {
     );
   }
 
-  filterStudents(): void {
-    const { nameOrLastNameFilter, documentTypeFilter, documentNumberFilter, levelUniversalFilter } = this.formularioFiltrado.value;
-
-    const nameKeywords: string[] = nameOrLastNameFilter ? nameOrLastNameFilter.toLowerCase().split(' ') : [];
-    const levelKeywords: string[] = levelUniversalFilter ? levelUniversalFilter.toLowerCase().split(' ') : [];
-
-    console.log('nameKeywords:', nameKeywords);
-    console.log('levelKeywords:', levelKeywords);
-
-    this.filteredList = this.studentList.filter(student => {
-        const studentName = student.name ? student.name.toLowerCase() : '';
-        const studentLastName = student.lastName ? student.lastName.toLowerCase() : '';
-        const fullName = `${studentName} ${studentLastName}`;
-        const studentLevel = student.level ? student.level.toLowerCase() : '';
-        const studentGrade = student.grade ? student.grade.toLowerCase() : '';
-        const studentSection = student.section ? student.section.toLowerCase() : '';
-
-        console.log('studentLevel:', studentLevel);
-        console.log('studentGrade:', studentGrade);
-        console.log('studentSection:', studentSection);
-
-        const nameMatches = nameKeywords.every((keyword: string) =>
-            studentName.includes(keyword) ||
-            studentLastName.includes(keyword) ||
-            fullName.includes(keyword)
-        );
-
-        const levelMatches = levelKeywords.every((keyword: string) =>
-            studentLevel.includes(keyword) ||
-            studentGrade.includes(keyword) ||
-            studentSection.includes(keyword)
-        );
-
-        console.log('Checking student:', student);
-        console.log('nameMatches:', nameMatches);
-        console.log('levelMatches:', levelMatches);
-
-        return (
-            (!nameOrLastNameFilter || nameMatches) &&
-            (!documentTypeFilter || student.documentType === documentTypeFilter) &&
-            (!documentNumberFilter || student.documentNumber.includes(documentNumberFilter)) &&
-            (!levelUniversalFilter || levelMatches)
-        );
-    });
-
-    this.currentPage = 1;
-    this.updatePaginatedList();
-}
-
   updatePaginatedList(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
@@ -343,12 +146,16 @@ export class StudentComponent implements OnInit, AfterViewInit {
     this.isUpdate = false;
     this.selectedStudent = null;
     this.formulario.reset({ status: 'A' }); // Ensure status is set to 'A' (Active) by default
+    this.currentStep = 1; // Start at the first step
+    this.modalAdd = true;
   }
+  
 
   selectStudent(student: StudentModel): void {
     this.isUpdate = true;
     this.selectedStudent = student;
     this.formulario.patchValue(student);
+    this.modalUpdate = true;
   }
 
   insertStudent(): void {
@@ -356,13 +163,14 @@ export class StudentComponent implements OnInit, AfterViewInit {
       this.toastr.error('Por favor, rellene todos los campos requeridos correctamente.', 'Error');
       return;
     }
-
+  
     const studentData: StudentModel = this.formulario.value;
     this.studentService.createStudent(studentData).subscribe(
       res => {
         this.listActives();
         this.toastr.success('Estudiante agregado con éxito', 'Éxito');
         this.formulario.reset({ status: 'A' }); // Reset the form after successful insertion
+        this.currentStep = 1; // Reset to the first step
         this.closeModal(); // Close the modal programmatically
       },
       error => {
@@ -371,19 +179,20 @@ export class StudentComponent implements OnInit, AfterViewInit {
       }
     );
   }
-
+  
   updateStudent(): void {
     if (this.formulario.invalid || !this.selectedStudent) {
       this.toastr.error('Por favor, rellene todos los campos requeridos correctamente.', 'Error');
       return;
     }
-
+  
     const studentData: StudentModel = this.formulario.value;
     this.studentService.updateStudent(this.selectedStudent.idStudent, studentData).subscribe(
       res => {
         this.listActives();
         this.toastr.success('Estudiante actualizado con éxito', 'Éxito');
         this.formulario.reset({ status: 'A' }); // Reset the form after successful update
+        this.currentStep = 1; // Reset to the first step
         this.closeModal(); // Close the modal programmatically
       },
       error => {
@@ -392,16 +201,7 @@ export class StudentComponent implements OnInit, AfterViewInit {
       }
     );
   }
-
-  closeModal(): void {
-    const modalElement = document.getElementById('ModalStudent');
-    if (modalElement) {
-      const modalInstance = bootstrap.Modal.getInstance(modalElement);
-      if (modalInstance) {
-        modalInstance.hide();
-      }
-    }
-  }
+  
 
   deleteStudent(id: string): void {
     Swal.fire({
@@ -661,10 +461,7 @@ export class StudentComponent implements OnInit, AfterViewInit {
     const inputValue: string = event.target.value;
     this.formulario.get(fieldName)?.setValue(inputValue.toUpperCase(), { emitEvent: false });
   }
-  viewStudent(student: StudentModel): void {
-    this.selectedStudent = student;
-  }
-
+  
   validateDocumentNumber(): void {
     const documentTypeControl = this.formulario.get('documentType');
     const documentNumberControl = this.formulario.get('documentNumber');
@@ -702,4 +499,131 @@ export class StudentComponent implements OnInit, AfterViewInit {
     }
   }
 
+  closeModal(): void {
+    this.modalAdd = false;
+    this.modalUpdate = false;
+    this.currentStep = 1; // Reset to the first step when closing
+  }
+  
+
+  viewStudent(student: StudentModel): void {
+    this.selectedStudent = student;
+    this.modalViewStudent = true;
+  }
+
+  closeModalView(): void {
+    this.modalViewStudent = false;
+  }
+
+  openFilter(): void {
+    this.filterDocument = !this.filterDocument;
+  }
+  
+  openFilterlevel(): void {
+    this.filterlevel = !this.filterlevel;
+  }  
+
+  filterByDocumentType(type: string): void {
+    this.documentFilter = type;
+    this.filterStudents();
+    this.filterDocument = false; // Cierra el dropdown después de seleccionar
+  }
+  
+  filterByLevel(level: string): void {
+    this.levelFilter = level;
+    this.filterStudents();
+    this.filterlevel = false; // Cierra el dropdown después de seleccionar
+  }
+  
+  filterStudents(): void {
+    const searchTermLower = this.searchTerm.toLowerCase();
+  
+    this.filteredList = this.studentList.filter(student => {
+      const studentName = student.name ? student.name.toLowerCase() : '';
+      const studentLastName = student.lastName ? student.lastName.toLowerCase() : '';
+      const studentFullName = `${studentName} ${studentLastName}`;
+      const studentDocumentNumber = student.documentNumber ? student.documentNumber.toLowerCase() : '';
+      const studentGender = student.gender ? student.gender.toLowerCase() : '';
+      const studentSection = student.section ? student.section.toLowerCase() : '';
+      const studentBaptism = student.baptism ? student.baptism.toLowerCase() : '';
+      const studentCommunion = student.communion ? student.communion.toLowerCase() : '';
+      const studentLevel = student.level ? student.level.toLowerCase() : '';
+      const studentDocumentType = student.documentType ? student.documentType.toLowerCase() : '';
+  
+      const matchesSearchTerm = (
+        studentName.includes(searchTermLower) ||
+        studentLastName.includes(searchTermLower) ||
+        studentFullName.includes(searchTermLower) ||
+        studentDocumentNumber.includes(searchTermLower) ||
+        studentGender.includes(searchTermLower) ||
+        studentSection.includes(searchTermLower) ||
+        studentBaptism.includes(searchTermLower) ||
+        studentCommunion.includes(searchTermLower)
+      );
+  
+      const matchesDocumentFilter = this.documentFilter === 'DNI-CE' 
+        ? ['dni', 'ce'].includes(studentDocumentType)
+        : studentDocumentType.includes(this.documentFilter.toLowerCase());
+  
+      const matchesLevelFilter = this.levelFilter === 'Inicial-Primaria'
+        ? ['inicial', 'primaria'].includes(studentLevel)
+        : studentLevel.includes(this.levelFilter.toLowerCase());
+  
+      return matchesSearchTerm && matchesDocumentFilter && matchesLevelFilter;
+    });
+  
+    this.currentPage = 1;
+    this.updatePaginatedList();
+  }
+  
+  nextStep() {
+    // Comprueba la validez de los campos en el paso actual
+    const stepValid = this.isStepValid(this.currentStep);
+    if (stepValid) {
+      this.currentStep++;
+    } else {
+      this.toastr.error('Por favor, complete todos los campos requeridos correctamente antes de continuar.', 'Error');
+    }
+  }
+  
+  previousStep() {
+    if (this.currentStep > 1) {
+      this.currentStep--;
+    }
+  }
+  
+  isStepValid(step: number): boolean {
+    switch (step) {
+      case 1:
+        // Verifica si todos los campos del paso 1 son válidos
+        return (
+          this.formulario.get('name')?.valid &&
+          this.formulario.get('lastName')?.valid &&
+          this.formulario.get('documentType')?.valid &&
+          this.formulario.get('documentNumber')?.valid
+        ) ?? false;
+        
+      case 2:
+        // Verifica si todos los campos del paso 2 son válidos
+        return (
+          this.formulario.get('gender')?.valid &&
+          this.formulario.get('birthDate')?.valid &&
+          this.formulario.get('email')?.valid &&
+          this.formulario.get('baptism')?.valid 
+        ) ?? false;
+        
+      case 3:
+        // Verifica si todos los campos del paso 3 son válidos
+        return (
+          this.formulario.get('communion')?.valid &&
+          this.formulario.get('birthPlace')?.valid &&
+          this.formulario.get('level')?.valid &&
+          this.formulario.get('grade')?.valid &&
+          this.formulario.get('section')?.valid
+        ) ?? false;
+  
+      default:
+        return false;
+    }
+  }
 }

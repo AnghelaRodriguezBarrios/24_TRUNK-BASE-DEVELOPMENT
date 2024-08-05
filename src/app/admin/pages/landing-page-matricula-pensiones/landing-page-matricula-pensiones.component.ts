@@ -7,9 +7,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./landing-page-matricula-pensiones.component.css']
 })
 export class LandingPageMatriculaPensionesComponent {
+
+  username: string = ''
+  password: string = ''
+  message: string = ''
+
   constructor(private router: Router) {}
 
-  navigateToLoginMatriPens() {
-    this.router.navigate(['/login-matricula-pensiones']);
+  checkLogin() { 
+     if (this.username === 'Admin' && this.password === 'admin') {
+      this.router.navigate(['/dashboard-matricula']);
+    } else {
+      this.message = 'Invalid username or password';
+    }
   }
 }

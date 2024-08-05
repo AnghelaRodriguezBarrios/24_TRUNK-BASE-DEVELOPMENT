@@ -1,235 +1,281 @@
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    <title>Academia Dominici</title>
-  </head>
-  
-  <body>
-    <!-- SIDEBAR -->
-    <section id="sidebar">
-      <a routerLink="/" class="brand">
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjscRs8AIOCQb5mtRK8Eja_h7ScFClkuTXoN1Vk1rNwOIK8NHZofToDP7y6rrrvmWbCDF0DJ8z_vnD7oxADGeHpfuz6RDfXsuErF2Cm2tRqyCYbzRxAO4Ania-RzAQlC_acEI0yFYeSTCQEQSqxNoX5AzvADWdxhnxKvP-nBeQ37D0vMGrMw6F_vfO6/s1600/Madre-Enrichetta-e1635329657562-300x295%20%281%29.png"
-          alt="Academia Logo" class="icon">
-      AcademicNotes
-      </a>
-  
-      <ul class="side-menu">
-        <li><a routerLink="/dashboard-notas" routerLinkActive="active"><i class='bx bx-user icon'></i>MENU</a>
-        </li>
-        <li class="divider" data-text="main">Main</li>
-        <li>
-          <a href="#"><i class='bx bx-user-pin icon'></i> USUARIOS <i class='bx bx-chevron-right icon-right'></i></a>
-          <ul class="side-dropdown">
-            <li><a routerLink="/estudiante">Estudiante</a></li>
-          </ul>
-        </li>
-  
-        <li>
-          <a href="#"><i class='bx bx-home icon'></i> CURSOS <i class='bx bx-chevron-right icon-right'></i></a>
-          <ul class="side-dropdown">
-            <li><a routerLink="/Curso">Curso</a></li>
-            <li><a routerLink="/Competencias">Competencias</a></li>
-          </ul>
-        </li>
-        <li><a routerLink="/Usuario"><i class='bx bxs-group icon'></i> Usuario</a></li>
-        <li><a routerLink="/Usuario"><i class='bx bxs-briefcase icon'></i> Usuario</a></li>
-        <li class="divider" data-text="Log out">Log out</li>
-        <li><a routerLink="/perfil"><i class='bx bx-user icon'></i> Perfil</a></li>
-        <li><a routerLink="/landing-page-notas"><i class='bx bx-home-smile icon'></i> Cerrar Sección</a></li>
-      </ul>
-    </section>
-    <!-- SIDEBAR -->
-  
-    <!-- NAVBAR -->
-    <section id="content">
-      <!-- NAVBAR -->
-      <nav>
-        <i class='bx bx-menu toggle-sidebar'></i>
-        <form action="#">
-          <div class="form-group">
-              <input type="text" placeholder="Search...">
-              <i class='bx bx-search icon'></i>
-          </div>
-      </form>
-        <span class="divider"></span>
-        <div class="profile">
-          <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-            alt="">
-        </div>
-      </nav>
-      <!-- NAVBAR -->
-  
-      <!-- MAIN -->
-      <main>
-        <div class="title-card-css">
-          <h3>LISTADO CURSO COMPETENCIAS</h3>
-        </div>
-        <div class="card border-0">
-          <div class="card-body">
-            <div [formGroup]="formularioFiltrado" class="mb row justify-content-between align-items-center">
-              <div class="col-sm-3">
-                <input formControlName="nameCompetencyFilter" type="text" class="form-control" placeholder="Competencia">
-              </div>
-              <div class="col-sm-5">
-                <input formControlName="descriptionFilter" type="text" class="form-control" placeholder="Descripción">
-              </div>
-              <div class="col-sm-1">
-                <button (click)="filterCompetences()" type="button" class="btn btn-color">
-                  <i class="bx bx-search"></i>
-                </button>
-              </div>
-              <div class="col-sm-3 d-flex justify-content-between">
-                <button (click)="newCompetence()" type="button" class="btn btn-color" data-bs-toggle="modal"
-                  data-bs-target="#ModalCompetency">
-                  Nuevo
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="button-group">
-            <button (click)="exportToPdf()" class="btn btn-outline-danger btn-sm">
-              Descargar PDF
-            </button>
-            <button (click)="exportToExcel()" class="btn btn-outline-success btn-sm">
-              Descargar Excel
-            </button>
-            <button (click)="exportToCSV()" class="btn btn-outline-primary btn-sm">
-              Descargar CSV
-            </button>
-          </div>
+<div class="container p-4 mt-5">
+  <div>
+    <h3>Curso - Competencias</h3>
+  </div>
 
+  <div class="d-flex justify-between mt-4 mb-3">
+    <div class="d-flex gap-2">
+      <div class="relative">
+        <select id="selectCourse" 
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ps-9 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                [(ngModel)]="selectedCourse" 
+                (change)="filterCompetencesByCourse()">
+          <option value="">Buscar por Cursos</option>
+          <option *ngFor="let course of courseList" [value]="course.idCourse">{{ course.nameCourse }}</option>
+        </select>
+      </div>
+      
+    </div>
+    <div class="d-flex gap-2">
+      <div>
+        <button
+          class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          type="button" (click)="newCompetence()">
+          <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+              clip-rule="evenodd"></path>
+          </svg>
+          Nueva Competencia
+        </button>
+      </div>
+      <div>
+        <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          type="button">
+          <svg class="w-4 h-4 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+              d="M6 2a2 2 0 00-2 2v3H2a2 2 0 00-2 2v4a2 2 0 002 2h2v3a2 2 0 002 2h8a2 2 0 002-2v-3h2a2 2 0 002-2v-4a2 2 0 00-2-2h-2V4a2 2 0 00-2-2H6zm0 2h8v3H6V4zm2 7a1 1 0 110 2 1 1 0 010-2zm6 7v-3H6v3h8z"
+              clip-rule="evenodd"></path>
+          </svg>
+          Descargar
+          <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 10 6">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="m1 1 4 4 4-4" />
+          </svg>
+        </button>
+        <div id="dropdown"
+          class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+            <li class="ms-[-30px]">
+              <a (click)="exportToPdf()"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white no-underline cursor-pointer">Pdf</a>
+            </li>
+            <li class="ms-[-30px]">
+              <a (click)="exportToExcel()"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white no-underline cursor-pointer">Excel</a>
+            </li>
+            <li class="ms-[-30px]">
+              <a (click)="exportToCSV()"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white no-underline cursor-pointer">Csv</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 
-          <div class="table-container">
-            <div class="table-responsive">
-              <table id="competency" class="table table-sm text-center">
-                <thead class="thead-light">
-                  <tr>
-                    <th>Curso</th>
-                    <th>Competencia</th>
-                    <th class="text-start">Descripción</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let competency of paginatedList">
-                      <td> {{ getCourseName(competency.idCourse) }}</td>
-                      <td>{{competency.nameCompetency}}</td>
-                      <td class="text-start">{{competency.description}}</td>
-                      <td class="action-buttons">
-                        <button (click)="selectCompetence(competency)" type="button" class="btn btn-success btn-sm"
-                          data-bs-toggle="modal" data-bs-target="#ModalCompetency">
-                          <i class="bi bi-pencil"></i>
-                        </button>
-                        <button (click)="viewCompetence(competency)" type="button" class="btn btn-info btn-sm"
-                          data-bs-toggle="modal" data-bs-target="#ViewCompetencyModal">
-                          <i class="bi bi-eye"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-              </table>
+  <div class="overflow-x-auto shadow-md sm:rounded-lg">
+    <ng-container *ngIf="paginatedList.length > 0; else noData">
+      <table id="competency" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+          <tr>
+            <th scope="col" class="px-4 py-3">
+              Nombre del Curso
+            </th>
+            <th scope="col" class="px-4 py-3">
+              Nombre de la Competencia
+            </th>
+            <th scope="col" class="px-4 py-3">
+              Descripción
+            </th>
+            <th scope="col" class="px-4 py-3">
+              Acciones
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let competency of paginatedList"
+            class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+            <td class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+             {{ getCourseName(competency.idCourse) }}
+            </td>
+            <td class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap">
+              {{ competency.nameCompetency }}
+            </td>
+            <td class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap">
+              {{ competency.description }}
+            </td>
+            <td class="d-flex gap-2 px-6 py-2">
+              <!-- Botón Editar -->
+              <button (click)="selectCompetence(competency)"
+                class="d-flex justify-center items-center text-white px-1 py-1 text-xl rounded-md hover:underline no-underline cursor-pointer"
+                style="background-color: #1d931d">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                  <path fill="currentColor"
+                    d="M4 21q-.425 0-.712-.288T3 20v-2.425q0-.4.15-.763t.425-.637L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.437.65T21 6.4q0 .4-.138.763t-.437.662l-12.6 12.6q-.275.275-.638.425t-.762.15zM17.6 7.8L19 6.4L17.6 5l-1.4 1.4z" />
+                </svg>
+              </button>
+              <!-- Botón Vista -->
+              <a class="d-flex justify-center items-center text-white no-underline cursor-pointer px-1 py-1 text-xl rounded-md"
+                (click)="viewCompetence(competency)" style="background-color: #098ba8">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                  <path fill="currentColor"
+                    d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5M12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5s5 2.24 5 5s-2.24 5-5 5m0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3s3-1.34 3-3s-1.34-3-3-3" />
+                </svg>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+    <ng-template #noData>
+      <div class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+        No hay datos disponibles.
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+<!-- Pagination Controls -->
+<div class="flex justify-start items-center mt-4 gap-2">
+  <button (click)="previousPage()" [disabled]="currentPage === 1"
+    class="bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:opacity-50 disabled:cursor-not-allowed">
+    Anterior
+  </button>
+  <p class="text-gray-500">Página {{ currentPage }} de {{ totalPages }}</p>
+  <button (click)="nextPage()" [disabled]="currentPage === totalPages"
+    class="bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:opacity-50 disabled:cursor-not-allowed">
+    Siguiente
+  </button>
+</div>
+
+<!-- Modal formulario - Agregar/Actualizar -->
+<div *ngIf="modalAdd || modalUpdate" class="container__modal">
+  <div class="relative p-2 w-full max-w-lg max-h-full">
+    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+          {{ isUpdate ? 'Editar Competencia' : 'Crear nueva Competencia' }}
+        </h3>
+        <button type="button" (click)="closeModal()"
+          class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+          data-modal-toggle="crud-modal">
+          <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+      </div>
+      <form [formGroup]="formulario" class="p-4 md:p-5 overflow-y-auto max-h-[530px]">
+        <div class="grid gap-4 mb-4 grid-cols-2">
+          <div class="col-span-2 relative">
+            <label for="nameCompetency" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre de la Competencia</label>
+            <div class="relative">
+                <input type="text" name="nameCompetency" id="nameCompetency" formControlName="nameCompetency" 
+                       [ngClass]="{
+                           'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white': true,
+                           'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500': formulario.get('nameCompetency')?.invalid && formulario.get('nameCompetency')?.touched,
+                           'bg-green-50 border-green-500 text-green-900 placeholder-green-700 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-green-500 dark:placeholder-green-500 dark:border-green-500': formulario.get('nameCompetency')?.valid && formulario.get('nameCompetency')?.touched
+                       }" placeholder="Nombre de la Competencia" required />
+                <span *ngIf="formulario.get('nameCompetency')?.touched" class="absolute inset-y-0 end-0 pe-3 flex items-center pointer-events-none">
+                    <svg *ngIf="formulario.get('nameCompetency')?.valid" class="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm4.293-9.293a1 1 0 00-1.414-1.414L9 11.586 7.707 10.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l5-5z" clip-rule="evenodd"/>
+                    </svg>
+                    <svg *ngIf="formulario.get('nameCompetency')?.invalid" class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="10" cy="10" r="8" fill="currentColor"></circle>
+                      <path fill="#fff" d="M10 12.5a.75.75 0 01-.75-.75v-4a.75.75 0 011.5 0v4a.75.75 0 01-.75.75zm0 3a.75.75 0 01-.75-.75.75.75 0 011.5 0 .75.75 0 01-.75.75z"></path>
+                  </svg>                  
+                </span>
             </div>
-            <div class="pagination-buttons">
-              <button (click)="previousPage()" [disabled]="currentPage === 1" class="btn pagination-btn">Anterior</button>
-              <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="btn pagination-btn">Siguiente</button>
+            <div *ngIf="formulario.get('nameCompetency')?.invalid && formulario.get('nameCompetency')?.touched">
+                <small class="text-danger fw-normal" *ngIf="formulario.get('nameCompetency')?.errors?.['required']">El nombre es obligatorio.</small>
+                <small class="text-danger fw-normal" *ngIf="formulario.get('nameCompetency')?.errors?.['pattern']">Solo se permiten letras y espacios.</small>
             </div>
           </div>
           
-  
-          <!-- Modal Form -->
-          <div class="modal fade" id="ModalCompetency" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-xl">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="tituloRegistro">{{ isUpdate ? 'Actualizar Competencia' : 'Nueva Competencia' }}</h5>
-                  <button type="button" class="btn-close custom-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                  <form [formGroup]="formulario" class="row gy-3 gx-3 align-items-center">
-                    <div class="col-md-6">
-                        <label for="frmNameCompetency" class="form-label">Nombre de la Competencia</label>
-                        <input formControlName="nameCompetency" type="text" class="form-control input-spacing"
-                          [ngClass]="checkFormControlCss('nameCompetency')">
-                        <div *ngIf="formulario.get('nameCompetency')?.invalid && (formulario.get('nameCompetency')?.dirty || formulario.get('nameCompetency')?.touched)"
-                          class="invalid-feedback">
-                          <ng-container *ngIf="formulario.get('nameCompetency')?.errors?.['required']">El nombre de la competencia es obligatorio.</ng-container>
-                          <ng-container *ngIf="formulario.get('nameCompetency')?.errors?.['pattern']">Solo se permiten letras y números.</ng-container>
-                          <ng-container *ngIf="formulario.get('nameCompetency')?.errors?.['noSymbols']">No se permiten símbolos.</ng-container>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <label for="frmDescription" class="form-label">Descripción</label>
-                        <textarea formControlName="description" class="form-control input-spacing text-justify" rows="4"
-                          [ngClass]="checkFormControlCss('description')"></textarea>
-                        <div *ngIf="formulario.get('description')?.invalid && (formulario.get('description')?.dirty || formulario.get('description')?.touched)"
-                          class="invalid-feedback">
-                          <ng-container *ngIf="formulario.get('description')?.errors?.['required']">La descripción es obligatoria.</ng-container>
-                          <ng-container *ngIf="formulario.get('description')?.errors?.['pattern']">Solo se permiten letras y números.</ng-container>
-                          <ng-container *ngIf="formulario.get('description')?.errors?.['noSymbols']">No se permiten símbolos.</ng-container>
-                        </div>
-                      </div>
-                      
-                    <div class="col-md-6">
-                      <label for="frmCourse" class="form-label">Curso</label>
-                      <select formControlName="idCourse" class="form-select" [ngClass]="checkFormControlCss('idCourse')">
-                        <option *ngFor="let course of courseList" [value]="course.idCourse">{{course.nameCourse}}</option>
-                      </select>
-                      <div *ngIf="formulario.get('idCourse')?.invalid && (formulario.get('idCourse')?.dirty || formulario.get('idCourse')?.touched)" class="invalid-feedback">
-                        Seleccione un curso
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <div class="modal-footer modal-footer-centered">
-                  <button type="button" class="btn btn-primary btn-wide" [disabled]="formulario.invalid"
-                    (click)="isUpdate ? updateCompetence() : insertCompetence()">
-                    {{ isUpdate ? 'Actualizar' : 'Guardar' }}
-                  </button>
-                </div>
-              </div>
+          <div class="col-span-2 relative">
+            <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descripción</label>
+            <textarea name="description" id="description" formControlName="description" [ngClass]="{
+                  'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white': true,
+                  'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500': formulario.get('description')?.invalid && formulario.get('description')?.touched,
+                  'bg-green-50 border-green-500 text-green-900 placeholder-green-700 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-green-500 dark:placeholder-green-500 dark:border-green-500': formulario.get('description')?.valid && formulario.get('description')?.touched
+              }" placeholder="Descripción" required></textarea>
+          
+            <!-- Icono de error -->
+            <svg *ngIf="formulario.get('description')?.invalid && formulario.get('description')?.touched" class="icono-validacion absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="8" fill="currentColor"></circle>
+                <path fill="#fff" d="M10 12.5a.75.75 0 01-.75-.75v-4a.75.75 0 011.5 0v4a.75.75 0 01-.75.75zm0 3a.75.75 0 01-.75-.75.75.75 0 011.5 0 .75.75 0 01-.75.75z"></path>
+            </svg>
+        
+            <!-- Icono de éxito -->
+            <svg *ngIf="formulario.get('description')?.valid && formulario.get('description')?.touched" class="icono-validacion absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="8" fill="currentColor"></circle>
+                <path fill="#fff" d="M8.293 12.293a1 1 0 011.414 0L12 15.086l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"></path>
+            </svg>
+        
+            <div *ngIf="formulario.get('description')?.invalid && formulario.get('description')?.touched">
+                <small class="text-danger fw-normal" *ngIf="formulario.get('description')?.errors?.['required']">La descripción es obligatoria.</small>
+                <small class="text-danger fw-normal" *ngIf="formulario.get('description')?.errors?.['pattern']">Solo se permiten letras, números y espacios.</small>
             </div>
           </div>
-  
-<!-- Modal para ver detalles de la competencia-->
-<div class="modal fade" id="ViewCompetencyModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header text-white">
-        <h5 class="modal-title" id="viewModalLabel">Detalles de la Competencia</h5>
-        <button type="button" class="btn-close custom-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="row mb-3">
-            <div class="col-md-12">
-              <div class="row mb-3">
-                <div class="col-md-6">
-                  <label class="form-label"><strong>Nombre del Curso:</strong></label>
-                  <p class="form-control form-control-sm">{{ getCourseName(selectedCompetence?.idCourse) }}</p>
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label"><strong>Nombre de la Competencia:</strong></label>
-                  <p class="form-control form-control-sm">{{ selectedCompetence?.nameCompetency || 'N/A' }}</p>
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label"><strong>Descripción:</strong></label>
-                  <p class="form-control form-control-sm">{{ selectedCompetence?.description || 'N/A' }}</p>
-                </div>
-              </div>
+          
+          <div class="col-span-2">
+            <label for="idCourse" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Curso</label>
+            <select formControlName="idCourse" class="form-select" [ngClass]="checkFormControlCss('idCourse')">
+              <option *ngFor="let course of courseList" [value]="course.idCourse">{{course.nameCourse}}</option>
+            </select>
+            <div *ngIf="formulario.get('idCourse')?.invalid && (formulario.get('idCourse')?.dirty || formulario.get('idCourse')?.touched)" class="invalid-feedback">
+              Seleccione un curso
             </div>
           </div>
-        </form>
-      </div>
-      <div class="modal-footer modal-footer-centered">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-      </div>
+        </div>
+        <button type="submit" (click)="isUpdate ? updateCompetence() : insertCompetence()"
+          class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+              clip-rule="evenodd"></path>
+          </svg>
+          {{ isUpdate ? 'Guardar cambios' : 'Crear Competencia' }}
+        </button>
+      </form>
     </div>
   </div>
 </div>
 
 
-  
-          <!-- NAVBAR -->
-          <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-  
+<div *ngIf="modalViewCompetence" class="container__modal">
+  <div class="w-[500px] mx-auto bg-white rounded-xl shadow-md overflow-hidden m-4">
+    <div class="flex items-center justify-between p-2 md:p-5 border-b rounded-t dark:border-gray-600">
+      <p class="text-lg font-medium text-gray-800 px-4 pt-2">Información de la Competencia</p>
+      <button type="button" (click)="closeModalView()"
+        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+        data-modal-toggle="crud-modal">
+        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+        </svg>
+        <span class="sr-only">Close modal</span>
+      </button>
+    </div>
+
+    <div class="px-8 py-4">
+      <div class="flex items-center mb-6">
+        <div class="bg-gray-200 rounded-full p-3 mr-4">
+          <svg class="h-8 w-8 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <!-- Reemplaza el contenido del SVG por un ícono de libros -->
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M3 4a1 1 0 011-1h3a2 2 0 012 2v10a2 2 0 01-2 2H4a1 1 0 01-1-1V4zm10 0a1 1 0 011-1h3a2 2 0 012 2v10a2 2 0 01-2 2h-3a1 1 0 01-1-1V4zm-5 0v12a1 1 0 001 1h4a1 1 0 001-1V4a1 1 0 00-1-1h-4a1 1 0 00-1 1z" />
+          </svg>
+        </div>
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div>
+            <p class="text-sm font-medium text-gray-800">Nombre del Curso</p>
+            <p class="text-gray-500">{{ getCourseName(selectedCompetence?.idCourse) }}</p>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-800">Nombre de la Competencia</p>
+            <p class="text-gray-500">{{(selectedCompetence?.nameCompetency) }}</p>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-800">Descripción</p>
+            <p class="text-gray-500">{{ selectedCompetence?.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

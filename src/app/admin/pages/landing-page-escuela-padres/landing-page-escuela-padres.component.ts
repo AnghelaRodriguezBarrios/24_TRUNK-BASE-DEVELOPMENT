@@ -7,10 +7,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./landing-page-escuela-padres.component.css']
 })
 export class LandingPageEscuelaPadresComponent {
+
+  username: string = '';
+  password: string = '';
+  message: string = '';
+
   constructor(private router: Router) {}
 
-  navigateToLoginPadres() {
-    this.router.navigate(['/login-padres']);
+  checkLogin() { 
+    if (this.username === 'Admin' && this.password === 'admin') {
+      this.router.navigate(['/dashboard-padres']);
+    } else {
+      this.message = 'Invalid username or password';
+    }
   }
 
 }

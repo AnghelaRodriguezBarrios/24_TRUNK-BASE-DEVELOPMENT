@@ -1,476 +1,659 @@
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    <title>Academia Dominici</title>
-</head>
-
-<body>
-
-    <!-- SIDEBAR -->
-    <section id="sidebar">
-        <a routerLink="/" class="brand">
-            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjscRs8AIOCQb5mtRK8Eja_h7ScFClkuTXoN1Vk1rNwOIK8NHZofToDP7y6rrrvmWbCDF0DJ8z_vnD7oxADGeHpfuz6RDfXsuErF2Cm2tRqyCYbzRxAO4Ania-RzAQlC_acEI0yFYeSTCQEQSqxNoX5AzvADWdxhnxKvP-nBeQ37D0vMGrMw6F_vfO6/s1600/Madre-Enrichetta-e1635329657562-300x295%20%281%29.png"
-                alt="Academia Logo" class="icon">
-        AcademicNotes
-        </a>
-
-        <ul class="side-menu">
-            <li><a routerLink="/dashboard-notas" routerLinkActive="active"><i class='bx bx-user icon'></i>MENU</a>
-            </li>
-            <li class="divider" data-text="main">Main</li>
-            <li>
-                <a href="#"><i class='bx bx-user-pin icon'></i> USUARIOS <i
-                        class='bx bx-chevron-right icon-right'></i></a>
-                <ul class="side-dropdown">
-                    <li><a routerLink="/estudiante">Estudiante</a></li>
-                </ul>
-            </li>
-
-            <li>
-                <a href="#"><i class='bx bx-home icon'></i> CURSOS <i class='bx bx-chevron-right icon-right'></i></a>
-                <ul class="side-dropdown">
-                    <li><a routerLink="/Curso">Curso</a></li>
-                    <li><a routerLink="/Competencias">Competencias</a></li>
-                </ul>
-            </li>
-            <li><a routerLink="/Usuario"><i class='bx bxs-group icon'></i> Usuario</a></li>
-            <li><a routerLink="/Usuario"><i class='bx bxs-briefcase icon'></i> Usuario</a></li>
-            <li class="divider" data-text="Log out">Log out</li>
-            <li><a routerLink="/perfil"><i class='bx bx-user icon'></i> Perfil</a></li>
-            <li><a routerLink="/landing-page-notas"><i class='bx bx-home-smile icon'></i> Cerrar Sección</a></li>
-        </ul>
-    </section>
-    <!-- SIDEBAR -->
-
-    <!-- NAVBAR -->
-    <section id="content">
-        <!-- NAVBAR -->
-        <nav>
-            <i class='bx bx-menu toggle-sidebar'></i>
-            <form action="#">
-                <div class="form-group">
-                    <input type="text" placeholder="Search...">
-                    <i class='bx bx-search icon'></i>
-                </div>
-            </form>
-            <span class="divider"></span>
-            <div class="profile">
-                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-                    alt="">
-            </div>
-        </nav>
-        <!-- NAVBAR -->
-
-        <!-- MAIN -->
-        <main>
-            <div class="title-card-css">
-                <h3>LISTADO ESTUDIANTES</h3>
-            </div>
-            <div class="card border-0">
-                <div class="card-body">
-                    <div [formGroup]="formularioFiltrado" class="mb row justify-content-center">
-                        <div class="col-sm-2">
-                            <input formControlName="nameOrLastNameFilter" type="text" class="form-control text-center" placeholder="Buscador">
-                        </div>
-                        <div class="col-sm-2">
-                            <select formControlName="documentTypeFilter" class="form-select text-center"
-                                aria-label="Default select example">
-                                <option value="">DNI/CE</option>
-                                <option value="DNI">DNI</option>
-                                <option value="CE">CE</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-2">
-                            <input formControlName="documentNumberFilter" type="text" class="form-control text-center"
-                                placeholder="# Documento">
-                        </div>
-                        <div class="col-sm-2">
-                            <input formControlName="levelUniversalFilter" type="text" class="form-control text-center" placeholder="Nivel">
-                        </div>
-                        <div class="col-sm-1">
-                            <button (click)="listActives()" type="button" class="btn  btn-color">
-                                <i class="bi bi-search"></i>
-                            </button>
-                        </div>
-                        <div class="col-sm-3 d-flex justify-content-between">
-                            <button (click)="newStudent()" type="button" class="btn btn-color" data-bs-toggle="modal"
-                                data-bs-target="#ModalStudent">
-                                Nuevo <i class="bi bi-person-plus"></i>
-                            </button>
-                            <button (click)="listInactives()" type="button" class="btn btn-color">
-                                Reactivar <i class="bi bi-arrow-up-square"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="button-group">
-                    <button (click)="exportToPdf()" class="btn btn-outline-danger btn-sm">
-                        Descargar PDF
-                    </button>
-                    <button (click)="exportToExcel()" class="btn btn-outline-success btn-sm">
-                        Descargar Excel
-                    </button>
-                    <button (click)="exportToCSV()" class="btn btn-outline-primary btn-sm">
-                        Descargar  CSV
-                    </button>
-                </div>
-                <div class="table-container">
-                    <div class="table-responsive">
-                        <table id="student" class="table table-sm text-center">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Apellido</th>
-                                    <th>N° de Documento</th>
-                                    <th>Bautizo</th>
-                                    <th>Comunión</th>
-                                    <th>Nivel</th>
-                                    <th>Grado</th>
-                                    <th>Sección</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let student of paginatedList">
-                                    <td>{{student.name}}</td>
-                                    <td>{{student.lastName}}</td>
-                                    <td>{{student.documentNumber}}</td>
-                                    <td>{{student.baptism === 'Y' ? 'Sí' : 'No'}}</td>
-                                    <td>{{student.communion === 'Y' ? 'Sí' : 'No'}}</td>
-                                    <td>{{student.level}}</td>
-                                    <td>{{student.grade}}</td>
-                                    <td>{{student.section}}</td>
-                                    <td class="action-buttons">
-                                        <button *ngIf="student.status==='A'" (click)="selectStudent(student)"
-                                            type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#ModalStudent">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button *ngIf="student.status==='A'" (click)="deleteStudent(student.idStudent)"
-                                            type="button" class="btn btn-danger btn-sm">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                        <button *ngIf="student.status==='I'"
-                                            (click)="reactivateStudent(student.idStudent)" type="button"
-                                            class="btn btn-dark btn-sm">
-                                            <i class="bi bi-arrow-90deg-left"></i>
-                                        </button>
-                                        <button (click)="viewStudent(student)" type="button" class="btn btn-info btn-sm"
-                                            data-bs-toggle="modal" data-bs-target="#ViewStudentModal">
-                                            <i class="bi bi-eye"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="pagination-buttons">
-                        <button (click)="previousPage()" [disabled]="currentPage === 1"
-                            class="btn pagination-btn">Anterior</button>
-                        <button (click)="nextPage()" [disabled]="currentPage === totalPages"
-                            class="btn pagination-btn">Siguiente</button>
-                    </div>
-
-                </div>
-
-
-<!-- Modal Form -->
-<div class="modal fade" id="ModalStudent" tabindex="-1" aria-labelledby="miModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="tituloRegistro">{{ isUpdate ? 'Actualizar Registro' : 'Nuevo Registro' }}</h5>
-                <button type="button" class="btn-close custom-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                <form [formGroup]="formulario" class="row gy-3 gx-3 align-items-center">
-                    <div class="col-md-6">
-                        <label for="frmNombre" class="form-label">Nombre</label>
-                        <input formControlName="name" type="text" class="form-control input-spacing" [ngClass]="checkFormControlCss('name')">
-                        <div *ngIf="formulario.get('name')?.invalid && (formulario.get('name')?.dirty || formulario.get('name')?.touched)"
-                             class="invalid-feedback">
-                            <ng-container *ngIf="formulario.get('name')?.errors?.['required']">El nombre es obligatorio.</ng-container>
-                            <ng-container *ngIf="formulario.get('name')?.errors?.['pattern']">Solo se permiten letras.</ng-container>
-                            <ng-container *ngIf="formulario.get('name')?.errors?.['noNumbers']">No se permiten números.</ng-container>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="frmApellido" class="form-label">Apellido</label>
-                        <input formControlName="lastName" type="text" class="form-control input-spacing" [ngClass]="checkFormControlCss('lastName')">
-                        <div *ngIf="formulario.get('lastName')?.invalid && (formulario.get('lastName')?.dirty || formulario.get('lastName')?.touched)"
-                             class="invalid-feedback">
-                            <ng-container *ngIf="formulario.get('lastName')?.errors?.['required']">El apellido es obligatorio.</ng-container>
-                            <ng-container *ngIf="formulario.get('lastName')?.errors?.['pattern']">Solo se permiten letras.</ng-container>
-                            <ng-container *ngIf="formulario.get('lastName')?.errors?.['noNumbers']">No se permiten números.</ng-container>
-                        </div>
-                    </div>
-                    
-                    <!-- Continue with other fields as before -->
-                    <div class="col-md-6">
-                        <label for="frmTipoDocumento" class="form-label">Tipo de documento</label>
-                        <select formControlName="documentType" class="form-select"
-                            [ngClass]="checkFormControlCss('documentType')"
-                            (change)="validateDocumentNumber()">
-                            <option value="DNI">DNI</option>
-                            <option value="CE">CE</option>
-                        </select>
-                        <div *ngIf="formulario.get('documentType')?.invalid && (formulario.get('documentType')?.dirty || formulario.get('documentType')?.touched)"
-                            class="invalid-feedback">
-                            El tipo de documento es requerido
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="frmNumeroDocumento" class="form-label">Número de documento</label>
-                        <input formControlName="documentNumber" type="text" maxlength="15" class="form-control"
-                            inputmode="numeric" pattern="\d*" (keypress)="validateNumberInput($event)"
-                            [ngClass]="checkFormControlCss('documentNumber')">
-                        <div *ngIf="formulario.get('documentNumber')?.invalid && (formulario.get('documentNumber')?.dirty || formulario.get('documentNumber')?.touched)"
-                            class="invalid-feedback">
-                            <ng-container *ngIf="formulario.get('documentNumber')?.errors?.['required']">El número de documento es requerido</ng-container>
-                            <ng-container *ngIf="formulario.get('documentType')?.value === 'DNI' && formulario.get('documentNumber')?.errors?.['minlength']">El DNI solo se permite 8 dígitos</ng-container>
-                            <ng-container *ngIf="formulario.get('documentType')?.value === 'DNI' && formulario.get('documentNumber')?.errors?.['maxlength']">El DNI solo se permite 8 dígitos</ng-container>
-                            <ng-container *ngIf="formulario.get('documentType')?.value === 'CE' && formulario.get('documentNumber')?.errors?.['minlength']">El CE solo se permite 15 dígitos</ng-container>
-                            <ng-container *ngIf="formulario.get('documentType')?.value === 'CE' && formulario.get('documentNumber')?.errors?.['maxlength']">El CE solo se permite 15 dígitos</ng-container>
-                            <ng-container *ngIf="formulario.get('documentNumber')?.errors?.['pattern']">El número de documento solo debe contener números</ng-container>
-                        </div>
-                    </div>                    
-                    <div class="col-md-6">
-                        <label for="frmGenero" class="form-label">Género</label>
-                        <select formControlName="gender" class="form-select" [ngClass]="checkFormControlCss('gender')">
-                            <option value="M">Masculino</option>
-                            <option value="F">Femenino</option>
-                        </select>
-                        <div *ngIf="formulario.get('gender')?.invalid && (formulario.get('gender')?.dirty || formulario.get('gender')?.touched)"
-                            class="invalid-feedback">
-                            El género es obligatorio
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="frmFechaNacimiento" class="form-label">Fecha de nacimiento</label>
-                        <input formControlName="birthDate" type="date" class="form-control"
-                               min="2010-01-01" max="2030-12-31"
-                               [ngClass]="checkFormControlCss('birthDate')">
-                        <div *ngIf="formulario.get('birthDate')?.invalid && (formulario.get('birthDate')?.dirty || formulario.get('birthDate')?.touched)"
-                             class="invalid-feedback">
-                          <ng-container *ngIf="formulario.get('birthDate')?.errors?.['required']">La fecha de nacimiento es obligatoria.</ng-container>
-                          <ng-container *ngIf="formulario.get('birthDate')?.errors?.['invalidYear']">El año de nacimiento deber valida.</ng-container>
-                        </div>
-                      </div>
-                      
-                    <div class="col-md-6">
-                        <label for="frmBautizo" class="form-label">Bautizo</label>
-                        <select formControlName="baptism" class="form-select" [ngClass]="checkFormControlCss('baptism')">
-                            <option value="N">No</option>
-                            <option value="Y">Sí</option>
-                        </select>
-                        <div *ngIf="formulario.get('baptism')?.invalid && (formulario.get('baptism')?.dirty || formulario.get('baptism')?.touched)"
-                            class="invalid-feedback">
-                            El bautizo es obligatorio
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="frmComunion" class="form-label">Comunión</label>
-                        <select formControlName="communion" class="form-select" [ngClass]="checkFormControlCss('communion')">
-                            <option value="N">No</option>
-                            <option value="Y">Sí</option>
-                        </select>
-                        <div *ngIf="formulario.get('communion')?.invalid && (formulario.get('communion')?.dirty || formulario.get('communion')?.touched)"
-                            class="invalid-feedback">
-                            La comunión es obligatorio
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="frmEmail" class="form-label">Email</label>
-                        <input formControlName="email" type="email" class="form-control" [ngClass]="checkFormControlCss('email')">
-                        <div *ngIf="formulario.get('email')?.invalid && (formulario.get('email')?.dirty || formulario.get('email')?.touched)"
-                            class="invalid-feedback">
-                            Ingresar un email valido
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="frmLugarNacimiento" class="form-label">Lugar de nacimiento</label>
-                        <input formControlName="birthPlace" type="text" class="form-control" [ngClass]="checkFormControlCss('birthPlace')">
-                        <div *ngIf="formulario.get('birthPlace')?.invalid && (formulario.get('birthPlace')?.dirty || formulario.get('birthPlace')?.touched)"
-                            class="invalid-feedback">
-                            El lugar de nacimiento es obligatorio
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="frmNivel" class="form-label">Nivel</label>
-                        <select formControlName="level" class="form-select" [ngClass]="checkFormControlCss('level')">
-                            <option value="Inicial">Inicial</option>
-                            <option value="Primaria">Primaria</option>
-                        </select>
-                        <div *ngIf="formulario.get('level')?.invalid && (formulario.get('level')?.dirty || formulario.get('level')?.touched)"
-                            class="invalid-feedback">
-                            El nivel es obligatorio
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="frmGrado" class="form-label">Grado</label>
-                        <select formControlName="grade" class="form-select" [ngClass]="checkFormControlCss('grade')">
-                            <option value="1">1 Grado</option>
-                            <option value="2">2 Grado</option>
-                            <option value="3">3 Grado</option>
-                            <option value="4">4 Grado</option>
-                            <option value="5">5 Grado</option>
-                            <option value="6">6 Grado</option>
-                        </select>
-                        <div *ngIf="formulario.get('grade')?.invalid && (formulario.get('grade')?.dirty || formulario.get('grade')?.touched)"
-                            class="invalid-feedback">
-                            El grado es obligatorio
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="frmSeccion" class="form-label">Sección</label>
-                        <select formControlName="section" class="form-select" [ngClass]="checkFormControlCss('section')">
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                        </select>
-                        <div *ngIf="formulario.get('section')?.invalid && (formulario.get('section')?.dirty || formulario.get('section')?.touched)"
-                            class="invalid-feedback">
-                            La sección es obligatorio
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer modal-footer-centered">
-                <button type="button" class="btn btn-primary btn-wide" 
-                        [disabled]="formulario.invalid" 
-                        (click)="isUpdate ? updateStudent() : insertStudent()">
-                    {{ isUpdate ? 'Actualizar' : 'Guardar' }}
-                </button>
-            </div>
+<div class="container p-4 mt-5">
+  <div>
+    <h3>Estudiantes</h3>
+  </div>
+  <div class="d-flex justify-between mt-4 mb-3">
+    <div class="d-flex gap-2">
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+            fill="none" viewBox="0 0 20 20">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+          </svg>
         </div>
-    </div>
-</div>
-                <!-- Modal confirmación eliminación -->
-                <div class="modal fade" id="confirmDelete" tabindex="-1" aria-labelledby="confirmModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content text-center">
-                            <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Cerrar"></button>
-                            </div>
-                            <div class="modal-body">¿Estás seguro de que deseas eliminar este estudiante?</div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-secondary"
-                                    data-bs-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"
-                                    (click)="confirmDelete()">Confirmar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal confirmación reactivar -->
-                <div class="modal fade" id="confirmReactive" tabindex="-1" aria-labelledby="confirmModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content text-center">
-                            <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Cerrar"></button>
-                            </div>
-                            <div class="modal-body">¿Estás seguro de que deseas reactivar este estudiante?</div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-secondary"
-                                    data-bs-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"
-                                    (click)="confirmReactive()">Confirmar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <input type="text" id="searchStudent"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          [(ngModel)]="searchTerm" (input)="filterStudents()" placeholder="Buscar Alumnos" />
+      </div>
 
-<!-- Modal para ver detalles del estudiante -->
-<div class="modal fade" id="ViewStudentModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-customm">
-        <div class="modal-content">
-            <div class="modal-header text-white">
-                <h5 class="modal-title" id="viewModalLabel">Detalles del Estudiante</h5>
-                <button type="button" class="btn-close custom-closee" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row mb-3">
-                        <div class="col-md-3 text-center d-flex flex-column justify-content-center">
-                            <img src="assets/estudiante.png" class="img-fluid img-large rounded mx-auto" alt="Foto del Estudiante">
-                        </div>
-                        <div class="col-md-9">
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label class="form-label"><strong>Nombre:</strong></label>
-                                    <p class="form-control form-control-sm">{{selectedStudent?.name}}</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label"><strong>Apellido:</strong></label>
-                                    <p class="form-control form-control-sm">{{selectedStudent?.lastName}}</p>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-4">
-                                    <label class="form-label"><strong>Tipo de Documento:</strong></label>
-                                    <p class="form-control form-control-sm">{{selectedStudent?.documentType}}</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label"><strong>N° de Documento:</strong></label>
-                                    <p class="form-control form-control-sm">{{selectedStudent?.documentNumber}}</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label"><strong>Género:</strong></label>
-                                    <p class="form-control form-control-sm">{{selectedStudent?.gender === 'M' ? 'Masculino' : 'Femenino'}}</p>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-4">
-                                    <label class="form-label"><strong>Fecha de nacimiento:</strong></label>
-                                    <p class="form-control form-control-sm">{{selectedStudent?.birthDate | date: 'dd/MMMM/yyyy'}}</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label"><strong>Bautizo:</strong></label>
-                                    <p class="form-control form-control-sm">{{selectedStudent?.baptism === 'Y' ? 'Sí' : 'No'}}</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label"><strong>Comunión:</strong></label>
-                                    <p class="form-control form-control-sm">{{selectedStudent?.communion === 'Y' ? 'Sí' : 'No'}}</p>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label class="form-label"><strong>Email:</strong></label>
-                                    <p class="form-control form-control-sm">{{selectedStudent?.email}}</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label"><strong>Lugar de nacimiento:</strong></label>
-                                    <p class="form-control form-control-sm">{{selectedStudent?.birthPlace}}</p>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-4">
-                                    <label class="form-label"><strong>Nivel:</strong></label>
-                                    <p class="form-control form-control-sm">{{selectedStudent?.level}}</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label"><strong>Grado:</strong></label>
-                                    <p class="form-control form-control-sm">{{selectedStudent?.grade}}</p>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label"><strong>Sección:</strong></label>
-                                    <p class="form-control form-control-sm">{{selectedStudent?.section}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footeer modal-footeer-centered">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            </div>
+      <div>
+        <button (click)="openFilter()"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          type="button">Documento <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="m1 1 4 4 4-4" />
+          </svg>
+        </button>
+        <div *ngIf="filterDocument"
+          class="z-10 absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownFilterButton">
+            <li class="ms-[-30px]">
+              <a (click)="filterByDocumentType('DNI')"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white no-underline cursor-pointer">DNI</a>
+            </li>
+            <li class="ms-[-30px]">
+              <a (click)="filterByDocumentType('CE')"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white no-underline cursor-pointer">CE</a>
+            </li>
+            <li class="ms-[-30px]">
+              <a (click)="filterByDocumentType('DNI-CE')"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white no-underline cursor-pointer">DNI - CE</a>
+            </li>
+          </ul>
         </div>
+      </div>
+      <div>
+        <button (click)="openFilterlevel()"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          type="button">Nivel <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="m1 1 4 4 4-4" />
+          </svg>
+        </button>
+        <div *ngIf="filterlevel"
+          class="z-10 absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownFilterButton">
+            <li class="ms-[-30px]">
+              <a (click)="filterByLevel('Inicial')"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white no-underline cursor-pointer">Inicial</a>
+            </li>
+            <li class="ms-[-30px]">
+              <a (click)="filterByLevel('Primaria')"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white no-underline cursor-pointer">Primaria</a>
+            </li>
+            <li class="ms-[-30px]">
+              <a (click)="filterByLevel('Inicial-Primaria')"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white no-underline cursor-pointer">Inicial-Primaria</a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
+    <div class="d-flex gap-2">
+      <div>
+        <button
+          class="flex justify-center items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full w-10 h-10 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          type="button" (click)="listActives()">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21 21l-4.35-4.35m2.65-6.15a8 8 0 11-16 0 8 8 0 0116 0z" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+      <div>
+        <button (click)="newStudent()"
+          class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          type="button">
+          <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+              clip-rule="evenodd"></path>
+          </svg>
+          Nuevo Estudiante
+        </button>
+      </div>
+      <div>
+        <button (click)="listInactives()"
+          class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          type="button">
+          <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+              d="M10 2a8 8 0 105.906 3.71l-1.507-1.26A6 6 0 1110 4V2zm0 16a8 8 0 100-16v2a6 6 0 110 12v2zm-1-9h5V7h-5V5L7 8l3 3V9z"
+              clip-rule="evenodd"></path>
+          </svg>
+          Reactivar
+        </button>
+      </div>
+
+      <div>
+        <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          type="button">
+          <svg class="w-4 h-4 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+              d="M6 2a2 2 0 00-2 2v3H2a2 2 0 00-2 2v4a2 2 0 002 2h2v3a2 2 0 002 2h8a2 2 0 002-2v-3h2a2 2 0 002-2v-4a2 2 0 00-2-2h-2V4a2 2 0 00-2-2H6zm0 2h8v3H6V4zm2 7a1 1 0 110 2 1 1 0 010-2zm6 7v-3H6v3h8z"
+              clip-rule="evenodd"></path>
+          </svg>
+          Descargar
+          <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 10 6">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="m1 1 4 4 4-4" />
+          </svg>
+        </button>
+        <div id="dropdown"
+          class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+            <li class="ms-[-30px]">
+              <a (click)="exportToPdf()"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white no-underline cursor-pointer">Pdf</a>
+            </li>
+            <li class="ms-[-30px]">
+              <a (click)="exportToExcel()"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white no-underline cursor-pointer">Excel</a>
+            </li>
+            <li class="ms-[-30px]">
+              <a (click)="exportToCSV()"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white no-underline cursor-pointer">Csv</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overflow-x-auto shadow-md sm:rounded-lg">
+    <ng-container *ngIf="paginatedList.length > 0; else noData">
+      <table id="student" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+          <tr>
+            <th scope="col" class="px-4 py-3">Nombre y Apellidos</th>
+            <th scope="col" class="px-4 py-3">N° de Documento</th>
+            <th scope="col" class="px-4 py-3">Bautizo</th>
+            <th scope="col" class="px-4 py-3">Comunión</th>
+            <th scope="col" class="px-4 py-3">Nivel</th>
+            <th scope="col" class="px-4 py-3">Grado</th>
+            <th scope="col" class="px-4 py-3">Sección</th>
+            <th scope="col" class="px-4 py-3">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of paginatedList"
+            class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+            <td class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              {{student.name}} {{student.lastName}} </td>
+            <td class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              {{student.documentNumber}}</td>
+            <td class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              {{student.baptism === 'Y' ? 'Sí' : 'No'}}</td>
+            <td class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              {{student.communion === 'Y' ? 'Sí' : 'No'}}</td>
+            <td class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              {{student.level}}</td>
+            <td class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              {{student.grade}}</td>
+            <td class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              {{student.section}}</td>
+            <td class="d-flex gap-2 px-6 py-2">
+              <button *ngIf="student.status==='A'" (click)="selectStudent(student)"
+                class="d-flex justify-center items-center bg-green-600 text-white px-1 py-1 text-xl rounded-md hover:underline no-underline cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                  <path fill="currentColor"
+                    d="M4 21q-.425 0-.712-.288T3 20v-2.425q0-.4.15-.763t.425-.637L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.437.65T21 6.4q0 .4-.138.763t-.437.662l-12.6 12.6q-.275.275-.638.425t-.762.15zM17.6 7.8L19 6.4L17.6 5l-1.4 1.4z" />
+                </svg>
+              </button>
+              <button *ngIf="student.status==='A'" (click)="deleteStudent(student.idStudent)"
+                class="d-flex justify-center items-center bg-red-600 text-white hover:underline no-underline cursor-pointer px-1 py-1 text-xl rounded-md">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                  <path fill="currentColor"
+                    d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zM9 17h2V8H9zm4 0h2V8h-2zM7 6v13z" />
+                </svg>
+              </button>
+              <button *ngIf="student.status==='I'" (click)="reactivateStudent(student.idStudent)"
+                class="d-flex justify-center items-center text-white no-underline cursor-pointer px-1 py-1 text-xl rounded-md"
+                style="background-color: #FFC107; hover:bg-yellow-400;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                  <path fill="currentColor"
+                    d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5M12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5s5 2.24 5 5s-2.24 5-5 5m0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3s3-1.34 3-3s-1.34-3-3-3" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" class="ms-2">
+                  <path fill="currentColor"
+                    d="M11 19a1 1 0 0 1-.71-1.71l5.3-5.29H4a1 1 0 1 1 0-2h11.59l-5.3-5.29A1 1 0 0 1 11 5l7 7l-7 7a1 1 0 0 1-.71.29Z" />
+                </svg>
+              </button>
+              <button (click)="viewStudent(student)"
+                class="d-flex justify-center items-center bg-blue-500 text-white no-underline cursor-pointer px-1 py-1 text-xl rounded-md">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                  <path fill="currentColor"
+                    d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5M12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5s5 2.24 5 5s-2.24 5-5 5m0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3s3-1.34 3-3s-1.34-3-3-3" />
+                </svg>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+    <ng-template #noData>
+      <div class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+        No hay datos disponibles.
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Pagination Controls -->
+  <div class="flex justify-start items-center mt-4 gap-2">
+    <button (click)="previousPage()" [disabled]="currentPage === 1"
+      class="bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:opacity-50 disabled:cursor-not-allowed">
+      Anterior
+    </button>
+    <p class="text-gray-500">Página {{ currentPage }} de {{ totalPages }}</p>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages"
+      class="bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:opacity-50 disabled:cursor-not-allowed">
+      Siguiente
+    </button>
+  </div>
+
+<!-- Modal formulario - Agregar/Actualizar -->
+<div *ngIf="modalAdd || modalUpdate" class="container__modal">
+  <div class="modal-content">
+    <!-- Cabecera del modal -->
+    <div class="modal-header">
+      <h3 class="text-lg font-semibold text-gray-900">
+        {{ isUpdate ? 'Actualizar Estudiante' : 'Nuevo Estudiante' }}
+      </h3>
+      <button type="button" (click)="closeModal()" class="text-gray-400 hover:text-gray-900">
+        <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+        </svg>
+      </button>
+    </div>
+    <!-- Cuerpo del modal -->
+    <form [formGroup]="formulario" class="p-4 md:p-5 grid grid-cols-1 gap-4">
+      <!-- Paso 1 -->
+      <div *ngIf="currentStep === 1" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Campo Nombre -->
+        <div class="col-span-1 relative mb-2">
+          <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Nombre</label>
+          <div class="flex items-center">
+            <input type="text" name="name" id="name" formControlName="name" [ngClass]="{
+              'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500': formulario.get('name')?.invalid && formulario.get('name')?.touched, 
+              'bg-green-50 border-green-500 text-green-900 placeholder-green-700 focus:ring-green-500 focus:border-green-500': formulario.get('name')?.valid && formulario.get('name')?.touched,
+              'block w-full rounded-lg border bg-gray-50 py-2 px-3 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500': true
+            }" placeholder="Maria" required />
+            <span *ngIf="formulario.get('name')?.touched" class="flex items-center pl-2">
+              <svg *ngIf="formulario.get('name')?.valid" class="h-5 w-5 text-green-500" fill="currentColor"
+                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm4.293-9.293a1 1 0 00-1.414-1.414L9 11.586 7.707 10.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l5-5z"
+                  clip-rule="evenodd" />
+              </svg>
+              <svg *ngIf="formulario.get('name')?.invalid" class="h-5 w-5 text-red-500" fill="currentColor"
+                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="8" fill="currentColor"></circle>
+                <path fill="#fff" d="M10 12.5a.75.75 0 01-.75-.75v-4a.75.75 0 011.5 0v4a.75.75 0 01-.75.75z"></path>
+              </svg>
+            </span>
+          </div>
+          <div *ngIf="formulario.get('name')?.invalid && formulario.get('name')?.touched">
+            <small class="text-red-600">El nombre es obligatorio.</small>
+          </div>
+        </div>
+
+        <!-- Campo Apellido -->
+        <div class="col-span-1 relative mb-2">
+          <label for="lastName" class="block mb-2 text-sm font-medium text-gray-900">Apellido</label>
+          <div class="flex items-center">
+            <input type="text" name="lastName" id="lastName" formControlName="lastName" [ngClass]="{
+              'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500': formulario.get('lastName')?.invalid && formulario.get('lastName')?.touched, 
+              'bg-green-50 border-green-500 text-green-900 placeholder-green-700 focus:ring-green-500 focus:border-green-500': formulario.get('lastName')?.valid && formulario.get('lastName')?.touched,
+              'block w-full rounded-lg border bg-gray-50 py-2 px-3 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500': true
+            }" placeholder="Rodriguez Barrios" required />
+            <span *ngIf="formulario.get('lastName')?.touched" class="flex items-center pl-2">
+              <svg *ngIf="formulario.get('lastName')?.valid" class="h-5 w-5 text-green-500" fill="currentColor"
+                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm4.293-9.293a1 1 0 00-1.414-1.414L9 11.586 7.707 10.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l5-5z"
+                  clip-rule="evenodd" />
+              </svg>
+              <svg *ngIf="formulario.get('lastName')?.invalid" class="h-5 w-5 text-red-500" fill="currentColor"
+                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="8" fill="currentColor"></circle>
+                <path fill="#fff" d="M10 12.5a.75.75 0 01-.75-.75v-4a.75.75 0 011.5 0v4a.75.75 0 01-.75.75z"></path>
+              </svg>
+            </span>
+          </div>
+          <div *ngIf="formulario.get('lastName')?.invalid && formulario.get('lastName')?.touched">
+            <small class="text-red-600">El apellido es obligatorio.</small>
+          </div>
+        </div>
+
+        <!-- Campo Tipo de documento -->
+        <div class="col-span-1 relative mb-2">
+          <label for="documentType" class="block mb-2 text-sm font-medium text-gray-900">Tipo de documento</label>
+          <select id="documentType" formControlName="documentType" name="documentType" [ngClass]="{ 
+            'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500': formulario.get('documentType')?.invalid && formulario.get('documentType')?.touched,
+            'block w-full rounded-lg border bg-gray-50 py-2 px-3 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500': true
+          }" (change)="validateDocumentNumber()">
+            <option value="" disabled selected>Seleccione un tipo</option>
+            <option value="DNI">DNI</option>
+            <option value="CE">CE</option>
+          </select>
+          <div *ngIf="formulario.get('documentType')?.invalid && formulario.get('documentType')?.touched"
+            class="text-red-600 mt-1 text-xs">
+            <small>El tipo de documento es requerido</small>
+          </div>
+        </div>
+
+        <!-- Campo Número de documento -->
+        <div class="col-span-1 relative mb-2">
+          <label for="documentNumber" class="block mb-2 text-sm font-medium text-gray-900">Número de documento</label>
+          <div class="flex items-center">
+            <input type="text" name="documentNumber" id="documentNumber" formControlName="documentNumber" maxlength="15"
+              inputmode="numeric" pattern="\d*" (keypress)="validateNumberInput($event)" [ngClass]="{ 
+              'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500': formulario.get('documentNumber')?.invalid && formulario.get('documentNumber')?.touched, 
+              'bg-green-50 border-green-500 text-green-900 placeholder-green-700 focus:ring-green-500 focus:border-green-500': formulario.get('documentNumber')?.valid && formulario.get('documentNumber')?.touched,
+              'block w-full rounded-lg border bg-gray-50 py-2 px-3 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500': true
+            }" placeholder="Número de documento" required />
+            <span *ngIf="formulario.get('documentNumber')?.touched" class="flex items-center pl-2">
+              <svg *ngIf="formulario.get('documentNumber')?.valid" class="h-5 w-5 text-green-500" fill="currentColor"
+                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm4.293-9.293a1 1 0 00-1.414-1.414L9 11.586 7.707 10.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l5-5z"
+                  clip-rule="evenodd" />
+              </svg>
+              <svg *ngIf="formulario.get('documentNumber')?.invalid" class="h-5 w-5 text-red-500" fill="currentColor"
+                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="8" fill="currentColor"></circle>
+                <path fill="#fff" d="M10 12.5a.75.75 0 01-.75-.75v-4a.75.75 0 011.5 0v4a.75.75 0 01-.75.75z"></path>
+              </svg>
+            </span>
+          </div>
+          <div *ngIf="formulario.get('documentNumber')?.invalid && formulario.get('documentNumber')?.touched">
+            <small class="text-red-600">El número de documento es requerido</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 2 -->
+      <div *ngIf="currentStep === 2" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Campo Género -->
+        <div class="col-span-1 relative mb-2">
+          <label for="gender" class="block mb-2 text-sm font-medium text-gray-900">Género</label>
+          <select id="gender" formControlName="gender" name="gender" [ngClass]="{ 
+            'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500': formulario.get('gender')?.invalid && formulario.get('gender')?.touched,
+            'block w-full rounded-lg border bg-gray-50 py-2 px-3 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500': true
+          }">
+            <option value="" disabled selected>Seleccione género</option>
+            <option value="M">Masculino</option>
+            <option value="F">Femenino</option>
+          </select>
+          <div *ngIf="formulario.get('gender')?.invalid && formulario.get('gender')?.touched"
+            class="text-red-600 mt-1 text-xs">
+            <small>El género es obligatorio</small>
+          </div>
+        </div>
+
+        <!-- Campo Fecha de nacimiento -->
+        <div class="col-span-1 relative mb-2">
+          <label for="birthDate" class="block mb-2 text-sm font-medium text-gray-900">Fecha de nacimiento</label>
+          <div class="flex items-center">
+            <input type="date" name="birthDate" id="birthDate" formControlName="birthDate" min="2010-01-01"
+              max="2030-12-31" [ngClass]="{ 
+              'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500': formulario.get('birthDate')?.invalid && formulario.get('birthDate')?.touched,
+              'bg-green-50 border-green-500 text-green-900 placeholder-green-700 focus:ring-green-500 focus:border-green-500': formulario.get('birthDate')?.valid && formulario.get('birthDate')?.touched,
+              'block w-full rounded-lg border bg-gray-50 py-2 px-3 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500': true
+            }" required />
+            <span *ngIf="formulario.get('birthDate')?.touched" class="flex items-center pl-2">
+              <svg *ngIf="formulario.get('birthDate')?.valid" class="h-5 w-5 text-green-500" fill="currentColor"
+                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm4.293-9.293a1 1 0 00-1.414-1.414L9 11.586 7.707 10.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l5-5z"
+                  clip-rule="evenodd" />
+              </svg>
+              <svg *ngIf="formulario.get('birthDate')?.invalid" class="h-5 w-5 text-red-500" fill="currentColor"
+                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="8" fill="currentColor"></circle>
+                <path fill="#fff" d="M10 12.5a.75.75 0 01-.75-.75v-4a.75.75 0 011.5 0v4a.75.75 0 01-.75.75z"></path>
+              </svg>
+            </span>
+          </div>
+          <div *ngIf="formulario.get('birthDate')?.invalid && formulario.get('birthDate')?.touched">
+            <small class="text-red-600">La fecha de nacimiento es obligatoria</small>
+          </div>
+        </div>
+
+        <!-- Campo Email -->
+        <div class="col-span-1 relative mb-2">
+          <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
+          <div class="flex items-center">
+            <input type="email" name="email" id="email" formControlName="email" [ngClass]="{ 
+              'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500': formulario.get('email')?.invalid && formulario.get('email')?.touched,
+              'bg-green-50 border-green-500 text-green-900 placeholder-green-700 focus:ring-green-500 focus:border-green-500': formulario.get('email')?.valid && formulario.get('email')?.touched,
+              'block w-full rounded-lg border bg-gray-50 py-2 px-3 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500': true
+            }" placeholder="maria.rodriguezbarrios@gmail.com" required />
+            <span *ngIf="formulario.get('email')?.touched" class="flex items-center pl-2">
+              <svg *ngIf="formulario.get('email')?.valid" class="h-5 w-5 text-green-500" fill="currentColor"
+                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm4.293-9.293a1 1 0 00-1.414-1.414L9 11.586 7.707 10.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l5-5z"
+                  clip-rule="evenodd" />
+              </svg>
+              <svg *ngIf="formulario.get('email')?.invalid" class="h-5 w-5 text-red-500" fill="currentColor"
+                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="8" fill="currentColor"></circle>
+                <path fill="#fff" d="M10 12.5a.75.75 0 01-.75-.75v-4a.75.75 0 011.5 0v4a.75.75 0 01-.75.75z"></path>
+              </svg>
+            </span>
+          </div>
+          <div *ngIf="formulario.get('email')?.invalid && formulario.get('email')?.touched">
+            <small class="text-red-600">Ingresar un email válido</small>
+          </div>
+        </div>
+
+        <!-- Campo Bautizo -->
+        <div class="col-span-1 relative mb-2">
+          <label for="baptism" class="block mb-2 text-sm font-medium text-gray-900">Bautizo</label>
+          <select id="baptism" formControlName="baptism" name="baptism" [ngClass]="{ 
+            'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500': formulario.get('baptism')?.invalid && formulario.get('baptism')?.touched,
+            'block w-full rounded-lg border bg-gray-50 py-2 px-3 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500': true
+          }">
+            <option value="" disabled selected>Seleccione una opción</option>
+            <option value="N">No</option>
+            <option value="Y">Sí</option>
+          </select>
+          <div *ngIf="formulario.get('baptism')?.invalid && formulario.get('baptism')?.touched"
+            class="text-red-600 mt-1 text-xs">
+            <small>El bautizo es obligatorio</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 3 -->
+      <div *ngIf="currentStep === 3" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Campo Comunión -->
+        <div class="col-span-1 relative mb-2">
+          <label for="communion" class="block mb-2 text-sm font-medium text-gray-900">Comunión</label>
+          <select id="communion" formControlName="communion" name="communion" [ngClass]="{ 
+            'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500': formulario.get('communion')?.invalid && formulario.get('communion')?.touched,
+            'block w-full rounded-lg border bg-gray-50 py-2 px-3 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500': true
+          }">
+            <option value="" disabled selected>Seleccione una opción</option>
+            <option value="N">No</option>
+            <option value="Y">Sí</option>
+          </select>
+          <div *ngIf="formulario.get('communion')?.invalid && formulario.get('communion')?.touched"
+            class="text-red-600 mt-1 text-xs">
+            <small>La comunión es obligatoria</small>
+          </div>
+        </div>
+
+        <!-- Campo Lugar de nacimiento -->
+        <div class="col-span-1 relative mb-2">
+          <label for="birthPlace" class="block mb-2 text-sm font-medium text-gray-900">Lugar de nacimiento</label>
+          <div class="flex items-center">
+            <input type="text" name="birthPlace" id="birthPlace" formControlName="birthPlace" [ngClass]="{ 
+              'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500': formulario.get('birthPlace')?.invalid && formulario.get('birthPlace')?.touched,
+              'bg-green-50 border-green-500 text-green-900 placeholder-green-700 focus:ring-green-500 focus:border-green-500': formulario.get('birthPlace')?.valid && formulario.get('birthPlace')?.touched,
+              'block w-full rounded-lg border bg-gray-50 py-2 px-3 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500': true
+            }" placeholder="Lugar de nacimiento" required />
+            <span *ngIf="formulario.get('birthPlace')?.touched" class="flex items-center pl-2">
+              <svg *ngIf="formulario.get('birthPlace')?.valid" class="h-5 w-5 text-green-500" fill="currentColor"
+                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm4.293-9.293a1 1 0 00-1.414-1.414L9 11.586 7.707 10.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l5-5z"
+                  clip-rule="evenodd" />
+              </svg>
+              <svg *ngIf="formulario.get('birthPlace')?.invalid" class="h-5 w-5 text-red-500" fill="currentColor"
+                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="10" cy="10" r="8" fill="currentColor"></circle>
+                <path fill="#fff" d="M10 12.5a.75.75 0 01-.75-.75v-4a.75.75 0 011.5 0v4a.75.75 0 01-.75.75z"></path>
+              </svg>
+            </span>
+          </div>
+          <div *ngIf="formulario.get('birthPlace')?.invalid && formulario.get('birthPlace')?.touched">
+            <small class="text-red-600">El lugar de nacimiento es obligatorio</small>
+          </div>
+        </div>
+
+        <!-- Campo Nivel -->
+        <div class="col-span-1 relative mb-2">
+          <label for="level" class="block mb-2 text-sm font-medium text-gray-900">Nivel</label>
+          <select id="level" formControlName="level" name="level" [ngClass]="{ 
+            'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500': formulario.get('level')?.invalid && formulario.get('level')?.touched,
+            'block w-full rounded-lg border bg-gray-50 py-2 px-3 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500': true
+          }">
+            <option value="" disabled selected>Seleccione un nivel</option>
+            <option value="Inicial">Inicial</option>
+            <option value="Primaria">Primaria</option>
+          </select>
+          <div *ngIf="formulario.get('level')?.invalid && formulario.get('level')?.touched"
+            class="text-red-600 mt-1 text-xs">
+            <small>El nivel es obligatorio</small>
+          </div>
+        </div>
+
+        <!-- Campo Grado y Sección en la misma fila -->
+        <div class="relative mb-2 grid grid-cols-2 gap-2">
+          <!-- Grado -->
+          <div>
+            <label for="grade" class="block mb-2 text-sm font-medium text-gray-900">Grado</label>
+            <select id="grade" formControlName="grade" name="grade" [ngClass]="{ 
+              'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500': formulario.get('grade')?.invalid && formulario.get('grade')?.touched,
+              'block w-full rounded-lg border bg-gray-50 py-2 px-3 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500': true
+            }">
+              <option value="" disabled selected>Seleccione un grado</option>
+              <option value="1">1 Grado</option>
+              <option value="2">2 Grado</option>
+              <option value="3">3 Grado</option>
+              <option value="4">4 Grado</option>
+              <option value="5">5 Grado</option>
+              <option value="6">6 Grado</option>
+            </select>
+            <div *ngIf="formulario.get('grade')?.invalid && formulario.get('grade')?.touched"
+              class="text-red-600 mt-1 text-xs">
+              <small>El grado es obligatorio</small>
+            </div>
+          </div>
+          <!-- Sección -->
+          <div>
+            <label for="section" class="block mb-2 text-sm font-medium text-gray-900">Sección</label>
+            <select id="section" formControlName="section" name="section" [ngClass]="{ 
+              'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500': formulario.get('section')?.invalid && formulario.get('section')?.touched,
+              'block w-full rounded-lg border bg-gray-50 py-2 px-3 text-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500': true
+            }">
+              <option value="" disabled selected>Seleccione una sección</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+            </select>
+            <div *ngIf="formulario.get('section')?.invalid && formulario.get('section')?.touched"
+              class="text-red-600 mt-1 text-xs">
+              <small>La sección es obligatoria</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <!-- Footer del modal con botones de navegación -->
+    <div class="modal-footer">
+      <div class="button-group space-x-2">
+        <button *ngIf="currentStep > 1" type="button"
+          class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg transition duration-200"
+          (click)="previousStep()">
+          Anterior
+        </button>
+        <button *ngIf="currentStep < 3" type="button"
+          class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-lg transition duration-200"
+          (click)="nextStep()">
+          Siguiente
+        </button>
+        <button *ngIf="currentStep === 3" type="button"
+          class="bg-green-700 hover:bg-green-800 text-white py-2 px-4 rounded-lg transition duration-200"
+          [disabled]="formulario.invalid" (click)="isUpdate ? updateStudent() : insertStudent()">
+          {{ isUpdate ? 'Actualizar' : 'Guardar' }}
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 
-                <!-- NAVBAR -->
-                <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<div *ngIf="modalViewStudent" class="container__modal">
+  <div class="w-[450px] mx-auto bg-white rounded-xl shadow-md overflow-hidden m-4">
+    <div class="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600">
+      <p class="text-lg font-medium text-gray-800">Información del Estudiante</p>
+      <button type="button" (click)="closeModalView()"
+        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+        data-modal-toggle="crud-modal">
+        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+        </svg>
+        <span class="sr-only">Close modal</span>
+      </button>
+    </div>
+
+    <div class="px-6 py-4">
+      <div class="flex items-center mb-4">
+        <div class="bg-gray-200 rounded-full p-2 mr-3">
+          <svg class="h-8 w-8 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-xl font-bold text-gray-800">{{ selectedStudent?.name }} {{ selectedStudent?.lastName }}</h2>
+          <p class="text-gray-600">{{ selectedStudent?.email }}</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-y-2">
+        <div class="flex justify-between">
+          <span class="text-sm font-medium text-gray-800">Tipo de Documento</span>
+          <span class="text-gray-500 text-right">{{ selectedStudent?.documentType }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm font-medium text-gray-800">Número de Documento</span>
+          <span class="text-gray-500 text-right">{{ selectedStudent?.documentNumber }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm font-medium text-gray-800">Género</span>
+          <span class="text-gray-500 text-right">{{selectedStudent?.gender === 'M' ? 'Masculino' : 'Femenino'}}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm font-medium text-gray-800">Fecha de Nacimiento</span>
+          <span class="text-gray-500 text-right">{{ selectedStudent?.birthDate | date: 'longDate' }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm font-medium text-gray-800">Bautizo</span>
+          <span class="text-gray-500 text-right">{{ selectedStudent?.baptism === 'Y' ? 'Sí' : 'No' }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm font-medium text-gray-800">Comunión</span>
+          <span class="text-gray-500 text-right">{{ selectedStudent?.communion === 'Y' ? 'Sí' : 'No' }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm font-medium text-gray-800">Lugar de Nacimiento</span>
+          <span class="text-gray-500 text-right">{{ selectedStudent?.birthPlace }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm font-medium text-gray-800">Nivel</span>
+          <span class="text-gray-500 text-right">{{ selectedStudent?.level }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm font-medium text-gray-800">Grado</span>
+          <span class="text-gray-500 text-right">{{ selectedStudent?.grade }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm font-medium text-gray-800">Sección</span>
+          <span class="text-gray-500 text-right">{{ selectedStudent?.section }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

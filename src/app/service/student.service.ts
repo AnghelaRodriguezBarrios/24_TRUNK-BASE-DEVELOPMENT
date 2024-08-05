@@ -12,7 +12,7 @@ export class StudentService {
   private errorMessage: string = '';
 
   constructor(private http: HttpClient) {
-    this.baseUrl = 'https://vs-ms-student-production.up.railway.app/student'; // URL base de tu API
+    this.baseUrl = 'https://8070-vallegrande-vsmsstudent-md9kxjm1ars.ws-us115.gitpod.io/student'; // URL base de tu API
   }
 
   getErrorMessage(): string {
