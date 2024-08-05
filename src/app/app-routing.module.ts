@@ -13,7 +13,6 @@ import { LoginAdminComponent } from './components/logins/login-admin/login-admin
 import { LoginNotasComponent } from './components/logins/login-notas/login-notas.component';
 import { LoginInventarioComponent } from './components/logins/login-inventario/login-inventario.component';
 import { LoginPadresComponent } from './components/logins/login-padres/login-padres.component';
-import { LoginMatrpensComponent } from './components/logins/login-matrpens/login-matrpens.component';
 
 import { DashboardInventarioComponent } from './products/control-inventario/dashboard/dashboard-inventario/dashboard-inventario.component';
 import { DashboardDevelopComponent } from './products/develop/dashboard/dashboard-develop/dashboard-develop.component';
@@ -44,6 +43,7 @@ import { AddInventoryComponent } from './users/Inventario/inventory/add-inventor
 import { EditInventoryComponent } from './users/Inventario/inventory/edit-inventory/edit-inventory.component';
 
 
+
 const routes: Routes = [
   {
     path: '',
@@ -58,7 +58,7 @@ const routes: Routes = [
     component: LandingPageAdminSystemComponent,
   },
   {
-    path: 'landing-page-notas',
+    path: 'landing-notas',
     component: LandingPageGestionNotasComponent,
   },
   {
@@ -70,17 +70,8 @@ const routes: Routes = [
     component: LandingPageEscuelaPadresComponent,
   },
   {
-    path: 'landing-page-matricu-pensio',
+    path: 'matriculas-pensiones',
     component: LandingPageMatriculaPensionesComponent,
-  },
-
-  {
-    path: 'login-admin',
-    component: LoginAdminComponent,
-  },
-  {
-    path: 'login-notas',
-    component: LoginNotasComponent,
   },
   {
     path: 'login-padres',
@@ -90,11 +81,6 @@ const routes: Routes = [
     path: 'login-inventario',
     component: LoginInventarioComponent,
   },
-  {
-    path: 'login-matricula-pensiones',
-    component: LoginMatrpensComponent,
-  },
-
   {
     path: 'dashboard-admin',
     component: DashboardDevelopComponent,
@@ -163,8 +149,27 @@ const routes: Routes = [
       { path: 'profesores/inactivos', component: ProfesoresInactiosComponent },
       { path: '', redirectTo: 'dashboard-padres', pathMatch: 'full'}
     ]
-
   },
+  {
+    path: 'dashboard-matricula',
+    component: DashboardMatrpensComponent,
+    children: [
+      { path: 'apoderado', component: ApoderadoComponent },
+      { path: 'estudiantes', component: StudentComponent},
+      { path: 'profesores', component: ProfesoresComponent },
+      { path: 'profesores/inactivos', component: ProfesoresInactiosComponent },
+    ]
+  },
+  {
+    path: 'dashboard-notas',
+    component: DashboardNotasComponent,
+    children: [
+      { path: 'Panel', component: LoginNotasComponent },
+      { path: 'Curso', component: CourseComponent },
+      { path: 'Competencias', component: CourseCompetencesComponent }
+    ]
+  },
+
   {
     path: 'agregar-producto',
     component: AddInventoryComponent,
